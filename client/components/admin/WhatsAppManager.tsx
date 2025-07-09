@@ -48,12 +48,28 @@ const WhatsAppManager = () => {
   const fetchStatus = async () => {
     try {
       const response = await fetch("/api/whatsapp/status");
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
       const data = await response.json();
       if (data.success) {
         setStatus(data.data);
+      } else {
+        setStatus({
+          connected: false,
+          qrCode: null,
+          lastConnection: null,
+          error: "WhatsApp service unavailable",
+        });
       }
     } catch (error) {
       console.error("Failed to fetch WhatsApp status:", error);
+      setStatus({
+        connected: false,
+        qrCode: null,
+        lastConnection: null,
+        error: "WhatsApp service not available",
+      });
     }
   };
 
