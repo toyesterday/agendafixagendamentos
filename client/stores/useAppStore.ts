@@ -481,7 +481,11 @@ export const useAppStore = create<AppState>()(
           let appointmentCounter = 0;
           for (const bookingService of bookingData.services) {
             for (let i = 0; i < bookingService.quantity; i++) {
-              addAppointment({
+              // Add a unique suffix to ensure different IDs even in same millisecond
+              const uniqueId = `${Date.now()}-${appointmentCounter}-${Math.random().toString(36).substr(2, 9)}`;
+
+              const newAppointment: Appointment = {
+                id: uniqueId,
                 clientId,
                 serviceId: bookingService.serviceId,
                 date: bookingData.date,
@@ -491,7 +495,14 @@ export const useAppStore = create<AppState>()(
                   services.find((s) => s.id === bookingService.serviceId)
                     ?.price || 0,
                 notes: bookingData.clientData.notes,
-              });
+                createdAt: new Date().toISOString(),
+                updatedAt: new Date().toISOString(),
+              };
+
+              set((state) => ({
+                appointments: [...state.appointments, newAppointment],
+              }));
+
               appointmentCounter++;
             }
           }
