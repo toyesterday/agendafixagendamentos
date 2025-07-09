@@ -110,7 +110,10 @@ export interface BusinessConfig {
 }
 
 export interface BookingData {
-  serviceId: string;
+  services: {
+    serviceId: string;
+    quantity: number;
+  }[];
   date: string;
   time: string;
   clientData: {
@@ -120,6 +123,7 @@ export interface BookingData {
     notes?: string;
   };
   totalPrice: number;
+  totalDuration: number;
 }
 
 export interface DashboardMetrics {
