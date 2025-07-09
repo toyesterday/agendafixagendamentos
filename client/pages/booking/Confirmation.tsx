@@ -38,13 +38,53 @@ const Confirmation = () => {
         const success = await submitBooking();
         if (success) {
           setIsSubmitted(true);
-          setAppointmentId(`AG${Date.now().toString().slice(-6)}`);
+          const newAppointmentId = `AG${Date.now().toString().slice(-6)}`;
+          setAppointmentId(newAppointmentId);
+
+          // Send automatic WhatsApp notification
+          await sendWhatsAppConfirmation();
         }
       }
     };
 
     handleSubmit();
   }, [submitBooking, isSubmitted, bookingData.clientData]);
+
+  const sendWhatsAppConfirmation = async () => {
+    try {
+      if (!bookingData.clientData || !selectedServices.length) return;
+
+      // Get the first service name for the notification
+      const firstService = services.find(
+        (s) => s.id === selectedServices[0]?.serviceId,
+      );
+      const serviceName = firstService?.name || "Serviço";
+
+      const response = await fetch("/api/whatsapp/booking/confirmation", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          clientName: bookingData.clientData.name,
+          phone: bookingData.clientData.phone,
+          serviceName: serviceName,
+          date: bookingData.date,
+          time: bookingData.time,
+        }),
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        console.log("WhatsApp confirmation sent successfully");
+      } else {
+        console.error("Failed to send WhatsApp confirmation:", data.error);
+      }
+    } catch (error) {
+      console.error("Error sending WhatsApp confirmation:", error);
+      // Don't show error to user, as the booking was successful
+    }
+  };
 
   const handleNewBooking = () => {
     resetBooking();
