@@ -38,12 +38,25 @@ const Dashboard = () => {
   const fetchWhatsAppStatus = async () => {
     try {
       const response = await fetch("/api/whatsapp/status");
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
       const data = await response.json();
       if (data.success) {
         setWhatsappStatus(data.data);
+      } else {
+        setWhatsappStatus({
+          connected: false,
+          error: "WhatsApp service unavailable",
+        });
       }
     } catch (error) {
       console.error("Failed to fetch WhatsApp status:", error);
+      // Set default state when WhatsApp service is unavailable
+      setWhatsappStatus({
+        connected: false,
+        error: "WhatsApp service not available",
+      });
     }
   };
 
