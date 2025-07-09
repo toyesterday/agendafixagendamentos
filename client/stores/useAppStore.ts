@@ -464,7 +464,7 @@ export const useAppStore = create<AppState>()(
           if (!clientId) {
             // Create new client
             const newClient: Client = {
-              id: Date.now().toString(),
+              id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
               name: bookingData.clientData!.name,
               email: bookingData.clientData!.email,
               phone: bookingData.clientData!.phone,
