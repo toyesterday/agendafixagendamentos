@@ -79,7 +79,7 @@ export const useAppStore = create<AppState>()(
       addClient: (clientData) => {
         const newClient: Client = {
           ...clientData,
-          id: Date.now().toString(),
+          id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
           totalAppointments: 0,
           totalSpent: 0,
           createdAt: new Date().toISOString(),
