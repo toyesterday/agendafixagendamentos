@@ -320,28 +320,41 @@ const Dashboard = () => {
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-                <Button className="h-16 bg-gradient-to-br from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700">
+                <Button
+                  key="new-appointment"
+                  className="h-16 bg-gradient-to-br from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700"
+                >
                   <div className="text-center">
                     <Calendar className="h-6 w-6 mx-auto mb-1" />
                     <span className="text-sm">Novo Agendamento</span>
                   </div>
                 </Button>
 
-                <Button className="h-16 bg-gradient-to-br from-green-500 to-green-600 hover:from-green-600 hover:to-green-700">
+                <Button
+                  key="add-client"
+                  className="h-16 bg-gradient-to-br from-green-500 to-green-600 hover:from-green-600 hover:to-green-700"
+                >
                   <div className="text-center">
                     <Users className="h-6 w-6 mx-auto mb-1" />
                     <span className="text-sm">Adicionar Cliente</span>
                   </div>
                 </Button>
 
-                <Button className="h-16 bg-gradient-to-br from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700">
+                <Button
+                  key="manage-services"
+                  className="h-16 bg-gradient-to-br from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700"
+                >
                   <div className="text-center">
                     <Scissors className="h-6 w-6 mx-auto mb-1" />
                     <span className="text-sm">Gerenciar Serviços</span>
                   </div>
                 </Button>
 
-                <Link to="/admin/whatsapp" className="block">
+                <Link
+                  key="whatsapp-link"
+                  to="/admin/whatsapp"
+                  className="block"
+                >
                   <Button
                     className={`h-16 w-full ${whatsappStatus.connected ? "bg-gradient-to-br from-green-500 to-green-600 hover:from-green-600 hover:to-green-700" : "bg-gradient-to-br from-red-500 to-red-600 hover:from-red-600 hover:to-red-700"}`}
                   >
@@ -352,7 +365,10 @@ const Dashboard = () => {
                   </Button>
                 </Link>
 
-                <Button className="h-16 bg-gradient-to-br from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700">
+                <Button
+                  key="reports"
+                  className="h-16 bg-gradient-to-br from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700"
+                >
                   <div className="text-center">
                     <TrendingUp className="h-6 w-6 mx-auto mb-1" />
                     <span className="text-sm">Relatórios</span>
