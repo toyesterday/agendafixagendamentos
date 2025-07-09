@@ -319,7 +319,7 @@ const Dashboard = () => {
               <CardTitle>Ações Rápidas</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
                 <Button className="h-16 bg-gradient-to-br from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700">
                   <div className="text-center">
                     <Calendar className="h-6 w-6 mx-auto mb-1" />
@@ -340,6 +340,17 @@ const Dashboard = () => {
                     <span className="text-sm">Gerenciar Serviços</span>
                   </div>
                 </Button>
+
+                <Link to="/admin/whatsapp" className="block">
+                  <Button
+                    className={`h-16 w-full ${whatsappStatus.connected ? "bg-gradient-to-br from-green-500 to-green-600 hover:from-green-600 hover:to-green-700" : "bg-gradient-to-br from-red-500 to-red-600 hover:from-red-600 hover:to-red-700"}`}
+                  >
+                    <div className="text-center">
+                      <MessageCircle className="h-6 w-6 mx-auto mb-1" />
+                      <span className="text-sm">WhatsApp</span>
+                    </div>
+                  </Button>
+                </Link>
 
                 <Button className="h-16 bg-gradient-to-br from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700">
                   <div className="text-center">
