@@ -42,10 +42,7 @@ const App = () => (
           <Route path="/" element={<LandingPage />} />
 
           {/* Public Booking Flow */}
-          <Route path="/booking" element={<ServiceSelection />} />
-          <Route path="/booking/step-2" element={<DateTimeSelection />} />
-          <Route path="/booking/step-3" element={<CustomerForm />} />
-          <Route path="/booking/confirmation" element={<Confirmation />} />
+          <Route path="/booking/*" element={<BookingRouter />} />
 
           {/* Authentication */}
           <Route
