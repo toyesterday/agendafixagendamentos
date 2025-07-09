@@ -308,7 +308,7 @@ const Confirmation = () => {
                   onClick={sendWhatsApp}
                   className="bg-green-500 hover:bg-green-600 text-white"
                 >
-                  <WhatsApp className="h-4 w-4 mr-2" />
+                  <MessageCircle className="h-4 w-4 mr-2" />
                   Enviar no WhatsApp
                 </Button>
               </div>
