@@ -12,6 +12,9 @@ import { useAppStore } from "./stores/useAppStore";
 import LandingPage from "./pages/LandingPage";
 import Login from "./pages/Login";
 import ServiceSelection from "./pages/booking/ServiceSelection";
+import DateTimeSelection from "./pages/booking/DateTimeSelection";
+import CustomerForm from "./pages/booking/CustomerForm";
+import Confirmation from "./pages/booking/Confirmation";
 import Dashboard from "./pages/admin/Dashboard";
 import NotFound from "./pages/NotFound";
 
