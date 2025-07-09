@@ -532,6 +532,10 @@ export const useAppStore = create<AppState>()(
         ).length;
 
         const recentAppointments = appointments
+          .filter(
+            (apt, index, arr) =>
+              arr.findIndex((a) => a.id === apt.id) === index,
+          ) // Remove any duplicates
           .sort(
             (a, b) =>
               new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
