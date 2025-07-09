@@ -116,7 +116,7 @@ class WhatsAppService {
       const phoneNumber = this.formatPhoneNumber(message.to);
       const jid = `${phoneNumber}@s.whatsapp.net`;
 
-      const messageContent: WAMessageContent = {
+      const messageContent = {
         text: message.message,
       };
 
@@ -148,7 +148,7 @@ class WhatsAppService {
     date: string,
     time: string,
   ): Promise<boolean> {
-    const message = `🔮 *AgendaFixa - Agendamento Confirmado!*
+    const message = `��� *AgendaFixa - Agendamento Confirmado!*
 
 Olá, ${clientName}! 👋
 
