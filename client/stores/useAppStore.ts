@@ -572,6 +572,7 @@ export const useAppStore = create<AppState>()(
               ),
             };
           })
+          .filter((service) => service.count > 0) // Only include services with appointments
           .sort((a, b) => b.revenue - a.revenue)
           .slice(0, 3);
 
