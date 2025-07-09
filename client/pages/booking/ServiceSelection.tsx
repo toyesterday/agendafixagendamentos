@@ -3,22 +3,40 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Clock, Check, Star, Scissors } from "lucide-react";
+import {
+  ArrowLeft,
+  Clock,
+  Check,
+  Star,
+  Scissors,
+  Plus,
+  Minus,
+  ShoppingCart,
+} from "lucide-react";
 import { useAppStore } from "@/stores/useAppStore";
 
 const ServiceSelection = () => {
-  const { getActiveServices, bookingData, updateBookingData, setBookingStep } =
-    useAppStore();
+  const {
+    getActiveServices,
+    bookingData,
+    addServiceToBooking,
+    removeServiceFromBooking,
+    setBookingStep,
+  } = useAppStore();
 
   const services = getActiveServices();
-  const selectedServiceId = bookingData.serviceId;
+  const selectedServices = bookingData.services || [];
 
-  const handleServiceSelect = (serviceId: string, price: number) => {
-    updateBookingData({
-      serviceId,
-      totalPrice: price,
-    });
-    setBookingStep(2);
+  const getServiceQuantity = (serviceId: string) => {
+    return (
+      selectedServices.find((s) => s.serviceId === serviceId)?.quantity || 0
+    );
+  };
+
+  const handleContinue = () => {
+    if (selectedServices.length > 0) {
+      setBookingStep(2);
+    }
   };
 
   return (
