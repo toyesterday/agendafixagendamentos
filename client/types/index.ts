@@ -236,6 +236,8 @@ export interface AppState {
   updateBookingData: (data: Partial<BookingData>) => void;
   setBookingStep: (step: number) => void;
   resetBooking: () => void;
+  addServiceToBooking: (serviceId: string) => void;
+  removeServiceFromBooking: (serviceId: string) => void;
   submitBooking: () => Promise<boolean>;
 
   // Dashboard actions
