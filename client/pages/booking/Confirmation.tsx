@@ -13,7 +13,7 @@ import {
   Scissors,
   Share2,
   Download,
-  WhatsApp,
+  MessageCircle,
 } from "lucide-react";
 import { useAppStore } from "@/stores/useAppStore";
 
