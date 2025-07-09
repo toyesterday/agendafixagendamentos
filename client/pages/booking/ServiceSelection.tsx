@@ -220,39 +220,74 @@ const ServiceSelection = () => {
               })}
             </div>
 
-            {/* Selected Service Summary */}
-            {selectedServiceId && (
+            {/* Selected Services Summary */}
+            {selectedServices.length > 0 && (
               <div className="mt-8 bg-white/95 backdrop-blur-sm rounded-lg p-6 border border-white/20">
-                <h3 className="text-lg font-semibold text-gray-800 mb-4">
-                  Resumo da Seleção
+                <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                  <ShoppingCart className="h-5 w-5 mr-2" />
+                  Resumo da Seleção ({selectedServices.length}{" "}
+                  {selectedServices.length === 1 ? "serviço" : "serviços"})
                 </h3>
-                {(() => {
-                  const selectedService = services.find(
-                    (s) => s.id === selectedServiceId,
-                  );
-                  return selectedService ? (
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="font-medium text-gray-800">
-                          {selectedService.name}
-                        </p>
-                        <p className="text-sm text-gray-600">
-                          {selectedService.duration} minutos
-                        </p>
-                      </div>
-                      <div className="text-right">
-                        <p className="text-2xl font-bold text-purple-600">
-                          R$ {selectedService.price.toFixed(2)}
-                        </p>
-                      </div>
-                    </div>
-                  ) : null;
-                })()}
 
-                <div className="mt-4 flex justify-end">
+                <div className="space-y-3 mb-6">
+                  {selectedServices.map((selectedService) => {
+                    const service = services.find(
+                      (s) => s.id === selectedService.serviceId,
+                    );
+                    if (!service) return null;
+
+                    return (
+                      <div
+                        key={selectedService.serviceId}
+                        className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
+                      >
+                        <div className="flex-1">
+                          <p className="font-medium text-gray-800">
+                            {service.name}
+                          </p>
+                          <p className="text-sm text-gray-600">
+                            {service.duration} min × {selectedService.quantity}{" "}
+                            = {service.duration * selectedService.quantity} min
+                          </p>
+                        </div>
+                        <div className="text-right">
+                          <p className="font-bold text-purple-600">
+                            R${" "}
+                            {(service.price * selectedService.quantity).toFixed(
+                              2,
+                            )}
+                          </p>
+                          <p className="text-xs text-gray-500">
+                            R$ {service.price.toFixed(2)} ×{" "}
+                            {selectedService.quantity}
+                          </p>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                <div className="border-t pt-4 flex items-center justify-between">
+                  <div>
+                    <p className="text-sm text-gray-600">
+                      Tempo total estimado:
+                    </p>
+                    <p className="font-bold text-gray-800">
+                      {bookingData.totalDuration || 0} minutos
+                    </p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-sm text-gray-600">Total a pagar:</p>
+                    <p className="text-2xl font-bold text-purple-600">
+                      R$ {(bookingData.totalPrice || 0).toFixed(2)}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="mt-6 flex justify-end">
                   <Button
                     className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8"
-                    onClick={() => setBookingStep(2)}
+                    onClick={handleContinue}
                   >
                     Continuar para Data e Hora
                   </Button>
