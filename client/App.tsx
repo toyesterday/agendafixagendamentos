@@ -13,6 +13,7 @@ import LandingPage from "./pages/LandingPage";
 import Login from "./pages/Login";
 import BookingRouter from "./components/BookingRouter";
 import Dashboard from "./pages/admin/Dashboard";
+import WhatsAppSettings from "./pages/admin/WhatsAppSettings";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
