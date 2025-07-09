@@ -74,15 +74,21 @@ const Confirmation = () => {
         }),
       });
 
+      if (!response.ok) {
+        console.warn("WhatsApp service not available, skipping notification");
+        return;
+      }
+
       const data = await response.json();
       if (data.success) {
         console.log("WhatsApp confirmation sent successfully");
       } else {
-        console.error("Failed to send WhatsApp confirmation:", data.error);
+        console.warn("Failed to send WhatsApp confirmation:", data.error);
       }
     } catch (error) {
-      console.error("Error sending WhatsApp confirmation:", error);
+      console.warn("WhatsApp service not available:", error);
       // Don't show error to user, as the booking was successful
+      // WhatsApp notification is optional functionality
     }
   };
 
