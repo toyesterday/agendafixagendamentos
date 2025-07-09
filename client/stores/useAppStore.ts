@@ -338,14 +338,114 @@ export const useAppStore = create<AppState>()(
       },
 
       resetBooking: () => {
-        set({ bookingData: {}, currentBookingStep: 1 });
+        set({ bookingData: { services: [] }, currentBookingStep: 1 });
+      },
+
+      // New action to add/remove services from booking
+      addServiceToBooking: (serviceId: string) => {
+        set((state) => {
+          const currentServices = state.bookingData.services || [];
+          const existingService = currentServices.find(
+            (s) => s.serviceId === serviceId,
+          );
+
+          let newServices;
+          if (existingService) {
+            // Increase quantity
+            newServices = currentServices.map((s) =>
+              s.serviceId === serviceId
+                ? { ...s, quantity: s.quantity + 1 }
+                : s,
+            );
+          } else {
+            // Add new service
+            newServices = [...currentServices, { serviceId, quantity: 1 }];
+          }
+
+          // Calculate totals
+          const { services: allServices } = state;
+          const totalPrice = newServices.reduce((sum, service) => {
+            const serviceData = allServices.find(
+              (s) => s.id === service.serviceId,
+            );
+            return sum + (serviceData?.price || 0) * service.quantity;
+          }, 0);
+
+          const totalDuration = newServices.reduce((sum, service) => {
+            const serviceData = allServices.find(
+              (s) => s.id === service.serviceId,
+            );
+            return sum + (serviceData?.duration || 0) * service.quantity;
+          }, 0);
+
+          return {
+            bookingData: {
+              ...state.bookingData,
+              services: newServices,
+              totalPrice,
+              totalDuration,
+            },
+          };
+        });
+      },
+
+      removeServiceFromBooking: (serviceId: string) => {
+        set((state) => {
+          const currentServices = state.bookingData.services || [];
+          const existingService = currentServices.find(
+            (s) => s.serviceId === serviceId,
+          );
+
+          if (!existingService) return state;
+
+          let newServices;
+          if (existingService.quantity > 1) {
+            // Decrease quantity
+            newServices = currentServices.map((s) =>
+              s.serviceId === serviceId
+                ? { ...s, quantity: s.quantity - 1 }
+                : s,
+            );
+          } else {
+            // Remove service
+            newServices = currentServices.filter(
+              (s) => s.serviceId !== serviceId,
+            );
+          }
+
+          // Calculate totals
+          const { services: allServices } = state;
+          const totalPrice = newServices.reduce((sum, service) => {
+            const serviceData = allServices.find(
+              (s) => s.id === service.serviceId,
+            );
+            return sum + (serviceData?.price || 0) * service.quantity;
+          }, 0);
+
+          const totalDuration = newServices.reduce((sum, service) => {
+            const serviceData = allServices.find(
+              (s) => s.id === service.serviceId,
+            );
+            return sum + (serviceData?.duration || 0) * service.quantity;
+          }, 0);
+
+          return {
+            bookingData: {
+              ...state.bookingData,
+              services: newServices,
+              totalPrice,
+              totalDuration,
+            },
+          };
+        });
       },
 
       submitBooking: async () => {
-        const { bookingData, addAppointment, addClient, clients } = get();
+        const { bookingData, addAppointment, addClient, clients, services } =
+          get();
 
         if (
-          !bookingData.serviceId ||
+          !bookingData.services?.length ||
           !bookingData.date ||
           !bookingData.time ||
           !bookingData.clientData
@@ -377,16 +477,22 @@ export const useAppStore = create<AppState>()(
             clientId = newClient.id;
           }
 
-          // Create appointment
-          addAppointment({
-            clientId,
-            serviceId: bookingData.serviceId,
-            date: bookingData.date,
-            time: bookingData.time,
-            status: "pending",
-            totalPrice: bookingData.totalPrice || 0,
-            notes: bookingData.clientData.notes,
-          });
+          // Create appointments for each service
+          for (const bookingService of bookingData.services) {
+            for (let i = 0; i < bookingService.quantity; i++) {
+              addAppointment({
+                clientId,
+                serviceId: bookingService.serviceId,
+                date: bookingData.date,
+                time: bookingData.time,
+                status: "pending",
+                totalPrice:
+                  services.find((s) => s.id === bookingService.serviceId)
+                    ?.price || 0,
+                notes: bookingData.clientData.notes,
+              });
+            }
+          }
 
           set({ isLoading: false });
           return true;
