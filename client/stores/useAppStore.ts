@@ -288,7 +288,7 @@ export const useAppStore = create<AppState>()(
       addTransaction: (transactionData) => {
         const newTransaction: Transaction = {
           ...transactionData,
-          id: Date.now().toString(),
+          id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString(),
         };
