@@ -159,7 +159,7 @@ export const useAppStore = create<AppState>()(
       addAppointment: (appointmentData) => {
         const newAppointment: Appointment = {
           ...appointmentData,
-          id: Date.now().toString(),
+          id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString(),
         };
