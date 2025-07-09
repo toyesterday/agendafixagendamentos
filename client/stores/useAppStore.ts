@@ -478,6 +478,7 @@ export const useAppStore = create<AppState>()(
           }
 
           // Create appointments for each service
+          let appointmentCounter = 0;
           for (const bookingService of bookingData.services) {
             for (let i = 0; i < bookingService.quantity; i++) {
               addAppointment({
@@ -491,6 +492,7 @@ export const useAppStore = create<AppState>()(
                     ?.price || 0,
                 notes: bookingData.clientData.notes,
               });
+              appointmentCounter++;
             }
           }
 
