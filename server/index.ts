@@ -1,6 +1,15 @@
 import express from "express";
 import cors from "cors";
 import { handleDemo } from "./routes/demo";
+import {
+  getWhatsAppStatus,
+  sendMessage,
+  sendBookingConfirmation,
+  sendBookingReminder,
+  sendBookingCancellation,
+  reconnectWhatsApp,
+  disconnectWhatsApp,
+} from "./routes/whatsapp";
 
 export function createServer() {
   const app = express();
@@ -16,6 +25,15 @@ export function createServer() {
   });
 
   app.get("/api/demo", handleDemo);
+
+  // WhatsApp API routes
+  app.get("/api/whatsapp/status", getWhatsAppStatus);
+  app.post("/api/whatsapp/send", sendMessage);
+  app.post("/api/whatsapp/booking/confirmation", sendBookingConfirmation);
+  app.post("/api/whatsapp/booking/reminder", sendBookingReminder);
+  app.post("/api/whatsapp/booking/cancellation", sendBookingCancellation);
+  app.post("/api/whatsapp/reconnect", reconnectWhatsApp);
+  app.post("/api/whatsapp/disconnect", disconnectWhatsApp);
 
   return app;
 }
