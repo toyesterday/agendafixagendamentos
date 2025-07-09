@@ -24,7 +24,28 @@ const Dashboard = () => {
   const { getDashboardMetrics, logout, user, appointments, clients, services } =
     useAppStore();
 
+  const [whatsappStatus, setWhatsappStatus] = useState({
+    connected: false,
+    error: null,
+  });
+
   const metrics = getDashboardMetrics();
+
+  useEffect(() => {
+    fetchWhatsAppStatus();
+  }, []);
+
+  const fetchWhatsAppStatus = async () => {
+    try {
+      const response = await fetch("/api/whatsapp/status");
+      const data = await response.json();
+      if (data.success) {
+        setWhatsappStatus(data.data);
+      }
+    } catch (error) {
+      console.error("Failed to fetch WhatsApp status:", error);
+    }
+  };
 
   const handleLogout = () => {
     logout();
