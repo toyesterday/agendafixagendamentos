@@ -302,7 +302,7 @@ Seu agendamento foi confirmado com sucesso:
       day: "numeric",
     })}
 ⏰ *Horário:* ${time}
-✂️ *Serviço:* ${serviceName}
+✂️ *Servi��o:* ${serviceName}
 
 📍 *Local:* Barbearia ModernCut
 Rua Principal, 456 - Centro, São Paulo/SP
@@ -388,17 +388,63 @@ Esperamos vê-lo em breve! 😊`;
   }
 
   async disconnect() {
-    if (this.sock) {
-      await this.sock.logout();
-      this.sock = null;
+    try {
+      console.log("🔌 Disconnecting WhatsApp...");
+
+      if (this.sock) {
+        // Properly close the socket
+        this.sock.end();
+        this.sock = null;
+      }
+
       this.status.connected = false;
       this.status.qrCode = null;
+      this.status.error = "Disconnected manually";
+
+      console.log("✅ WhatsApp disconnected");
+    } catch (error) {
+      console.error("❌ Error during disconnect:", error);
+    }
+  }
+
+  async logout() {
+    try {
+      console.log("🚪 Logging out of WhatsApp...");
+
+      if (this.sock) {
+        await this.sock.logout();
+        this.sock = null;
+      }
+
+      // Clear auth files
+      if (fs.existsSync(this.authDir)) {
+        fs.rmSync(this.authDir, { recursive: true, force: true });
+        this.ensureAuthDir();
+      }
+
+      this.status.connected = false;
+      this.status.qrCode = null;
+      this.status.error = "Logged out";
+
+      console.log("✅ WhatsApp logged out and auth cleared");
+    } catch (error) {
+      console.error("❌ Error during logout:", error);
     }
   }
 
   async reconnect() {
+    console.log("🔄 Reconnecting WhatsApp...");
     await this.disconnect();
+
+    // Wait a moment before reconnecting
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
     await this.initialize();
+  }
+
+  async clearAuth() {
+    await this.logout();
+    console.log("🗑️ Auth files cleared, ready for new connection");
   }
 }
 
