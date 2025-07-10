@@ -220,35 +220,65 @@ const WhatsAppManager = () => {
                 <RefreshCw className="h-4 w-4 mr-2" />
                 Atualizar
               </Button>
-              {status.connected ? (
+              <div className="flex space-x-2">
+                {status.connected ? (
+                  <Button
+                    onClick={handleDisconnect}
+                    variant="outline"
+                    size="sm"
+                    disabled={loading}
+                  >
+                    {loading ? (
+                      <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                    ) : (
+                      <WifiOff className="h-4 w-4 mr-2" />
+                    )}
+                    Desconectar
+                  </Button>
+                ) : (
+                  <Button
+                    onClick={handleReconnect}
+                    variant="outline"
+                    size="sm"
+                    disabled={loading}
+                  >
+                    {loading ? (
+                      <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                    ) : (
+                      <Wifi className="h-4 w-4 mr-2" />
+                    )}
+                    Conectar
+                  </Button>
+                )}
+
                 <Button
-                  onClick={handleDisconnect}
+                  onClick={async () => {
+                    setLoading(true);
+                    try {
+                      const response = await fetch("/api/whatsapp/logout", {
+                        method: "POST",
+                      });
+                      const data = await response.json();
+                      if (data.success) {
+                        setLastSent("✅ Sessão limpa com sucesso");
+                        setTimeout(fetchStatus, 1000);
+                      } else {
+                        setLastSent(`❌ Erro: ${data.error}`);
+                      }
+                    } catch (error) {
+                      setLastSent("❌ Erro ao limpar sessão");
+                    } finally {
+                      setLoading(false);
+                    }
+                  }}
                   variant="outline"
                   size="sm"
                   disabled={loading}
+                  className="text-red-600 border-red-300 hover:bg-red-50"
                 >
-                  {loading ? (
-                    <Loader2 className="h-4 w-4 animate-spin mr-2" />
-                  ) : (
-                    <WifiOff className="h-4 w-4 mr-2" />
-                  )}
-                  Desconectar
+                  Limpar Sessão
                 </Button>
-              ) : (
-                <Button
-                  onClick={handleReconnect}
-                  variant="outline"
-                  size="sm"
-                  disabled={loading}
-                >
-                  {loading ? (
-                    <Loader2 className="h-4 w-4 animate-spin mr-2" />
-                  ) : (
-                    <Wifi className="h-4 w-4 mr-2" />
-                  )}
-                  Conectar
-                </Button>
-              )}
+              </div>
             </div>
           </div>
 
