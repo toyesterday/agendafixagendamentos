@@ -5,7 +5,6 @@ import {
   Client,
   Service,
   Appointment,
-  Product,
   Transaction,
   BookingData,
   DashboardMetrics,
@@ -16,7 +15,6 @@ import {
   sampleClients,
   sampleServices,
   sampleAppointments,
-  sampleProducts,
   sampleTransactions,
   sampleBusinessConfig,
 } from "./sampleData";
