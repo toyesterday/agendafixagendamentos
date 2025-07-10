@@ -84,7 +84,12 @@ const WhatsAppManager = () => {
   const handleReconnect = async () => {
     setLoading(true);
     try {
-      const response = await fetch("/api/whatsapp/reconnect", {
+      const apiUrl =
+        window.location.hostname === "localhost"
+          ? "http://localhost:5173/api/whatsapp/reconnect"
+          : "/api/whatsapp/reconnect";
+
+      const response = await fetch(apiUrl, {
         method: "POST",
       });
       const data = await response.json();
@@ -95,7 +100,10 @@ const WhatsAppManager = () => {
         setLastSent(`Erro: ${data.error}`);
       }
     } catch (error) {
-      setLastSent("Erro ao reconectar WhatsApp");
+      setLastSent(
+        "Erro ao reconectar WhatsApp: " +
+          (error instanceof Error ? error.message : String(error)),
+      );
     } finally {
       setLoading(false);
     }
