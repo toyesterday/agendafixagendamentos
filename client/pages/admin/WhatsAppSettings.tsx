@@ -83,64 +83,32 @@ const WhatsAppSettings = () => {
             </p>
           </div>
 
-          {/* Overview Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-            <Card className="border-0 shadow-lg bg-gradient-to-br from-green-500 to-green-600 text-white">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-green-100 text-sm font-medium">
-                      Mensagens Enviadas
-                    </p>
-                    <p className="text-3xl font-bold">247</p>
+          {/* Overview Card */}
+          <Card className="border-0 shadow-lg bg-gradient-to-br from-green-500 to-green-600 text-white mb-8">
+            <CardContent className="p-8">
+              <div className="text-center">
+                <MessageCircle className="h-16 w-16 mx-auto mb-4 text-green-200" />
+                <h3 className="text-2xl font-bold mb-2">
+                  Notificações Automáticas
+                </h3>
+                <p className="text-green-100 text-lg">
+                  Quando um cliente faz um agendamento, automaticamente:
+                </p>
+                <div className="mt-4 space-y-2">
+                  <div className="flex items-center justify-center">
+                    <span className="bg-green-400 text-green-800 px-3 py-1 rounded-full text-sm font-medium">
+                      📱 Cliente recebe confirmação no WhatsApp
+                    </span>
                   </div>
-                  <MessageCircle className="h-8 w-8 text-green-200" />
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="border-0 shadow-lg bg-gradient-to-br from-blue-500 to-blue-600 text-white">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-blue-100 text-sm font-medium">
-                      Confirmações
-                    </p>
-                    <p className="text-3xl font-bold">89</p>
+                  <div className="flex items-center justify-center">
+                    <span className="bg-green-400 text-green-800 px-3 py-1 rounded-full text-sm font-medium">
+                      💼 Salão recebe notificação do novo agendamento
+                    </span>
                   </div>
-                  <Bell className="h-8 w-8 text-blue-200" />
                 </div>
-              </CardContent>
-            </Card>
-
-            <Card className="border-0 shadow-lg bg-gradient-to-br from-purple-500 to-purple-600 text-white">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-purple-100 text-sm font-medium">
-                      Lembretes
-                    </p>
-                    <p className="text-3xl font-bold">158</p>
-                  </div>
-                  <Smartphone className="h-8 w-8 text-purple-200" />
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="border-0 shadow-lg bg-gradient-to-br from-orange-500 to-orange-600 text-white">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-orange-100 text-sm font-medium">
-                      Taxa de Entrega
-                    </p>
-                    <p className="text-3xl font-bold">98%</p>
-                  </div>
-                  <Users className="h-8 w-8 text-orange-200" />
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+              </div>
+            </CardContent>
+          </Card>
 
           {/* WhatsApp Manager Component */}
           <WhatsAppManager />
