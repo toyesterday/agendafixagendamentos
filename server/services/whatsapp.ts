@@ -29,22 +29,37 @@ export interface WhatsAppStatus {
 
 class WhatsAppService {
   private sock: any = null;
+  private store: any = null;
   private status: WhatsAppStatus = {
     connected: false,
     qrCode: null,
     lastConnection: null,
     error: null,
   };
-  private authDir = path.join(process.cwd(), "auth_info");
+  private authDir = path.join(process.cwd(), "auth_info_baileys");
+  private logger = pino({ level: "warn" });
 
   constructor() {
     this.ensureAuthDir();
+    this.initializeStore();
   }
 
   private ensureAuthDir() {
     if (!fs.existsSync(this.authDir)) {
       fs.mkdirSync(this.authDir, { recursive: true });
     }
+  }
+
+  private initializeStore() {
+    // Create an in-memory store for better performance
+    this.store = makeInMemoryStore({ logger: this.logger });
+
+    // Save the store every 10 seconds
+    setInterval(() => {
+      if (this.store) {
+        this.store.writeToFile("./baileys_store.json");
+      }
+    }, 10_000);
   }
 
   async initialize() {
