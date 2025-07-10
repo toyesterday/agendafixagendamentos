@@ -78,15 +78,16 @@ class WhatsAppService {
         logger: this.logger,
         printQRInTerminal: false,
         browser: ["AgendaFixa", "Desktop", "1.0.0"],
-        generateHighQualityLinkPreview: true,
-        // Default query timeout
-        defaultQueryTimeoutMs: 60_000,
-        // Keep alive interval
-        keepAliveIntervalMs: 10_000,
-        // Emit own events
+        generateHighQualityLinkPreview: false, // Disable to reduce load
+        // Reduced timeouts to prevent hanging
+        defaultQueryTimeoutMs: 15_000,
+        keepAliveIntervalMs: 30_000,
         emitOwnEvents: true,
-        // Mark online on connect
-        markOnlineOnConnect: true,
+        markOnlineOnConnect: false, // Disable to prevent connection issues
+        // Connection retry settings
+        retryRequestDelayMs: 250,
+        maxMsgRetryCount: 2,
+        connectTimeoutMs: 20_000,
       });
 
       // Store binding removed for now
