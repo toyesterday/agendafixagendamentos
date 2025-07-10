@@ -38,6 +38,8 @@ export function createServer() {
   app.post("/api/whatsapp/booking/cancellation", sendBookingCancellation);
   app.post("/api/whatsapp/reconnect", reconnectWhatsApp);
   app.post("/api/whatsapp/disconnect", disconnectWhatsApp);
+  app.post("/api/whatsapp/logout", logoutWhatsApp);
+  app.post("/api/whatsapp/clear-auth", clearWhatsAppAuth);
 
   return app;
 }
