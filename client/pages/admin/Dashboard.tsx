@@ -64,6 +64,36 @@ const Dashboard = () => {
     logout();
   };
 
+  const handleNewAppointment = () => {
+    // Redirect to booking flow
+    window.location.href = "/booking";
+  };
+
+  const handleAddClient = () => {
+    // For now, show an alert. In a real app, this would open a modal or navigate to a form
+    alert(
+      "Funcionalidade 'Adicionar Cliente' em desenvolvimento. Por enquanto, clientes são criados automaticamente durante o agendamento.",
+    );
+  };
+
+  const handleManageServices = () => {
+    // For now, show an alert. In a real app, this would navigate to a services management page
+    alert(
+      "Funcionalidade 'Gerenciar Serviços' em desenvolvimento. Os serviços podem ser configurados no código.",
+    );
+  };
+
+  const handleReports = () => {
+    // For now, show an alert. In a real app, this would navigate to a reports page
+    alert(
+      "Funcionalidade 'Relatórios' em desenvolvimento. Por enquanto, você pode ver as métricas básicas no dashboard.",
+    );
+  };
+
+  const handleViewAllAppointments = () => {
+    setShowAllAppointments(!showAllAppointments);
+  };
+
   const getStatusColor = (status: string) => {
     switch (status) {
       case "confirmed":
