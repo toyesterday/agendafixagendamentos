@@ -154,19 +154,7 @@ export const sampleTransactions: Transaction[] = [
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   },
-  {
-    id: "2",
-    type: "expense",
-    category: "Produtos",
-    description: "Compra de produtos para estoque",
-    amount: 150,
-    date: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000)
-      .toISOString()
-      .split("T")[0],
-    notes: "Reposição mensal de estoque",
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-  },
+
   {
     id: "3",
     type: "expense",
