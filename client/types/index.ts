@@ -47,22 +47,6 @@ export interface Appointment {
   service?: Service;
 }
 
-export interface Product {
-  id: string;
-  name: string;
-  description: string;
-  category: string;
-  quantity: number;
-  minQuantity: number;
-  price: number;
-  cost: number;
-  supplier?: string;
-  barcode?: string;
-  active: boolean;
-  createdAt: string;
-  updatedAt: string;
-}
-
 export interface Transaction {
   id: string;
   type: "income" | "expense";
@@ -71,13 +55,11 @@ export interface Transaction {
   amount: number;
   date: string;
   appointmentId?: string;
-  productId?: string;
   notes?: string;
   createdAt: string;
   updatedAt: string;
   // Populated fields
   appointment?: Appointment;
-  product?: Product;
 }
 
 export interface BusinessConfig {
