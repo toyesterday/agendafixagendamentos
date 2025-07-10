@@ -97,15 +97,7 @@ const WhatsAppManager = () => {
   const handleReconnect = async () => {
     setLoading(true);
     try {
-      const apiUrl =
-        window.location.hostname === "localhost"
-          ? "http://localhost:5173/api/whatsapp/reconnect"
-          : "/api/whatsapp/reconnect";
-
-      const response = await fetch(apiUrl, {
-        method: "POST",
-      });
-      const data = await response.json();
+      const data = await apiCall("/reconnect", { method: "POST" });
       if (data.success) {
         setLastSent("Reconexão iniciada com sucesso");
         setTimeout(fetchStatus, 2000);
@@ -125,15 +117,7 @@ const WhatsAppManager = () => {
   const handleDisconnect = async () => {
     setLoading(true);
     try {
-      const apiUrl =
-        window.location.hostname === "localhost"
-          ? "http://localhost:5173/api/whatsapp/disconnect"
-          : "/api/whatsapp/disconnect";
-
-      const response = await fetch(apiUrl, {
-        method: "POST",
-      });
-      const data = await response.json();
+      const data = await apiCall("/disconnect", { method: "POST" });
       if (data.success) {
         setLastSent("WhatsApp desconectado com sucesso");
         fetchStatus();
@@ -158,24 +142,14 @@ const WhatsAppManager = () => {
 
     setSendLoading(true);
     try {
-      const apiUrl =
-        window.location.hostname === "localhost"
-          ? "http://localhost:5173/api/whatsapp/send"
-          : "/api/whatsapp/send";
-
-      const response = await fetch(apiUrl, {
+      const data = await apiCall("/send", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
         body: JSON.stringify({
           to: phoneNumber,
           message: message,
           type: "text",
         }),
       });
-
-      const data = await response.json();
       if (data.success) {
         setLastSent("Mensagem enviada com sucesso!");
         setMessage("");
@@ -300,15 +274,7 @@ const WhatsAppManager = () => {
                   onClick={async () => {
                     setLoading(true);
                     try {
-                      const apiUrl =
-                        window.location.hostname === "localhost"
-                          ? "http://localhost:5173/api/whatsapp/logout"
-                          : "/api/whatsapp/logout";
-
-                      const response = await fetch(apiUrl, {
-                        method: "POST",
-                      });
-                      const data = await response.json();
+                      const data = await apiCall("/logout", { method: "POST" });
                       if (data.success) {
                         setLastSent("✅ Sessão limpa com sucesso");
                         setTimeout(fetchStatus, 1000);
@@ -338,13 +304,7 @@ const WhatsAppManager = () => {
                   onClick={async () => {
                     setLoading(true);
                     try {
-                      const apiUrl =
-                        window.location.hostname === "localhost"
-                          ? "http://localhost:5173/api/whatsapp/test"
-                          : "/api/whatsapp/test";
-
-                      const response = await fetch(apiUrl);
-                      const data = await response.json();
+                      const data = await apiCall("/test");
                       if (data.success) {
                         setLastSent(
                           `✅ Teste OK: ${JSON.stringify(data.data, null, 2)}`,
