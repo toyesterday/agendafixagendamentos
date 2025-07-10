@@ -2,11 +2,17 @@ import makeWASocket, {
   DisconnectReason,
   useMultiFileAuthState,
   proto,
+  isJidBroadcast,
+  isJidGroup,
+  isJidNewsletter,
+  isJidStatusBroadcast,
+  makeInMemoryStore,
 } from "@whiskeysockets/baileys";
 import { Boom } from "@hapi/boom";
 import qrcode from "qrcode-terminal";
 import fs from "fs";
 import path from "path";
+import pino from "pino";
 
 export interface WhatsAppMessage {
   to: string;
