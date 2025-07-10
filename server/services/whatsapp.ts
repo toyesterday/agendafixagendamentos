@@ -74,10 +74,7 @@ class WhatsAppService {
         markOnlineOnConnect: true,
       });
 
-      // Bind store to socket
-      if (this.store) {
-        this.store.bind(this.sock.ev);
-      }
+      // Store binding removed for now
 
       // Event listeners
       this.sock.ev.process(async (events: any) => {
@@ -110,7 +107,7 @@ class WhatsAppService {
 
         // Message updates (read receipts, etc.)
         if (events["messages.update"]) {
-          console.log("📝 Message updates:", events["messages.update"]);
+          console.log("��� Message updates:", events["messages.update"]);
         }
 
         // Presence updates
