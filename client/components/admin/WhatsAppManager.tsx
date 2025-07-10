@@ -255,20 +255,39 @@ const WhatsAppManager = () => {
             <Alert className="border-blue-200 bg-blue-50">
               <QrCode className="h-4 w-4 text-blue-600" />
               <AlertDescription className="text-blue-700">
-                <div>
-                  <p className="font-medium mb-2">
-                    Escaneie o QR Code com seu WhatsApp:
+                <div className="text-center">
+                  <p className="font-medium mb-4">
+                    📱 Escaneie o QR Code com seu WhatsApp:
                   </p>
-                  <div className="bg-white p-4 rounded border inline-block">
+                  <div className="bg-white p-6 rounded-lg border-2 border-blue-200 inline-block shadow-lg">
                     <img
-                      src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(status.qrCode)}`}
+                      src={`https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=${encodeURIComponent(status.qrCode)}`}
                       alt="QR Code WhatsApp"
-                      className="w-48 h-48"
+                      className="w-64 h-64"
                     />
                   </div>
-                  <p className="text-xs mt-2 text-blue-600">
-                    Abra o WhatsApp → Menu → Dispositivos conectados → Conectar
-                    dispositivo
+                  <div className="mt-4 text-sm bg-blue-100 rounded-lg p-3">
+                    <p className="font-medium text-blue-800 mb-2">
+                      📋 Como conectar:
+                    </p>
+                    <ol className="text-left text-blue-700 space-y-1">
+                      <li>1. Abra o WhatsApp no seu celular</li>
+                      <li>
+                        2. Toque em <strong>Menu</strong> (⋮) ou{" "}
+                        <strong>Configurações</strong>
+                      </li>
+                      <li>
+                        3. Selecione <strong>Dispositivos conectados</strong>
+                      </li>
+                      <li>
+                        4. Toque em <strong>Conectar dispositivo</strong>
+                      </li>
+                      <li>5. Escaneie este QR Code</li>
+                    </ol>
+                  </div>
+                  <p className="text-xs mt-3 text-blue-600">
+                    ⏱️ O QR Code expira em 30 segundos. Se não funcionar, clique
+                    em "Conectar" novamente.
                   </p>
                 </div>
               </AlertDescription>
