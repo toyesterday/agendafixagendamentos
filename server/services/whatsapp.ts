@@ -46,15 +46,8 @@ class WhatsAppService {
   }
 
   private initializeStore() {
-    // Create an in-memory store for better performance
-    this.store = makeInMemoryStore({ logger: this.logger });
-
-    // Save the store every 10 seconds
-    setInterval(() => {
-      if (this.store) {
-        this.store.writeToFile("./baileys_store.json");
-      }
-    }, 10_000);
+    // Store functionality can be added later if needed
+    this.store = null;
   }
 
   async initialize() {
@@ -140,7 +133,7 @@ class WhatsAppService {
   private handleConnectionUpdate(update: any) {
     const { connection, lastDisconnect, qr } = update;
 
-    console.log("��� Connection update:", {
+    console.log("🔄 Connection update:", {
       connection,
       qr: !!qr,
       lastDisconnect: lastDisconnect?.error?.output?.statusCode,
@@ -305,7 +298,7 @@ Rua Principal, 456 - Centro, São Paulo/SP
 📋 *Importante:*
 • Chegue com 5 minutos de antecedência
 • Traga um documento com foto
-��� Em caso de imprevistos, entre em contato
+• Em caso de imprevistos, entre em contato
 
 📞 Dúvidas? Ligue: (11) 3333-4444
 
@@ -367,7 +360,7 @@ Seu agendamento foi cancelado:
 Para reagendar, acesse: 
 🌐 www.agendafixa.com/booking
 
-�� Dúvidas? Ligue: (11) 3333-4444
+📞 Dúvidas? Ligue: (11) 3333-4444
 
 Esperamos vê-lo em breve! 😊`;
 
