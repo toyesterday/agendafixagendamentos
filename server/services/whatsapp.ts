@@ -43,13 +43,24 @@ class WhatsAppService {
 
   async initialize() {
     try {
+      console.log("Initializing WhatsApp service...");
       const { state, saveCreds } = await useMultiFileAuthState(this.authDir);
 
       this.sock = makeWASocket({
         auth: state,
-        printQRInTerminal: false, // We'll handle QR code generation ourselves
+        printQRInTerminal: false,
         browser: ["AgendaFixa", "Desktop", "1.0.0"],
         generateHighQualityLinkPreview: true,
+        logger: {
+          level: "warn",
+          log: (level: any, ...args: any[]) => {
+            if (level === "error") {
+              console.error("Baileys error:", ...args);
+            }
+          },
+        } as any,
+        qrTimeout: 30000,
+        connectTimeoutMs: 20000,
       });
 
       this.sock.ev.on("connection.update", (update: any) => {
@@ -58,10 +69,14 @@ class WhatsAppService {
 
       this.sock.ev.on("creds.update", saveCreds);
 
+      this.sock.ev.on("messages.upsert", (m: any) => {
+        console.log("Received message:", JSON.stringify(m, undefined, 2));
+      });
+
       console.log("WhatsApp service initialized");
     } catch (error) {
       console.error("Failed to initialize WhatsApp service:", error);
-      this.status.error = "Failed to initialize WhatsApp service";
+      this.status.error = `Failed to initialize: ${error instanceof Error ? error.message : String(error)}`;
     }
   }
 
