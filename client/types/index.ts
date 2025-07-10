@@ -211,15 +211,6 @@ export interface AppState {
   getAppointmentsByDate: (date: string) => Appointment[];
   getAvailableTimeSlots: (date: string, serviceId: string) => string[];
 
-  // Product actions
-  addProduct: (
-    product: Omit<Product, "id" | "createdAt" | "updatedAt">,
-  ) => void;
-  updateProduct: (id: string, product: Partial<Product>) => void;
-  deleteProduct: (id: string) => void;
-  getProduct: (id: string) => Product | undefined;
-  getLowStockProducts: () => Product[];
-
   // Transaction actions
   addTransaction: (
     transaction: Omit<Transaction, "id" | "createdAt" | "updatedAt">,
