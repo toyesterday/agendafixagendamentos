@@ -305,7 +305,22 @@ const WhatsAppManager = () => {
             <Alert className="border-red-200 bg-red-50">
               <AlertCircle className="h-4 w-4 text-red-600" />
               <AlertDescription className="text-red-700">
-                {status.error}
+                <div>
+                  <p className="font-medium mb-2">Erro do WhatsApp:</p>
+                  <p className="text-sm">{status.error}</p>
+                  {status.error.includes("initialization") && (
+                    <div className="mt-3 text-xs bg-red-100 p-2 rounded">
+                      <p className="font-medium">Possíveis soluções:</p>
+                      <ul className="mt-1 space-y-1">
+                        <li>
+                          • Verifique se o servidor está rodando corretamente
+                        </li>
+                        <li>• Tente reiniciar o servidor</li>
+                        <li>• Clique em "Limpar Sessão" e tente novamente</li>
+                      </ul>
+                    </div>
+                  )}
+                </div>
               </AlertDescription>
             </Alert>
           )}
