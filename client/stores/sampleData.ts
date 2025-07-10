@@ -142,51 +142,6 @@ export const sampleAppointments: Appointment[] = [
   },
 ];
 
-export const sampleProducts: Product[] = [
-  {
-    id: "1",
-    name: "Shampoo Premium",
-    description: "Shampoo anticaspa para todos os tipos de cabelo",
-    category: "Cuidados",
-    quantity: 15,
-    minQuantity: 5,
-    price: 25,
-    cost: 12,
-    supplier: "Fornecedor ABC",
-    barcode: "123456789",
-    active: true,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-  },
-  {
-    id: "2",
-    name: "Pomada Modeladora",
-    description: "Pomada para fixação e brilho",
-    category: "Styling",
-    quantity: 3,
-    minQuantity: 5,
-    price: 30,
-    cost: 15,
-    supplier: "Fornecedor XYZ",
-    active: true,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-  },
-  {
-    id: "3",
-    name: "Óleo para Barba",
-    description: "Óleo hidratante para barba",
-    category: "Barba",
-    quantity: 8,
-    minQuantity: 3,
-    price: 35,
-    cost: 18,
-    active: true,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-  },
-];
-
 export const sampleTransactions: Transaction[] = [
   {
     id: "1",
