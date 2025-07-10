@@ -9,7 +9,6 @@ import {
   DollarSign,
   TrendingUp,
   Clock,
-  Package,
   LogOut,
   Bell,
   Scissors,
