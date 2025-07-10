@@ -68,7 +68,13 @@ class WhatsAppService {
 
       // Create socket with recommended configuration
       console.log("🔌 Creating WhatsApp socket...");
-      this.sock = baileys.default({
+      const { default: makeWASocket } = baileys;
+
+      if (typeof makeWASocket !== "function") {
+        throw new Error("makeWASocket is not a function");
+      }
+
+      this.sock = makeWASocket({
         auth: state,
         logger: this.logger,
         printQRInTerminal: false,
@@ -227,7 +233,7 @@ class WhatsAppService {
 
       const jid = `${phoneNumber}@s.whatsapp.net`;
 
-      console.log(`��� Sending message to ${phoneNumber} (${jid})...`);
+      console.log(`📤 Sending message to ${phoneNumber} (${jid})...`);
 
       // Use proper Baileys message structure
       const messageContent = {
