@@ -2,7 +2,6 @@ import {
   Client,
   Service,
   Appointment,
-  Product,
   Transaction,
   BusinessConfig,
   User,
