@@ -366,7 +366,17 @@ Esperamos vê-lo em breve! 😊`;
   }
 
   getStatus(): WhatsAppStatus {
-    return { ...this.status };
+    try {
+      return { ...this.status };
+    } catch (error) {
+      console.error("❌ Error getting status:", error);
+      return {
+        connected: false,
+        qrCode: null,
+        lastConnection: null,
+        error: "Status check failed",
+      };
+    }
   }
 
   async disconnect() {
