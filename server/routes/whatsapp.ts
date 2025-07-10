@@ -84,15 +84,63 @@ export const sendBookingConfirmation: RequestHandler = async (req, res) => {
       });
     }
 
-    const { clientName, phone, serviceName, date, time } = validation.data;
+    const { clientName, phone, serviceName, date, time, type } =
+      validation.data;
 
-    await whatsappService.sendBookingConfirmation(
-      clientName,
-      phone,
-      serviceName,
-      date,
-      time,
-    );
+    // Create different messages for client vs salon
+    let message: string;
+
+    if (type === "client") {
+      // Message for CLIENT
+      message = `🔮 *AgendaFixa - Agendamento Confirmado!*
+
+Olá, ${clientName}! 👋
+
+Seu agendamento foi confirmado com sucesso:
+
+📅 *Data:* ${new Date(date).toLocaleDateString("pt-BR", {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })}
+⏰ *Horário:* ${time}
+✂️ *Serviço:* ${serviceName}
+
+📍 *Local:* Barbearia ModernCut
+Rua Principal, 456 - Centro, São Paulo/SP
+
+📋 *Importante:*
+• Chegue com 5 minutos de antecedência
+• Traga um documento com foto
+• Em caso de imprevistos, entre em contato
+
+📞 Dúvidas? Ligue: (11) 3333-4444
+
+Obrigado por escolher a AgendaFixa! ✨`;
+    } else {
+      // Message for SALON
+      message = `🆕 *NOVO AGENDAMENTO - AgendaFixa*
+
+📋 *Cliente:* ${clientName}
+📅 *Data:* ${new Date(date).toLocaleDateString("pt-BR", {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })}
+⏰ *Horário:* ${time}
+✂️ *Serviço:* ${serviceName}
+
+💼 *Sistema AgendaFixa*
+Agendamento feito através do site.`;
+    }
+
+    await whatsappService.sendMessage({
+      to: phone,
+      message: message,
+      type: "text",
+    });
 
     res.json({
       success: true,
