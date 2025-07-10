@@ -178,7 +178,10 @@ class WhatsAppService {
         this.status.error = "Reconnecting...";
 
         setTimeout(() => {
-          this.initialize();
+          this.initialize().catch((error) => {
+            console.error("❌ Reconnection failed:", error);
+            this.status.error = "Reconnection failed - please try manually";
+          });
         }, 5000);
       } else {
         this.status.error = "Session logged out. Please reconnect.";
