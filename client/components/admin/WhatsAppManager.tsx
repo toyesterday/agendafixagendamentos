@@ -283,11 +283,20 @@ const WhatsAppManager = () => {
           </div>
 
           {status.lastConnection && (
-            <div className="text-sm text-gray-600">
-              <p>
-                Última conexão:{" "}
-                {new Date(status.lastConnection).toLocaleString("pt-BR")}
+            <div className="text-sm text-gray-600 bg-gray-50 rounded-lg p-3">
+              <p className="font-medium">📅 Última conexão:</p>
+              <p>{new Date(status.lastConnection).toLocaleString("pt-BR")}</p>
+            </div>
+          )}
+
+          {!status.connected && !status.qrCode && !status.error && (
+            <div className="text-center py-4">
+              <p className="text-gray-600 mb-4">
+                🚀 Clique em "Conectar" para iniciar a conexão com o WhatsApp
               </p>
+              <div className="text-xs text-gray-500">
+                <p>ℹ️ Você precisará escanear um QR Code com seu WhatsApp</p>
+              </div>
             </div>
           )}
 
