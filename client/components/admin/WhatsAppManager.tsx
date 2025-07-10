@@ -354,60 +354,54 @@ const WhatsAppManager = () => {
         </CardContent>
       </Card>
 
-      {/* Send Message Card */}
+      {/* Notification Info Card */}
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center space-x-2">
-            <Send className="h-5 w-5" />
-            <span>Enviar Mensagem</span>
+            <Bell className="h-5 w-5" />
+            <span>Notificações Automáticas</span>
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="phone">Telefone</Label>
-              <div className="relative">
-                <Smartphone className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                <Input
-                  id="phone"
-                  type="tel"
-                  placeholder="(11) 99999-9999"
-                  value={phoneNumber}
-                  onChange={(e) =>
-                    setPhoneNumber(formatPhoneNumber(e.target.value))
-                  }
-                  className="pl-10"
-                />
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+            <h4 className="font-semibold text-blue-800 mb-3">
+              📋 Como funciona:
+            </h4>
+            <div className="space-y-3 text-blue-700">
+              <div className="flex items-start space-x-3">
+                <span className="bg-blue-200 text-blue-800 rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold">
+                  1
+                </span>
+                <p className="text-sm">Cliente faz agendamento pelo site</p>
+              </div>
+              <div className="flex items-start space-x-3">
+                <span className="bg-blue-200 text-blue-800 rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold">
+                  2
+                </span>
+                <p className="text-sm">
+                  Sistema envia mensagem automática para o cliente
+                </p>
+              </div>
+              <div className="flex items-start space-x-3">
+                <span className="bg-blue-200 text-blue-800 rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold">
+                  3
+                </span>
+                <p className="text-sm">
+                  Sistema notifica o salão sobre o novo agendamento
+                </p>
               </div>
             </div>
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="message">Mensagem</Label>
-            <Textarea
-              id="message"
-              placeholder="Digite sua mensagem aqui..."
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              rows={4}
-              className="resize-none"
-            />
+          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+            <h4 className="font-semibold text-yellow-800 mb-2">
+              ⚠️ Importante:
+            </h4>
+            <p className="text-sm text-yellow-700">
+              Mantenha o WhatsApp sempre conectado para que as notificações
+              automáticas funcionem corretamente.
+            </p>
           </div>
-
-          <Button
-            onClick={handleSendMessage}
-            disabled={
-              !status.connected || sendLoading || !phoneNumber || !message
-            }
-            className="w-full bg-green-600 hover:bg-green-700"
-          >
-            {sendLoading ? (
-              <Loader2 className="h-4 w-4 animate-spin mr-2" />
-            ) : (
-              <Send className="h-4 w-4 mr-2" />
-            )}
-            Enviar Mensagem
-          </Button>
 
           {lastSent && (
             <Alert
