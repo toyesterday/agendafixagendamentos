@@ -52,7 +52,7 @@ class WhatsAppService {
 
   async initialize() {
     try {
-      console.log("🚀 Initializing WhatsApp service...");
+      console.log("�� Initializing WhatsApp service...");
       console.log("📁 Auth directory:", this.authDir);
 
       // Test imports first
@@ -463,8 +463,8 @@ const initializeWhatsApp = async () => {
     console.log("📦 Checking Baileys import...");
 
     // Test if the import works
-    const { default: makeWASocket } = await import("@whiskeysockets/baileys");
-    if (typeof makeWASocket !== "function") {
+    const makeWASocketImport = await import("@whiskeysockets/baileys");
+    if (typeof makeWASocketImport.default !== "function") {
       throw new Error("makeWASocket is not a function - import failed");
     }
 
