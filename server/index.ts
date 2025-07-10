@@ -10,6 +10,8 @@ import {
   reconnectWhatsApp,
   disconnectWhatsApp,
   testWhatsApp,
+  logoutWhatsApp,
+  clearWhatsAppAuth,
 } from "./routes/whatsapp";
 
 export function createServer() {
