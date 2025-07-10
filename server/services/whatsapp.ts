@@ -1,7 +1,6 @@
 import makeWASocket, {
   DisconnectReason,
   useMultiFileAuthState,
-  WAMessageContent,
   proto,
 } from "@whiskeysockets/baileys";
 import { Boom } from "@hapi/boom";
