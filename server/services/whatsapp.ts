@@ -67,7 +67,6 @@ class WhatsAppService {
 
       // Create socket with recommended configuration
       console.log("🔌 Creating WhatsApp socket...");
-      const { default: makeWASocket } = baileys;
 
       if (typeof makeWASocket !== "function") {
         throw new Error("makeWASocket is not a function");
