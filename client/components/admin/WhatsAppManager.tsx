@@ -429,10 +429,10 @@ const WhatsAppManager = () => {
       {/* Quick Actions Card */}
       <Card>
         <CardHeader>
-          <CardTitle>Ações Rápidas</CardTitle>
+          <CardTitle>Teste de Funcionamento</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Button
               variant="outline"
               className="h-20 flex flex-col items-center justify-center space-y-2"
@@ -441,35 +441,36 @@ const WhatsAppManager = () => {
                   const response = await fetch("/api/whatsapp/test");
                   const data = await response.json();
                   if (data.success) {
-                    setLastSent("✅ Teste de conexão bem-sucedido!");
+                    setLastSent("✅ WhatsApp está funcionando corretamente!");
                   } else {
-                    setLastSent(`❌ Teste falhou: ${data.error}`);
+                    setLastSent(`❌ Erro no teste: ${data.error}`);
                   }
                 } catch (error) {
-                  setLastSent("❌ Erro no teste de conexão");
+                  setLastSent("❌ Erro na conexão com o serviço");
                 }
               }}
             >
               <MessageCircle className="h-6 w-6" />
-              <span className="text-sm">Teste de Conexão</span>
+              <span className="text-sm">Testar Conexão</span>
             </Button>
 
             <Button
               variant="outline"
               className="h-20 flex flex-col items-center justify-center space-y-2"
-              disabled={!status.connected}
-            >
-              <Send className="h-6 w-6" />
-              <span className="text-sm">Mensagem Padrão</span>
-            </Button>
-
-            <Button
-              variant="outline"
-              className="h-20 flex flex-col items-center justify-center space-y-2"
-              disabled={!status.connected}
+              onClick={() => {
+                if (status.connected) {
+                  setLastSent(
+                    "✅ WhatsApp conectado e pronto para notificações automáticas!",
+                  );
+                } else {
+                  setLastSent(
+                    "❌ WhatsApp desconectado. Conecte para ativar as notificações automáticas.",
+                  );
+                }
+              }}
             >
               <CheckCircle className="h-6 w-6" />
-              <span className="text-sm">Status do Serviço</span>
+              <span className="text-sm">Verificar Status</span>
             </Button>
           </div>
         </CardContent>
