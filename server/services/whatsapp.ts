@@ -64,17 +64,13 @@ class WhatsAppService {
         printQRInTerminal: false,
         browser: ["AgendaFixa", "Desktop", "1.0.0"],
         generateHighQualityLinkPreview: true,
-        // Recommended mobile API for better compatibility
-        mobile: false,
-        // Message retry configuration
-        msgRetryCounterMap: {},
         // Default query timeout
         defaultQueryTimeoutMs: 60_000,
         // Keep alive interval
         keepAliveIntervalMs: 10_000,
         // Emit own events
         emitOwnEvents: true,
-        // Mark messages as read automatically
+        // Mark online on connect
         markOnlineOnConnect: true,
       });
 
