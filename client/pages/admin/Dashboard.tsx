@@ -378,6 +378,19 @@ const Dashboard = () => {
                   </Button>
                 </Link>
 
+                <Link
+                  key="whatsapp-config-link"
+                  to="/admin/whatsapp-config"
+                  className="block"
+                >
+                  <Button className="h-16 w-full bg-gradient-to-br from-indigo-500 to-indigo-600 hover:from-indigo-600 hover:to-indigo-700">
+                    <div className="text-center">
+                      <Settings className="h-6 w-6 mx-auto mb-1" />
+                      <span className="text-sm">Config WhatsApp</span>
+                    </div>
+                  </Button>
+                </Link>
+
                 <Button
                   key="reports"
                   className="h-16 bg-gradient-to-br from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700"
