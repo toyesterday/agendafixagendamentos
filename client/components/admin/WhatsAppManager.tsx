@@ -17,6 +17,7 @@ import {
   CheckCircle,
   AlertCircle,
   Loader2,
+  Bell,
 } from "lucide-react";
 
 interface WhatsAppStatus {
