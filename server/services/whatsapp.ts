@@ -1,4 +1,5 @@
-import makeWASocket, {
+import {
+  makeWASocket,
   DisconnectReason,
   useMultiFileAuthState,
   proto,
@@ -52,7 +53,7 @@ class WhatsAppService {
 
   async initialize() {
     try {
-      console.log("�� Initializing WhatsApp service...");
+      console.log("🚀 Initializing WhatsApp service...");
       console.log("📁 Auth directory:", this.authDir);
 
       // Test imports first
