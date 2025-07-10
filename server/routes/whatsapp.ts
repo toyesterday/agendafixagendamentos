@@ -278,7 +278,26 @@ export const disconnectWhatsApp: RequestHandler = async (req, res) => {
 // Test WhatsApp service
 export const testWhatsApp: RequestHandler = async (req, res) => {
   try {
+    console.log("🧪 Testing WhatsApp service...");
+
+    // Test Baileys import
+    try {
+      const baileys = await import("@whiskeysockets/baileys");
+      console.log("✅ Baileys import successful");
+    } catch (importError) {
+      console.error("❌ Baileys import failed:", importError);
+      return res.json({
+        success: false,
+        error: "Baileys library import failed",
+        details:
+          importError instanceof Error
+            ? importError.message
+            : String(importError),
+      });
+    }
+
     const status = whatsappService.getStatus();
+    console.log("📊 Service status:", status);
 
     res.json({
       success: true,
@@ -287,11 +306,12 @@ export const testWhatsApp: RequestHandler = async (req, res) => {
         ...status,
         timestamp: new Date().toISOString(),
         serviceRunning: true,
+        bakeysImport: "OK",
       },
     });
   } catch (error) {
-    console.error("Error testing WhatsApp:", error);
-    res.status(500).json({
+    console.error("❌ Error testing WhatsApp:", error);
+    res.json({
       success: false,
       error: "WhatsApp service test failed",
       details: error instanceof Error ? error.message : String(error),
