@@ -279,6 +279,35 @@ const WhatsAppManager = () => {
                 >
                   Limpar Sessão
                 </Button>
+
+                <Button
+                  onClick={async () => {
+                    setLoading(true);
+                    try {
+                      const response = await fetch("/api/whatsapp/test");
+                      const data = await response.json();
+                      if (data.success) {
+                        setLastSent(
+                          `✅ Teste OK: ${JSON.stringify(data.data, null, 2)}`,
+                        );
+                      } else {
+                        setLastSent(
+                          `❌ Teste falhou: ${data.error} - ${data.details}`,
+                        );
+                      }
+                    } catch (error) {
+                      setLastSent(`❌ Erro na requisição: ${error}`);
+                    } finally {
+                      setLoading(false);
+                    }
+                  }}
+                  variant="outline"
+                  size="sm"
+                  disabled={loading}
+                  className="text-blue-600 border-blue-300 hover:bg-blue-50"
+                >
+                  Debug
+                </Button>
               </div>
             </div>
           </div>
