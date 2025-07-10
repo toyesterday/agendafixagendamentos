@@ -487,5 +487,23 @@ const initializeWhatsApp = async () => {
   }
 };
 
-// Delay initialization to ensure server is ready
-setTimeout(initializeWhatsApp, 2000);
+// Delay initialization and wrap in timeout protection
+setTimeout(() => {
+  // Wrap in timeout to prevent hanging the server
+  const initTimeout = setTimeout(() => {
+    console.log("⚠️  WhatsApp initialization timed out, skipping...");
+    whatsappService["status"].error =
+      "Initialization timed out - WhatsApp disabled";
+  }, 10000); // 10 second timeout
+
+  initializeWhatsApp()
+    .then(() => {
+      clearTimeout(initTimeout);
+    })
+    .catch((error) => {
+      clearTimeout(initTimeout);
+      console.error("❌ WhatsApp initialization failed:", error);
+      whatsappService["status"].error =
+        "Initialization failed - WhatsApp disabled";
+    });
+}, 2000);
