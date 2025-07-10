@@ -64,39 +64,80 @@ class WhatsAppService {
 
   async initialize() {
     try {
-      console.log("Initializing WhatsApp service...");
+      console.log("🚀 Initializing WhatsApp service...");
+
+      // Get auth state
       const { state, saveCreds } = await useMultiFileAuthState(this.authDir);
 
+      // Create socket with recommended configuration
       this.sock = makeWASocket({
         auth: state,
+        logger: this.logger,
         printQRInTerminal: false,
         browser: ["AgendaFixa", "Desktop", "1.0.0"],
         generateHighQualityLinkPreview: true,
-        logger: {
-          level: "warn",
-          log: (level: any, ...args: any[]) => {
-            if (level === "error") {
-              console.error("Baileys error:", ...args);
+        // Recommended mobile API for better compatibility
+        mobile: false,
+        // Message retry configuration
+        msgRetryCounterMap: {},
+        // Default query timeout
+        defaultQueryTimeoutMs: 60_000,
+        // Keep alive interval
+        keepAliveIntervalMs: 10_000,
+        // Emit own events
+        emitOwnEvents: true,
+        // Mark messages as read automatically
+        markOnlineOnConnect: true,
+      });
+
+      // Bind store to socket
+      if (this.store) {
+        this.store.bind(this.sock.ev);
+      }
+
+      // Event listeners
+      this.sock.ev.process(async (events: any) => {
+        // Connection updates
+        if (events["connection.update"]) {
+          this.handleConnectionUpdate(events["connection.update"]);
+        }
+
+        // Credentials update
+        if (events["creds.update"]) {
+          await saveCreds();
+        }
+
+        // Messages upsert
+        if (events["messages.upsert"]) {
+          const upsert = events["messages.upsert"];
+          console.log("📨 Received messages:", upsert.messages.length);
+
+          for (const msg of upsert.messages) {
+            if (!msg.key.fromMe && msg.message) {
+              console.log(
+                "Message from:",
+                msg.key.remoteJid,
+                "Message:",
+                msg.message,
+              );
             }
-          },
-        } as any,
-        qrTimeout: 30000,
-        connectTimeoutMs: 20000,
+          }
+        }
+
+        // Message updates (read receipts, etc.)
+        if (events["messages.update"]) {
+          console.log("📝 Message updates:", events["messages.update"]);
+        }
+
+        // Presence updates
+        if (events["presence.update"]) {
+          console.log("👤 Presence update:", events["presence.update"]);
+        }
       });
 
-      this.sock.ev.on("connection.update", (update: any) => {
-        this.handleConnectionUpdate(update);
-      });
-
-      this.sock.ev.on("creds.update", saveCreds);
-
-      this.sock.ev.on("messages.upsert", (m: any) => {
-        console.log("Received message:", JSON.stringify(m, undefined, 2));
-      });
-
-      console.log("WhatsApp service initialized");
+      console.log("✅ WhatsApp service initialized successfully");
     } catch (error) {
-      console.error("Failed to initialize WhatsApp service:", error);
+      console.error("❌ Failed to initialize WhatsApp service:", error);
       this.status.error = `Failed to initialize: ${error instanceof Error ? error.message : String(error)}`;
     }
   }
