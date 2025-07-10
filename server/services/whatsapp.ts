@@ -464,8 +464,10 @@ const initializeWhatsApp = async () => {
     console.log("📦 Checking Baileys import...");
 
     // Test if the import works
-    const makeWASocketImport = await import("@whiskeysockets/baileys");
-    if (typeof makeWASocketImport.default !== "function") {
+    const { makeWASocket: testMakeWASocket } = await import(
+      "@whiskeysockets/baileys"
+    );
+    if (typeof testMakeWASocket !== "function") {
       throw new Error("makeWASocket is not a function - import failed");
     }
 
