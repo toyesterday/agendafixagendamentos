@@ -356,6 +356,7 @@ const Dashboard = () => {
               <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
                 <Button
                   key="new-appointment"
+                  onClick={handleNewAppointment}
                   className="h-16 bg-gradient-to-br from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700"
                 >
                   <div className="text-center">
@@ -366,6 +367,7 @@ const Dashboard = () => {
 
                 <Button
                   key="add-client"
+                  onClick={handleAddClient}
                   className="h-16 bg-gradient-to-br from-green-500 to-green-600 hover:from-green-600 hover:to-green-700"
                 >
                   <div className="text-center">
@@ -376,6 +378,7 @@ const Dashboard = () => {
 
                 <Button
                   key="manage-services"
+                  onClick={handleManageServices}
                   className="h-16 bg-gradient-to-br from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700"
                 >
                   <div className="text-center">
