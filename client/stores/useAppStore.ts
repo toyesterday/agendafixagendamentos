@@ -238,49 +238,6 @@ export const useAppStore = create<AppState>()(
         return slots;
       },
 
-      // Product actions
-      addProduct: (productData) => {
-        const newProduct: Product = {
-          ...productData,
-          id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-        };
-        set((state) => ({
-          products: [...state.products, newProduct],
-        }));
-      },
-
-      updateProduct: (id, productData) => {
-        set((state) => ({
-          products: state.products.map((product) =>
-            product.id === id
-              ? {
-                  ...product,
-                  ...productData,
-                  updatedAt: new Date().toISOString(),
-                }
-              : product,
-          ),
-        }));
-      },
-
-      deleteProduct: (id) => {
-        set((state) => ({
-          products: state.products.filter((product) => product.id !== id),
-        }));
-      },
-
-      getProduct: (id) => {
-        return get().products.find((product) => product.id === id);
-      },
-
-      getLowStockProducts: () => {
-        return get().products.filter(
-          (product) => product.quantity <= product.minQuantity,
-        );
-      },
-
       // Transaction actions
       addTransaction: (transactionData) => {
         const newTransaction: Transaction = {
