@@ -166,7 +166,6 @@ export interface AppState {
   clients: Client[];
   services: Service[];
   appointments: Appointment[];
-  products: Product[];
   transactions: Transaction[];
   businessConfig: BusinessConfig | null;
 
