@@ -9,6 +9,7 @@ import {
   sendBookingCancellation,
   reconnectWhatsApp,
   disconnectWhatsApp,
+  testWhatsApp,
 } from "./routes/whatsapp";
 
 export function createServer() {
