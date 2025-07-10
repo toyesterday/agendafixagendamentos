@@ -145,54 +145,78 @@ class WhatsAppService {
   private handleConnectionUpdate(update: any) {
     const { connection, lastDisconnect, qr } = update;
 
-    console.log("Connection update:", {
+    console.log("🔄 Connection update:", {
       connection,
       qr: !!qr,
-      lastDisconnect: lastDisconnect?.error,
+      lastDisconnect: lastDisconnect?.error?.output?.statusCode,
     });
 
+    // Handle QR code
     if (qr) {
-      console.log("QR Code received, scan to connect WhatsApp");
+      console.log("📱 QR Code received - Please scan with WhatsApp");
       this.status.qrCode = qr;
       this.status.error = null;
+      this.status.connected = false;
+
       // Show QR in terminal for development
       qrcode.generate(qr, { small: true });
     }
 
+    // Handle connection states
     if (connection === "close") {
-      const shouldReconnect =
-        (lastDisconnect?.error as Boom)?.output?.statusCode !==
-        DisconnectReason.loggedOut;
-
-      console.log(
-        "Connection closed due to",
-        lastDisconnect?.error,
-        ", reconnecting:",
-        shouldReconnect,
-      );
-
       this.status.connected = false;
       this.status.qrCode = null;
 
+      const statusCode = (lastDisconnect?.error as Boom)?.output?.statusCode;
+      const shouldReconnect = statusCode !== DisconnectReason.loggedOut;
+
+      console.log("❌ Connection closed:", {
+        statusCode,
+        reason: this.getDisconnectReason(statusCode),
+        shouldReconnect,
+      });
+
       if (shouldReconnect) {
-        console.log("Attempting to reconnect...");
+        console.log("🔄 Attempting to reconnect in 5 seconds...");
+        this.status.error = "Reconnecting...";
+
         setTimeout(() => {
           this.initialize();
-        }, 3000); // Wait 3 seconds before reconnecting
+        }, 5000);
       } else {
-        this.status.error =
-          "WhatsApp session logged out. Please scan QR code again.";
-        console.log("Session logged out, need new QR scan");
+        this.status.error = "Session logged out. Please reconnect.";
+        console.log("🔐 Session logged out - manual reconnection required");
       }
     } else if (connection === "open") {
-      console.log("✅ WhatsApp connection opened successfully");
+      console.log("✅ WhatsApp connected successfully!");
       this.status.connected = true;
       this.status.qrCode = null;
       this.status.lastConnection = new Date();
       this.status.error = null;
     } else if (connection === "connecting") {
-      console.log("🔄 WhatsApp connecting...");
-      this.status.error = null;
+      console.log("🔄 Connecting to WhatsApp...");
+      this.status.error = "Connecting...";
+    }
+  }
+
+  private getDisconnectReason(statusCode?: number): string {
+    switch (statusCode) {
+      case DisconnectReason.badSession:
+        return "Bad session file, deleting and reconnecting";
+      case DisconnectReason.connectionClosed:
+        return "Connection closed, reconnecting";
+      case DisconnectReason.connectionLost:
+        return "Connection lost, reconnecting";
+      case DisconnectReason.connectionReplaced:
+        return "Connection replaced, is another session active?";
+      case DisconnectReason.loggedOut:
+        return "Device logged out, scan QR code again";
+      case DisconnectReason.restartRequired:
+        return "Restart required, reconnecting";
+      case DisconnectReason.timedOut:
+        return "Connection timed out, reconnecting";
+      default:
+        return "Unknown reason";
     }
   }
 
@@ -294,7 +318,7 @@ Lembramos que você tem um agendamento *AMANHÃ*:
 📍 *Local:* Barbearia ModernCut
 Rua Principal, 456 - Centro
 
-Até amanhã! 😊`;
+Até amanh��! 😊`;
 
     return this.sendMessage({
       to: phone,
