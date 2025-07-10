@@ -112,7 +112,12 @@ const WhatsAppManager = () => {
   const handleDisconnect = async () => {
     setLoading(true);
     try {
-      const response = await fetch("/api/whatsapp/disconnect", {
+      const apiUrl =
+        window.location.hostname === "localhost"
+          ? "http://localhost:5173/api/whatsapp/disconnect"
+          : "/api/whatsapp/disconnect";
+
+      const response = await fetch(apiUrl, {
         method: "POST",
       });
       const data = await response.json();
@@ -123,7 +128,10 @@ const WhatsAppManager = () => {
         setLastSent(`Erro: ${data.error}`);
       }
     } catch (error) {
-      setLastSent("Erro ao desconectar WhatsApp");
+      setLastSent(
+        "Erro ao desconectar WhatsApp: " +
+          (error instanceof Error ? error.message : String(error)),
+      );
     } finally {
       setLoading(false);
     }
