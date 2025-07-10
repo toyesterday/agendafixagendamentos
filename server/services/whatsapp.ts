@@ -437,11 +437,27 @@ export const whatsappService = new WhatsAppService();
 const initializeWhatsApp = async () => {
   try {
     console.log("🚀 Starting WhatsApp service...");
+    console.log("📦 Checking Baileys import...");
+
+    // Test if the import works
+    const { default: makeWASocket } = await import("@whiskeysockets/baileys");
+    if (typeof makeWASocket !== "function") {
+      throw new Error("makeWASocket is not a function - import failed");
+    }
+
+    console.log("✅ Baileys import successful");
     await whatsappService.initialize();
     console.log("✅ WhatsApp service started successfully");
   } catch (error) {
     console.error("❌ Failed to start WhatsApp service:", error);
-    // Don't crash the server if WhatsApp fails to start
+    console.error(
+      "Stack trace:",
+      error instanceof Error ? error.stack : "No stack trace",
+    );
+
+    // Set error state but don't crash the server
+    whatsappService["status"].error =
+      `Initialization failed: ${error instanceof Error ? error.message : String(error)}`;
   }
 };
 
