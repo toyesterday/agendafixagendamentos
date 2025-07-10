@@ -66,8 +66,8 @@ const Dashboard = () => {
   };
 
   const handleNewAppointment = () => {
-    // Redirect to booking flow
-    window.location.href = "/booking";
+    // Navigate to booking flow
+    navigate("/booking");
   };
 
   const handleAddClient = () => {
