@@ -476,7 +476,15 @@ const initializeWhatsApp = async () => {
     }
 
     console.log("✅ Baileys import successful");
-    await whatsappService.initialize();
+
+    // Initialize with timeout protection
+    await Promise.race([
+      whatsappService.initialize(),
+      new Promise((_, reject) =>
+        setTimeout(() => reject(new Error("Initialization timeout")), 30000),
+      ),
+    ]);
+
     console.log("✅ WhatsApp service started successfully");
   } catch (error) {
     console.error("❌ Failed to start WhatsApp service:", error);
