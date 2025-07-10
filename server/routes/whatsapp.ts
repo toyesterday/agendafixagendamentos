@@ -215,3 +215,27 @@ export const disconnectWhatsApp: RequestHandler = async (req, res) => {
     });
   }
 };
+
+// Test WhatsApp service
+export const testWhatsApp: RequestHandler = async (req, res) => {
+  try {
+    const status = whatsappService.getStatus();
+
+    res.json({
+      success: true,
+      message: "WhatsApp service is running",
+      data: {
+        ...status,
+        timestamp: new Date().toISOString(),
+        serviceRunning: true,
+      },
+    });
+  } catch (error) {
+    console.error("Error testing WhatsApp:", error);
+    res.status(500).json({
+      success: false,
+      error: "WhatsApp service test failed",
+      details: error instanceof Error ? error.message : String(error),
+    });
+  }
+};
