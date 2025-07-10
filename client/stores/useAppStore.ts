@@ -547,7 +547,6 @@ export const useAppStore = create<AppState>()(
           monthRevenue,
           totalClients: clients.length,
           pendingAppointments,
-          lowStockProducts,
           recentAppointments,
           revenueChart,
           topServices: serviceStats,
