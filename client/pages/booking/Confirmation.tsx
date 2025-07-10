@@ -54,13 +54,20 @@ const Confirmation = () => {
     try {
       if (!bookingData.clientData || !selectedServices.length) return;
 
-      // Get the first service name for the notification
-      const firstService = services.find(
-        (s) => s.id === selectedServices[0]?.serviceId,
-      );
-      const serviceName = firstService?.name || "Serviço";
+      // Get services names for the notification
+      const serviceNames = selectedServices
+        .map((selectedService) => {
+          const service = services.find(
+            (s) => s.id === selectedService.serviceId,
+          );
+          return service
+            ? `${service.name}${selectedService.quantity > 1 ? ` (${selectedService.quantity}x)` : ""}`
+            : "Serviço";
+        })
+        .join(", ");
 
-      const response = await fetch("/api/whatsapp/booking/confirmation", {
+      // Send notification to CLIENT
+      const clientResponse = await fetch("/api/whatsapp/booking/confirmation", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -68,27 +75,39 @@ const Confirmation = () => {
         body: JSON.stringify({
           clientName: bookingData.clientData.name,
           phone: bookingData.clientData.phone,
-          serviceName: serviceName,
+          serviceName: serviceNames,
           date: bookingData.date,
           time: bookingData.time,
+          type: "client", // Indica que é para o cliente
         }),
       });
 
-      if (!response.ok) {
-        console.warn("WhatsApp service not available, skipping notification");
-        return;
+      // Send notification to SALON (business phone)
+      const salonResponse = await fetch("/api/whatsapp/booking/confirmation", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          clientName: bookingData.clientData.name,
+          phone: "(11) 3333-4444", // Número do salão - pode vir das configurações
+          serviceName: serviceNames,
+          date: bookingData.date,
+          time: bookingData.time,
+          type: "salon", // Indica que é para o salão
+        }),
+      });
+
+      if (clientResponse.ok) {
+        console.log("✅ WhatsApp confirmation sent to client");
       }
 
-      const data = await response.json();
-      if (data.success) {
-        console.log("WhatsApp confirmation sent successfully");
-      } else {
-        console.warn("Failed to send WhatsApp confirmation:", data.error);
+      if (salonResponse.ok) {
+        console.log("✅ WhatsApp notification sent to salon");
       }
     } catch (error) {
       console.warn("WhatsApp service not available:", error);
       // Don't show error to user, as the booking was successful
-      // WhatsApp notification is optional functionality
     }
   };
 
