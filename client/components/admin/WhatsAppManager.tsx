@@ -145,7 +145,12 @@ const WhatsAppManager = () => {
 
     setSendLoading(true);
     try {
-      const response = await fetch("/api/whatsapp/send", {
+      const apiUrl =
+        window.location.hostname === "localhost"
+          ? "http://localhost:5173/api/whatsapp/send"
+          : "/api/whatsapp/send";
+
+      const response = await fetch(apiUrl, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -166,7 +171,10 @@ const WhatsAppManager = () => {
         setLastSent(`Erro: ${data.error}`);
       }
     } catch (error) {
-      setLastSent("Erro ao enviar mensagem");
+      setLastSent(
+        "Erro ao enviar mensagem: " +
+          (error instanceof Error ? error.message : String(error)),
+      );
     } finally {
       setSendLoading(false);
     }
