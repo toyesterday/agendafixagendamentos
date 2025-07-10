@@ -133,7 +133,6 @@ export interface DashboardMetrics {
   monthRevenue: number;
   totalClients: number;
   pendingAppointments: number;
-  lowStockProducts: number;
   recentAppointments: Appointment[];
   revenueChart: {
     period: string;
