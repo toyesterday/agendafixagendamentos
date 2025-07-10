@@ -30,7 +30,6 @@ export const useAppStore = create<AppState>()(
       clients: sampleClients,
       services: sampleServices,
       appointments: sampleAppointments,
-      products: sampleProducts,
       transactions: sampleTransactions,
       businessConfig: sampleBusinessConfig,
 
