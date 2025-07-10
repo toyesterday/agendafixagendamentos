@@ -15,6 +15,7 @@ const bookingNotificationSchema = z.object({
   serviceName: z.string().min(1, "Service name is required"),
   date: z.string().min(1, "Date is required"),
   time: z.string().min(1, "Time is required"),
+  type: z.enum(["client", "salon"]).optional().default("client"),
 });
 
 // Get WhatsApp connection status
