@@ -84,32 +84,19 @@ const WhatsAppSettings = () => {
             </p>
           </div>
 
-          {/* Overview Card */}
-          <Card className="border-0 shadow-lg bg-gradient-to-br from-green-500 to-green-600 text-white mb-8">
-            <CardContent className="p-8">
-              <div className="text-center">
-                <MessageCircle className="h-16 w-16 mx-auto mb-4 text-green-200" />
-                <h3 className="text-2xl font-bold mb-2">
-                  Notificações Automáticas
-                </h3>
-                <p className="text-green-100 text-lg">
-                  Quando um cliente faz um agendamento, automaticamente:
-                </p>
-                <div className="mt-4 space-y-2">
-                  <div className="flex items-center justify-center">
-                    <span className="bg-green-400 text-green-800 px-3 py-1 rounded-full text-sm font-medium">
-                      📱 Cliente recebe confirmação no WhatsApp
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-center">
-                    <span className="bg-green-400 text-green-800 px-3 py-1 rounded-full text-sm font-medium">
-                      💼 Salão recebe notificação do novo agendamento
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+          {/* Simple Info */}
+          <div className="bg-green-50 border border-green-200 rounded-lg p-6 mb-8">
+            <div className="text-center">
+              <MessageCircle className="h-12 w-12 mx-auto mb-3 text-green-600" />
+              <h3 className="text-xl font-bold text-green-800 mb-2">
+                Notificações Automáticas
+              </h3>
+              <p className="text-green-700">
+                Conecte o WhatsApp abaixo para ativar as notificações
+                automáticas de agendamento.
+              </p>
+            </div>
+          </div>
 
           {/* WhatsApp Manager Component */}
           <WhatsAppManager />
