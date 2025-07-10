@@ -258,7 +258,10 @@ const Dashboard = () => {
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {metrics.recentAppointments.map((appointment) => {
+                {(showAllAppointments
+                  ? appointments
+                  : metrics.recentAppointments
+                ).map((appointment) => {
                   const client = clients.find(
                     (c) => c.id === appointment.clientId,
                   );
