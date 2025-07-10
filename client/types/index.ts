@@ -109,6 +109,25 @@ export interface BusinessConfig {
   updatedAt: string;
 }
 
+export interface WhatsAppConfig {
+  id: string;
+  salonName: string;
+  salonAddress: string;
+  salonPhone: string;
+  adminPhone: string; // Número que recebe notificações do salão
+
+  // Templates de mensagem
+  clientMessageTemplate: string;
+  salonMessageTemplate: string;
+
+  // Configurações
+  autoSendToClient: boolean;
+  autoSendToSalon: boolean;
+
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface BookingData {
   services: {
     serviceId: string;
