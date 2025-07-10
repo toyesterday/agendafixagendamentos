@@ -247,8 +247,12 @@ const Dashboard = () => {
             <CardHeader>
               <CardTitle className="flex items-center justify-between">
                 <span>Agendamentos Recentes</span>
-                <Button variant="outline" size="sm">
-                  Ver todos
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleViewAllAppointments}
+                >
+                  {showAllAppointments ? "Ver menos" : "Ver todos"}
                 </Button>
               </CardTitle>
             </CardHeader>
