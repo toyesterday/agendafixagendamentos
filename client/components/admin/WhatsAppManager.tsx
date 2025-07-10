@@ -403,7 +403,19 @@ const WhatsAppManager = () => {
             <Button
               variant="outline"
               className="h-20 flex flex-col items-center justify-center space-y-2"
-              disabled={!status.connected}
+              onClick={async () => {
+                try {
+                  const response = await fetch("/api/whatsapp/test");
+                  const data = await response.json();
+                  if (data.success) {
+                    setLastSent("✅ Teste de conexão bem-sucedido!");
+                  } else {
+                    setLastSent(`❌ Teste falhou: ${data.error}`);
+                  }
+                } catch (error) {
+                  setLastSent("❌ Erro no teste de conexão");
+                }
+              }}
             >
               <MessageCircle className="h-6 w-6" />
               <span className="text-sm">Teste de Conexão</span>
