@@ -488,10 +488,21 @@ const initializeWhatsApp = async () => {
     console.log("✅ WhatsApp service started successfully");
   } catch (error) {
     console.error("❌ Failed to start WhatsApp service:", error);
-    console.error(
-      "Stack trace:",
-      error instanceof Error ? error.stack : "No stack trace",
-    );
+
+    // Don't log the full stack trace to reduce noise for timeout errors
+    if (
+      error instanceof Error &&
+      (error.message.includes("Timed Out") || error.message.includes("timeout"))
+    ) {
+      console.log(
+        "ℹ️  WhatsApp timeout is normal - service will continue in background",
+      );
+    } else {
+      console.error(
+        "Stack trace:",
+        error instanceof Error ? error.stack : "No stack trace",
+      );
+    }
 
     // Set error state but don't crash the server
     whatsappService["status"].error =
