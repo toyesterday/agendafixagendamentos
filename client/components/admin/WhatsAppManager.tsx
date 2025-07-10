@@ -325,7 +325,12 @@ const WhatsAppManager = () => {
                   onClick={async () => {
                     setLoading(true);
                     try {
-                      const response = await fetch("/api/whatsapp/test");
+                      const apiUrl =
+                        window.location.hostname === "localhost"
+                          ? "http://localhost:5173/api/whatsapp/test"
+                          : "/api/whatsapp/test";
+
+                      const response = await fetch(apiUrl);
                       const data = await response.json();
                       if (data.success) {
                         setLastSent(
@@ -337,7 +342,9 @@ const WhatsAppManager = () => {
                         );
                       }
                     } catch (error) {
-                      setLastSent(`❌ Erro na requisição: ${error}`);
+                      setLastSent(
+                        `❌ Erro na requisição: ${error instanceof Error ? error.message : String(error)}`,
+                      );
                     } finally {
                       setLoading(false);
                     }
