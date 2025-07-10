@@ -70,16 +70,7 @@ const WhatsAppManager = () => {
 
   const fetchStatus = async () => {
     try {
-      const apiUrl =
-        window.location.hostname === "localhost"
-          ? "http://localhost:5173/api/whatsapp/status"
-          : "/api/whatsapp/status";
-
-      const response = await fetch(apiUrl);
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}`);
-      }
-      const data = await response.json();
+      const data = await apiCall("/status");
       if (data.success) {
         setStatus(data.data);
       } else {
