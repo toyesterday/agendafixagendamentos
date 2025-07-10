@@ -417,6 +417,7 @@ const Dashboard = () => {
 
                 <Button
                   key="reports"
+                  onClick={handleReports}
                   className="h-16 bg-gradient-to-br from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700"
                 >
                   <div className="text-center">
