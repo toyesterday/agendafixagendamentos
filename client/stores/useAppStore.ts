@@ -471,8 +471,7 @@ export const useAppStore = create<AppState>()(
 
       // Dashboard actions
       getDashboardMetrics: (): DashboardMetrics => {
-        const { appointments, clients, transactions, products, services } =
-          get();
+        const { appointments, clients, transactions, services } = get();
         const today = new Date().toISOString().split("T")[0];
         const thisMonth = new Date().toISOString().slice(0, 7);
 
