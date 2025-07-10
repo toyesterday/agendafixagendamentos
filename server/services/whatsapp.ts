@@ -144,15 +144,17 @@ class WhatsAppService {
       const phoneNumber = this.formatPhoneNumber(message.to);
       const jid = `${phoneNumber}@s.whatsapp.net`;
 
+      console.log(`Sending message to ${phoneNumber}...`);
+
       const messageContent = {
         text: message.message,
       };
 
-      await this.sock.sendMessage(jid, messageContent);
-      console.log(`WhatsApp message sent to ${phoneNumber}`);
+      const result = await this.sock.sendMessage(jid, messageContent);
+      console.log(`✅ WhatsApp message sent to ${phoneNumber}`, result);
       return true;
     } catch (error) {
-      console.error("Failed to send WhatsApp message:", error);
+      console.error("❌ Failed to send WhatsApp message:", error);
       throw error;
     }
   }
