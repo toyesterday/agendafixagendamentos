@@ -287,7 +287,12 @@ const WhatsAppManager = () => {
                   onClick={async () => {
                     setLoading(true);
                     try {
-                      const response = await fetch("/api/whatsapp/logout", {
+                      const apiUrl =
+                        window.location.hostname === "localhost"
+                          ? "http://localhost:5173/api/whatsapp/logout"
+                          : "/api/whatsapp/logout";
+
+                      const response = await fetch(apiUrl, {
                         method: "POST",
                       });
                       const data = await response.json();
@@ -298,7 +303,12 @@ const WhatsAppManager = () => {
                         setLastSent(`❌ Erro: ${data.error}`);
                       }
                     } catch (error) {
-                      setLastSent("❌ Erro ao limpar sessão");
+                      setLastSent(
+                        "❌ Erro ao limpar sessão: " +
+                          (error instanceof Error
+                            ? error.message
+                            : String(error)),
+                      );
                     } finally {
                       setLoading(false);
                     }
