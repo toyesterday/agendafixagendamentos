@@ -48,7 +48,12 @@ const WhatsAppManager = () => {
 
   const fetchStatus = async () => {
     try {
-      const response = await fetch("/api/whatsapp/status");
+      const apiUrl =
+        window.location.hostname === "localhost"
+          ? "http://localhost:5173/api/whatsapp/status"
+          : "/api/whatsapp/status";
+
+      const response = await fetch(apiUrl);
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}`);
       }
@@ -69,7 +74,9 @@ const WhatsAppManager = () => {
         connected: false,
         qrCode: null,
         lastConnection: null,
-        error: "WhatsApp service not available",
+        error:
+          "Failed to fetch WhatsApp status: " +
+          (error instanceof Error ? error.message : String(error)),
       });
     }
   };
