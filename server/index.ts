@@ -29,6 +29,7 @@ export function createServer() {
 
   // WhatsApp API routes
   app.get("/api/whatsapp/status", getWhatsAppStatus);
+  app.get("/api/whatsapp/test", testWhatsApp);
   app.post("/api/whatsapp/send", sendMessage);
   app.post("/api/whatsapp/booking/confirmation", sendBookingConfirmation);
   app.post("/api/whatsapp/booking/reminder", sendBookingReminder);
