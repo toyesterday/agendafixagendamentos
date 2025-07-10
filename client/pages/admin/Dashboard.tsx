@@ -22,6 +22,7 @@ import { useAppStore } from "@/stores/useAppStore";
 const Dashboard = () => {
   const { getDashboardMetrics, logout, user, appointments, clients, services } =
     useAppStore();
+  const navigate = useNavigate();
 
   const [whatsappStatus, setWhatsappStatus] = useState({
     connected: false,
