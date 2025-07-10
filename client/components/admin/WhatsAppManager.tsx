@@ -40,6 +40,28 @@ const WhatsAppManager = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [lastSent, setLastSent] = useState<string | null>(null);
 
+  // Helper function for API calls
+  const apiCall = async (endpoint: string, options: RequestInit = {}) => {
+    try {
+      const response = await fetch(`/api/whatsapp${endpoint}`, {
+        ...options,
+        headers: {
+          "Content-Type": "application/json",
+          ...options.headers,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error(`API call failed for ${endpoint}:`, error);
+      throw error;
+    }
+  };
+
   useEffect(() => {
     fetchStatus();
     const interval = setInterval(fetchStatus, 5000); // Poll every 5 seconds
