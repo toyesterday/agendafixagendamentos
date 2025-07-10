@@ -75,11 +75,12 @@ const WhatsAppSettings = () => {
           {/* Page Header */}
           <div className="mb-8">
             <h2 className="text-3xl font-bold text-gray-800 mb-2">
-              WhatsApp Business Integration
+              Notificações Automáticas WhatsApp
             </h2>
             <p className="text-gray-600">
-              Configure e gerencie as notificações automáticas via WhatsApp para
-              seus clientes.
+              Configure o WhatsApp para enviar notificações automáticas quando
+              um cliente faz um agendamento. As mensagens são enviadas tanto
+              para o cliente quanto para o salão.
             </p>
           </div>
 
