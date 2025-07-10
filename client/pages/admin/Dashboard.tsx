@@ -27,6 +27,7 @@ const Dashboard = () => {
     connected: false,
     error: null,
   });
+  const [showAllAppointments, setShowAllAppointments] = useState(false);
 
   const metrics = getDashboardMetrics();
 
