@@ -114,117 +114,86 @@ const WhatsAppSettings = () => {
           {/* WhatsApp Manager Component */}
           <WhatsAppManager />
 
-          {/* Notification Templates */}
+          {/* How it Works */}
           <Card className="mt-6">
             <CardHeader>
               <CardTitle className="flex items-center space-x-2">
                 <Settings className="h-5 w-5" />
-                <span>Modelos de Notificação</span>
+                <span>Como Funcionam as Notificações</span>
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <Card className="border border-green-200 bg-green-50">
-                    <CardContent className="p-4">
-                      <h4 className="font-medium text-green-800 mb-2">
-                        Confirmação de Agendamento
+                    <CardContent className="p-6">
+                      <h4 className="font-medium text-green-800 mb-3 flex items-center">
+                        <span className="bg-green-200 text-green-800 rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold mr-3">
+                          📱
+                        </span>
+                        Para o Cliente
                       </h4>
-                      <p className="text-sm text-green-600 mb-3">
-                        Enviado automaticamente quando um agendamento é
-                        confirmado
-                      </p>
-                      <div className="flex space-x-2">
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          className="border-green-300 text-green-700"
-                        >
-                          Editar
-                        </Button>
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          className="border-green-300 text-green-700"
-                        >
-                          Testar
-                        </Button>
+                      <div className="text-sm text-green-700 space-y-2">
+                        <p>• Confirmação do agendamento</p>
+                        <p>• Detalhes do serviço e horário</p>
+                        <p>• Endereço e instruções</p>
+                        <p>• Contato do salão</p>
                       </div>
                     </CardContent>
                   </Card>
 
                   <Card className="border border-blue-200 bg-blue-50">
-                    <CardContent className="p-4">
-                      <h4 className="font-medium text-blue-800 mb-2">
-                        Lembrete de Agendamento
+                    <CardContent className="p-6">
+                      <h4 className="font-medium text-blue-800 mb-3 flex items-center">
+                        <span className="bg-blue-200 text-blue-800 rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold mr-3">
+                          💼
+                        </span>
+                        Para o Salão
                       </h4>
-                      <p className="text-sm text-blue-600 mb-3">
-                        Enviado 1 dia antes do agendamento
-                      </p>
-                      <div className="flex space-x-2">
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          className="border-blue-300 text-blue-700"
-                        >
-                          Editar
-                        </Button>
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          className="border-blue-300 text-blue-700"
-                        >
-                          Testar
-                        </Button>
-                      </div>
-                    </CardContent>
-                  </Card>
-
-                  <Card className="border border-red-200 bg-red-50">
-                    <CardContent className="p-4">
-                      <h4 className="font-medium text-red-800 mb-2">
-                        Cancelamento
-                      </h4>
-                      <p className="text-sm text-red-600 mb-3">
-                        Enviado quando um agendamento é cancelado
-                      </p>
-                      <div className="flex space-x-2">
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          className="border-red-300 text-red-700"
-                        >
-                          Editar
-                        </Button>
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          className="border-red-300 text-red-700"
-                        >
-                          Testar
-                        </Button>
+                      <div className="text-sm text-blue-700 space-y-2">
+                        <p>• Notificação de novo agendamento</p>
+                        <p>• Dados do cliente</p>
+                        <p>• Serviço solicitado</p>
+                        <p>• Data e horário</p>
                       </div>
                     </CardContent>
                   </Card>
                 </div>
 
-                <div className="mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-                  <h4 className="font-medium text-yellow-800 mb-2">
-                    💡 Dicas para melhor uso:
+                <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
+                  <h4 className="font-medium text-yellow-800 mb-3 flex items-center">
+                    <span className="bg-yellow-200 text-yellow-800 rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold mr-3">
+                      ⚡
+                    </span>
+                    Automático e Instantâneo
                   </h4>
-                  <ul className="text-sm text-yellow-700 space-y-1">
-                    <li>• Mantenha as mensagens curtas e objetivas</li>
-                    <li>
-                      • Use emojis para tornar as mensagens mais amigáveis
-                    </li>
-                    <li>
-                      • Inclua sempre as informações essenciais: data, hora e
-                      local
-                    </li>
-                    <li>
-                      • Teste as mensagens antes de ativar o envio automático
-                    </li>
-                  </ul>
+                  <div className="text-sm text-yellow-700 space-y-2">
+                    <p>
+                      ✅ Ativado automaticamente quando o WhatsApp está
+                      conectado
+                    </p>
+                    <p>
+                      ✅ Mensagens enviadas imediatamente após o agendamento
+                    </p>
+                    <p>✅ Não requer intervenção manual</p>
+                    <p>✅ Funciona 24 horas por dia, 7 dias por semana</p>
+                  </div>
+                </div>
+
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
+                  <h4 className="font-medium text-blue-800 mb-3">
+                    📋 Configuração do Número do Salão:
+                  </h4>
+                  <p className="text-sm text-blue-700 mb-3">
+                    Atualmente configurado para: <strong>(11) 3333-4444</strong>
+                  </p>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="border-blue-300 text-blue-700 hover:bg-blue-100"
+                  >
+                    Alterar Número do Salão
+                  </Button>
                 </div>
               </div>
             </CardContent>
