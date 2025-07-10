@@ -228,19 +228,44 @@ class WhatsAppService {
     try {
       // Format phone number (ensure it has country code)
       const phoneNumber = this.formatPhoneNumber(message.to);
+
+      // Check if it's a valid number format
+      if (phoneNumber.length < 10) {
+        throw new Error("Invalid phone number format");
+      }
+
       const jid = `${phoneNumber}@s.whatsapp.net`;
 
-      console.log(`Sending message to ${phoneNumber}...`);
+      console.log(`📤 Sending message to ${phoneNumber} (${jid})...`);
 
+      // Use proper Baileys message structure
       const messageContent = {
         text: message.message,
       };
 
+      // Send message with proper error handling
       const result = await this.sock.sendMessage(jid, messageContent);
-      console.log(`✅ WhatsApp message sent to ${phoneNumber}`, result);
+
+      console.log(`✅ Message sent successfully to ${phoneNumber}:`, {
+        messageId: result?.key?.id,
+        timestamp: result?.messageTimestamp,
+      });
+
       return true;
     } catch (error) {
       console.error("❌ Failed to send WhatsApp message:", error);
+
+      // Provide more specific error messages
+      if (error instanceof Error) {
+        if (error.message.includes("not-authorized")) {
+          throw new Error("WhatsApp session not authorized. Please reconnect.");
+        } else if (error.message.includes("rate-limit")) {
+          throw new Error("Rate limit exceeded. Please try again later.");
+        } else if (error.message.includes("invalid-jid")) {
+          throw new Error("Invalid phone number format.");
+        }
+      }
+
       throw error;
     }
   }
@@ -318,7 +343,7 @@ Lembramos que você tem um agendamento *AMANHÃ*:
 📍 *Local:* Barbearia ModernCut
 Rua Principal, 456 - Centro
 
-Até amanh��! 😊`;
+Até amanhã! 😊`;
 
     return this.sendMessage({
       to: phone,
