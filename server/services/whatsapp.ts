@@ -294,5 +294,17 @@ Esperamos vê-lo em breve! 😊`;
 // Singleton instance
 export const whatsappService = new WhatsAppService();
 
-// Initialize on module load
-whatsappService.initialize().catch(console.error);
+// Initialize on module load with better error handling
+const initializeWhatsApp = async () => {
+  try {
+    console.log("🚀 Starting WhatsApp service...");
+    await whatsappService.initialize();
+    console.log("✅ WhatsApp service started successfully");
+  } catch (error) {
+    console.error("❌ Failed to start WhatsApp service:", error);
+    // Don't crash the server if WhatsApp fails to start
+  }
+};
+
+// Delay initialization to ensure server is ready
+setTimeout(initializeWhatsApp, 2000);
