@@ -97,56 +97,100 @@ export const sendBookingConfirmation: RequestHandler = async (req, res) => {
       });
     }
 
-    const { clientName, phone, serviceName, date, time, type } =
-      validation.data;
+    const {
+      clientName,
+      phone,
+      serviceName,
+      date,
+      time,
+      totalPrice,
+      clientPhone,
+      type,
+      config,
+    } = validation.data;
 
-    // Create different messages for client vs salon
+    // Use custom templates if provided, otherwise fall back to defaults
     let message: string;
 
     if (type === "client") {
       // Message for CLIENT
-      message = `🔮 *AgendaFixa - Agendamento Confirmado!*
+      const template =
+        config?.clientMessageTemplate ||
+        `🔮 *{salonName} - Agendamento Confirmado!*
 
-Olá, ${clientName}! 👋
+Olá, {clientName}! 👋
 
 Seu agendamento foi confirmado com sucesso:
 
-📅 *Data:* ${new Date(date).toLocaleDateString("pt-BR", {
-        weekday: "long",
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      })}
-⏰ *Horário:* ${time}
-✂️ *Serviço:* ${serviceName}
+📅 *Data:* {date}
+⏰ *Horário:* {time}
+✂️ *Serviços:* {services}
 
-📍 *Local:* Barbearia ModernCut
-Rua Principal, 456 - Centro, São Paulo/SP
+📍 *Local:* {salonName}
+{salonAddress}
 
 📋 *Importante:*
 • Chegue com 5 minutos de antecedência
 • Traga um documento com foto
 • Em caso de imprevistos, entre em contato
 
-📞 Dúvidas? Ligue: (11) 3333-4444
+📞 Dúvidas? Ligue: {salonPhone}
 
-Obrigado por escolher a AgendaFixa! ✨`;
+Obrigado por escolher a {salonName}! ✨`;
+
+      message = template
+        .replace(/{clientName}/g, clientName)
+        .replace(
+          /{date}/g,
+          new Date(date).toLocaleDateString("pt-BR", {
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          }),
+        )
+        .replace(/{time}/g, time)
+        .replace(/{services}/g, serviceName)
+        .replace(/{salonName}/g, config?.salonName || "AgendaFixa")
+        .replace(
+          /{salonAddress}/g,
+          config?.salonAddress || "Rua Principal, 456 - Centro, São Paulo/SP",
+        )
+        .replace(/{salonPhone}/g, config?.salonPhone || "(11) 3333-4444")
+        .replace(/{totalPrice}/g, totalPrice);
     } else {
       // Message for SALON
-      message = `🆕 *NOVO AGENDAMENTO - AgendaFixa*
+      const template =
+        config?.salonMessageTemplate ||
+        `🆕 *NOVO AGENDAMENTO - {salonName}*
 
-📋 *Cliente:* ${clientName}
-📅 *Data:* ${new Date(date).toLocaleDateString("pt-BR", {
-        weekday: "long",
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      })}
-⏰ *Horário:* ${time}
-✂️ *Serviço:* ${serviceName}
+📋 *Cliente:* {clientName}
+📞 *Telefone:* {clientPhone}
+📅 *Data:* {date}
+⏰ *Horário:* {time}
+✂️ *Serviços:* {services}
+
+💰 *Total:* R$ {totalPrice}
 
 💼 *Sistema AgendaFixa*
 Agendamento feito através do site.`;
+
+      message = template
+        .replace(/{clientName}/g, clientName)
+        .replace(/{clientPhone}/g, clientPhone || "Não informado")
+        .replace(
+          /{date}/g,
+          new Date(date).toLocaleDateString("pt-BR", {
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          }),
+        )
+        .replace(/{time}/g, time)
+        .replace(/{services}/g, serviceName)
+        .replace(/{salonName}/g, config?.salonName || "AgendaFixa")
+        .replace(/{totalPrice}/g, totalPrice);
     }
 
     await whatsappService.sendMessage({
