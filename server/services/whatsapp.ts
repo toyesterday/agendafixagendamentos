@@ -2,11 +2,6 @@ import makeWASocket, {
   DisconnectReason,
   useMultiFileAuthState,
   proto,
-  isJidBroadcast,
-  isJidGroup,
-  isJidNewsletter,
-  isJidStatusBroadcast,
-  makeInMemoryStore,
 } from "@whiskeysockets/baileys";
 import { Boom } from "@hapi/boom";
 import qrcode from "qrcode-terminal";
@@ -145,7 +140,7 @@ class WhatsAppService {
   private handleConnectionUpdate(update: any) {
     const { connection, lastDisconnect, qr } = update;
 
-    console.log("🔄 Connection update:", {
+    console.log("��� Connection update:", {
       connection,
       qr: !!qr,
       lastDisconnect: lastDisconnect?.error?.output?.statusCode,
@@ -302,7 +297,7 @@ Seu agendamento foi confirmado com sucesso:
       day: "numeric",
     })}
 ⏰ *Horário:* ${time}
-✂️ *Servi��o:* ${serviceName}
+✂️ *Serviço:* ${serviceName}
 
 📍 *Local:* Barbearia ModernCut
 Rua Principal, 456 - Centro, São Paulo/SP
@@ -310,7 +305,7 @@ Rua Principal, 456 - Centro, São Paulo/SP
 📋 *Importante:*
 • Chegue com 5 minutos de antecedência
 • Traga um documento com foto
-• Em caso de imprevistos, entre em contato
+��� Em caso de imprevistos, entre em contato
 
 📞 Dúvidas? Ligue: (11) 3333-4444
 
@@ -372,7 +367,7 @@ Seu agendamento foi cancelado:
 Para reagendar, acesse: 
 🌐 www.agendafixa.com/booking
 
-📞 Dúvidas? Ligue: (11) 3333-4444
+�� Dúvidas? Ligue: (11) 3333-4444
 
 Esperamos vê-lo em breve! 😊`;
 
