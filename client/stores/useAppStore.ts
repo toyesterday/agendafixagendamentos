@@ -491,9 +491,6 @@ export const useAppStore = create<AppState>()(
         const pendingAppointments = appointments.filter(
           (apt) => apt.status === "pending",
         ).length;
-        const lowStockProducts = products.filter(
-          (p) => p.quantity <= p.minQuantity,
-        ).length;
 
         const recentAppointments = appointments
           .filter(
