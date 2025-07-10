@@ -168,25 +168,44 @@ const WhatsAppManager = () => {
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-3">
               {status.connected ? (
                 <>
-                  <Wifi className="h-5 w-5 text-green-500" />
+                  <div className="flex items-center space-x-2">
+                    <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                    <Wifi className="h-5 w-5 text-green-500" />
+                  </div>
                   <Badge
                     variant="secondary"
-                    className="bg-green-100 text-green-800"
+                    className="bg-green-100 text-green-800 border-green-300"
                   >
-                    Conectado
+                    ✅ Conectado e Pronto
+                  </Badge>
+                </>
+              ) : status.qrCode ? (
+                <>
+                  <div className="flex items-center space-x-2">
+                    <div className="w-3 h-3 bg-yellow-500 rounded-full animate-pulse"></div>
+                    <QrCode className="h-5 w-5 text-yellow-500" />
+                  </div>
+                  <Badge
+                    variant="secondary"
+                    className="bg-yellow-100 text-yellow-800 border-yellow-300"
+                  >
+                    📱 Aguardando QR Code
                   </Badge>
                 </>
               ) : (
                 <>
-                  <WifiOff className="h-5 w-5 text-red-500" />
+                  <div className="flex items-center space-x-2">
+                    <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                    <WifiOff className="h-5 w-5 text-red-500" />
+                  </div>
                   <Badge
                     variant="secondary"
-                    className="bg-red-100 text-red-800"
+                    className="bg-red-100 text-red-800 border-red-300"
                   >
-                    Desconectado
+                    ❌ Desconectado
                   </Badge>
                 </>
               )}
