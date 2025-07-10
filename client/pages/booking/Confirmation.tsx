@@ -54,6 +54,11 @@ const Confirmation = () => {
     try {
       if (!bookingData.clientData || !selectedServices.length) return;
 
+      // Load WhatsApp configuration
+      const whatsappConfig = JSON.parse(
+        localStorage.getItem("whatsapp-config") || "{}",
+      );
+
       // Get services names for the notification
       const serviceNames = selectedServices
         .map((selectedService) => {
@@ -66,44 +71,62 @@ const Confirmation = () => {
         })
         .join(", ");
 
-      // Send notification to CLIENT
-      const clientResponse = await fetch("/api/whatsapp/booking/confirmation", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          clientName: bookingData.clientData.name,
-          phone: bookingData.clientData.phone,
-          serviceName: serviceNames,
-          date: bookingData.date,
-          time: bookingData.time,
-          type: "client", // Indica que é para o cliente
-        }),
-      });
+      // Check if auto-send to client is enabled
+      if (whatsappConfig.autoSendToClient !== false) {
+        // Send notification to CLIENT
+        const clientResponse = await fetch(
+          "/api/whatsapp/booking/confirmation",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              clientName: bookingData.clientData.name,
+              phone: bookingData.clientData.phone,
+              serviceName: serviceNames,
+              date: bookingData.date,
+              time: bookingData.time,
+              totalPrice: (bookingData.totalPrice || 0).toFixed(2),
+              type: "client",
+              config: whatsappConfig, // Send config for template customization
+            }),
+          },
+        );
 
-      // Send notification to SALON (business phone)
-      const salonResponse = await fetch("/api/whatsapp/booking/confirmation", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          clientName: bookingData.clientData.name,
-          phone: "(11) 3333-4444", // Número do salão - pode vir das configurações
-          serviceName: serviceNames,
-          date: bookingData.date,
-          time: bookingData.time,
-          type: "salon", // Indica que é para o salão
-        }),
-      });
-
-      if (clientResponse.ok) {
-        console.log("✅ WhatsApp confirmation sent to client");
+        if (clientResponse.ok) {
+          console.log("✅ WhatsApp confirmation sent to client");
+        }
       }
 
-      if (salonResponse.ok) {
-        console.log("✅ WhatsApp notification sent to salon");
+      // Check if auto-send to salon is enabled
+      if (whatsappConfig.autoSendToSalon !== false) {
+        // Send notification to SALON using configured admin phone
+        const adminPhone = whatsappConfig.adminPhone || "(11) 3333-4444";
+        const salonResponse = await fetch(
+          "/api/whatsapp/booking/confirmation",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              clientName: bookingData.clientData.name,
+              phone: adminPhone,
+              serviceName: serviceNames,
+              date: bookingData.date,
+              time: bookingData.time,
+              totalPrice: (bookingData.totalPrice || 0).toFixed(2),
+              clientPhone: bookingData.clientData.phone,
+              type: "salon",
+              config: whatsappConfig, // Send config for template customization
+            }),
+          },
+        );
+
+        if (salonResponse.ok) {
+          console.log("✅ WhatsApp notification sent to salon");
+        }
       }
     } catch (error) {
       console.warn("WhatsApp service not available:", error);
