@@ -239,3 +239,39 @@ export const testWhatsApp: RequestHandler = async (req, res) => {
     });
   }
 };
+
+// Logout WhatsApp (clear session)
+export const logoutWhatsApp: RequestHandler = async (req, res) => {
+  try {
+    await whatsappService.logout();
+
+    res.json({
+      success: true,
+      message: "WhatsApp logged out and session cleared",
+    });
+  } catch (error) {
+    console.error("Error logging out WhatsApp:", error);
+    res.status(500).json({
+      success: false,
+      error: "Failed to logout WhatsApp",
+    });
+  }
+};
+
+// Clear auth files
+export const clearWhatsAppAuth: RequestHandler = async (req, res) => {
+  try {
+    await whatsappService.clearAuth();
+
+    res.json({
+      success: true,
+      message: "WhatsApp auth cleared successfully",
+    });
+  } catch (error) {
+    console.error("Error clearing WhatsApp auth:", error);
+    res.status(500).json({
+      success: false,
+      error: "Failed to clear WhatsApp auth",
+    });
+  }
+};
