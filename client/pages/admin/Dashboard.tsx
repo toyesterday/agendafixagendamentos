@@ -208,22 +208,6 @@ const Dashboard = () => {
               </div>
             </CardContent>
           </Card>
-
-          <Card className="border-0 shadow-lg bg-gradient-to-br from-orange-500 to-orange-600 text-white">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-orange-100 text-sm font-medium">
-                    Estoque Baixo
-                  </p>
-                  <p className="text-3xl font-bold">
-                    {metrics.lowStockProducts}
-                  </p>
-                </div>
-                <Package className="h-8 w-8 text-orange-200" />
-              </div>
-            </CardContent>
-          </Card>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-6">
