@@ -83,10 +83,17 @@ class WhatsAppService {
   private handleConnectionUpdate(update: any) {
     const { connection, lastDisconnect, qr } = update;
 
+    console.log("Connection update:", {
+      connection,
+      qr: !!qr,
+      lastDisconnect: lastDisconnect?.error,
+    });
+
     if (qr) {
       console.log("QR Code received, scan to connect WhatsApp");
-      // Generate QR code for frontend display
       this.status.qrCode = qr;
+      this.status.error = null;
+      // Show QR in terminal for development
       qrcode.generate(qr, { small: true });
     }
 
@@ -106,16 +113,23 @@ class WhatsAppService {
       this.status.qrCode = null;
 
       if (shouldReconnect) {
-        this.initialize();
+        console.log("Attempting to reconnect...");
+        setTimeout(() => {
+          this.initialize();
+        }, 3000); // Wait 3 seconds before reconnecting
       } else {
         this.status.error =
           "WhatsApp session logged out. Please scan QR code again.";
+        console.log("Session logged out, need new QR scan");
       }
     } else if (connection === "open") {
-      console.log("WhatsApp connection opened");
+      console.log("✅ WhatsApp connection opened successfully");
       this.status.connected = true;
       this.status.qrCode = null;
       this.status.lastConnection = new Date();
+      this.status.error = null;
+    } else if (connection === "connecting") {
+      console.log("🔄 WhatsApp connecting...");
       this.status.error = null;
     }
   }
