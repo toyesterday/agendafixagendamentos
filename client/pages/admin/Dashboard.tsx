@@ -73,21 +73,21 @@ const Dashboard = () => {
   const handleAddClient = () => {
     // For now, show an alert. In a real app, this would open a modal or navigate to a form
     alert(
-      "Funcionalidade 'Adicionar Cliente' em desenvolvimento. Por enquanto, clientes são criados automaticamente durante o agendamento.",
+      "✨ Funcionalidade em desenvolvimento!\n\n📝 Clientes são criados automaticamente quando fazem agendamentos pelo site.\n\n💡 Em breve: Interface para adicionar clientes manualmente.",
     );
   };
 
   const handleManageServices = () => {
     // For now, show an alert. In a real app, this would navigate to a services management page
     alert(
-      "Funcionalidade 'Gerenciar Serviços' em desenvolvimento. Os serviços podem ser configurados no código.",
+      "✨ Funcionalidade em desenvolvimento!\n\n⚙️ Por enquanto, os serviços estão pré-configurados.\n\n💡 Em breve: Interface completa para gerenciar serviços (criar, editar, preços, etc.)",
     );
   };
 
   const handleReports = () => {
     // For now, show an alert. In a real app, this would navigate to a reports page
     alert(
-      "Funcionalidade 'Relatórios' em desenvolvimento. Por enquanto, você pode ver as métricas básicas no dashboard.",
+      "📊 Funcionalidade em desenvolvimento!\n\n📈 Por enquanto, você pode ver as métricas principais aqui no dashboard.\n\n💡 Em breve: Relatórios detalhados com gráficos e exportação.",
     );
   };
 
