@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Switch } from "@/components/ui/switch";
+import { Link } from "react-router-dom";
 import {
   MessageCircle,
   Settings,
@@ -16,6 +17,7 @@ import {
   CheckCircle,
   AlertCircle,
   RotateCcw,
+  ArrowLeft,
 } from "lucide-react";
 import { WhatsAppConfig } from "@/types";
 
