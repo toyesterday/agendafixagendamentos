@@ -54,12 +54,21 @@ class WhatsAppService {
   async initialize() {
     try {
       console.log("🚀 Initializing WhatsApp service...");
+      console.log("📁 Auth directory:", this.authDir);
+
+      // Test imports first
+      console.log("🔍 Testing Baileys imports...");
+      const baileys = await import("@whiskeysockets/baileys");
+      console.log("📦 Baileys imported:", Object.keys(baileys));
 
       // Get auth state
+      console.log("🔐 Getting auth state...");
       const { state, saveCreds } = await useMultiFileAuthState(this.authDir);
+      console.log("✅ Auth state obtained");
 
       // Create socket with recommended configuration
-      this.sock = makeWASocket({
+      console.log("🔌 Creating WhatsApp socket...");
+      this.sock = baileys.default({
         auth: state,
         logger: this.logger,
         printQRInTerminal: false,
@@ -218,7 +227,7 @@ class WhatsAppService {
 
       const jid = `${phoneNumber}@s.whatsapp.net`;
 
-      console.log(`📤 Sending message to ${phoneNumber} (${jid})...`);
+      console.log(`��� Sending message to ${phoneNumber} (${jid})...`);
 
       // Use proper Baileys message structure
       const messageContent = {
