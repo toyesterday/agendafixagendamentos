@@ -75,6 +75,15 @@ const App = () => (
             }
           />
 
+          <Route
+            path="/admin/whatsapp-config"
+            element={
+              <ProtectedRoute>
+                <WhatsAppConfig />
+              </ProtectedRoute>
+            }
+          />
+
           {/* Redirect /admin to /admin/dashboard */}
           <Route
             path="/admin"
