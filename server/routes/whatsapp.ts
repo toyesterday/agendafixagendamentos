@@ -21,16 +21,26 @@ const bookingNotificationSchema = z.object({
 // Get WhatsApp connection status
 export const getWhatsAppStatus: RequestHandler = async (req, res) => {
   try {
+    console.log("📊 Getting WhatsApp status...");
     const status = whatsappService.getStatus();
+    console.log("📊 WhatsApp status:", status);
+
     res.json({
       success: true,
       data: status,
     });
   } catch (error) {
-    console.error("Error getting WhatsApp status:", error);
-    res.status(500).json({
-      success: false,
-      error: "Failed to get WhatsApp status",
+    console.error("❌ Error getting WhatsApp status:", error);
+
+    // Return a safe default status instead of 500 error
+    res.json({
+      success: true,
+      data: {
+        connected: false,
+        qrCode: null,
+        lastConnection: null,
+        error: "WhatsApp service initialization failed",
+      },
     });
   }
 };
