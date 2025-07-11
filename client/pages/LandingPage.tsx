@@ -132,7 +132,7 @@ const LandingPage = () => {
               <Button
                 className={`bg-transparent text-white border-2 border-white hover:bg-white ${currentTheme === "salon" ? "hover:text-purple-600" : "hover:text-blue-800"} font-medium transition-all duration-200`}
               >
-                Área Admin
+                {content?.header?.adminButton || "Área Admin"}
               </Button>
             </Link>
           </div>
