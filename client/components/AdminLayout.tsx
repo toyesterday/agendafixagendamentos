@@ -12,6 +12,7 @@ import {
   LogOut,
   FileText,
   Palette,
+  Layout,
 } from "lucide-react";
 import { useAppStore } from "@/stores/useAppStore";
 import { getThemeClasses } from "@/types/themes";
