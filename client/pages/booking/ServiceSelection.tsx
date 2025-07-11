@@ -233,7 +233,9 @@ const ServiceSelection = () => {
                   </div>
                   <div className="text-right">
                     <p className="text-sm text-gray-600">Total a pagar:</p>
-                    <p className="text-2xl font-bold text-purple-600">
+                    <p
+                      className={`text-2xl font-bold ${currentTheme === "salon" ? "text-purple-600" : "text-blue-800"}`}
+                    >
                       R$ {(bookingData.totalPrice || 0).toFixed(2)}
                     </p>
                   </div>
