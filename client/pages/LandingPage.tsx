@@ -217,7 +217,7 @@ const LandingPage = () => {
                     <h3 className="text-xl font-semibold text-gray-800">
                       {service.name}
                     </h3>
-                    <span className="text-2xl font-bold text-purple-600">
+                    <span className="text-2xl font-bold text-blue-800">
                       {service.price}
                     </span>
                   </div>
