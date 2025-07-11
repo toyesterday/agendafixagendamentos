@@ -131,7 +131,9 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
         {/* User Section */}
         <div className="p-4 border-t border-gray-200">
           <div className="flex items-center space-x-3 mb-3">
-            <div className="w-8 h-8 bg-gradient-to-br from-purple-600 to-blue-600 rounded-full flex items-center justify-center">
+            <div
+              className={`w-8 h-8 ${themeClasses.primaryButton} rounded-full flex items-center justify-center`}
+            >
               <span className="text-white text-sm font-bold">
                 {user?.name?.charAt(0) || "A"}
               </span>
