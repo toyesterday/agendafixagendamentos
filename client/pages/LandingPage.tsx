@@ -247,7 +247,7 @@ const LandingPage = () => {
                   <p className="text-gray-600 mb-4">{service.description}</p>
                   <Link to="/booking">
                     <Button className={`w-full ${themeClasses.primaryButton}`}>
-                      Agendar Serviço
+                      {content?.services?.buttonText || "Agendar Serviço"}
                     </Button>
                   </Link>
                 </CardContent>
