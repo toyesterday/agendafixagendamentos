@@ -105,26 +105,28 @@ const LandingPage = () => {
         <nav className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <Scissors className="h-8 w-8" />
-            <span className="text-2xl font-bold">AgendaFixa</span>
+            <span className="text-2xl font-bold">
+              {content?.header?.companyName || "AgendaFixa"}
+            </span>
           </div>
           <div className="hidden md:flex items-center space-x-6">
             <a
               href="#servicos"
               className={`${currentTheme === "salon" ? "hover:text-pink-200" : "hover:text-orange-200"} transition-colors`}
             >
-              Serviços
+              {content?.header?.navigation?.services || "Serviços"}
             </a>
             <a
               href="#sobre"
               className={`${currentTheme === "salon" ? "hover:text-pink-200" : "hover:text-orange-200"} transition-colors`}
             >
-              Sobre
+              {content?.header?.navigation?.about || "Sobre"}
             </a>
             <a
               href="#contato"
               className={`${currentTheme === "salon" ? "hover:text-pink-200" : "hover:text-orange-200"} transition-colors`}
             >
-              Contato
+              {content?.header?.navigation?.contact || "Contato"}
             </a>
             <Link to="/login">
               <Button
