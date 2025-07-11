@@ -246,6 +246,10 @@ const SiteSettings = () => {
   };
 
   const handleSave = () => {
+    console.log("Salvando dados:", {
+      content: contentData,
+      footer: footerData,
+    });
     updateBusinessConfig({
       content: contentData,
       footer: footerData,
