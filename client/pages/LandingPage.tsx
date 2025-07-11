@@ -498,8 +498,8 @@ const LandingPage = () => {
           <div className="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
             <p>
               &copy; {new Date().getFullYear()}{" "}
-              {footerConfig?.companyName || "AgendaFixa"}. Todos os direitos
-              reservados.
+              {footerConfig?.companyName || "AgendaFixa"}.{" "}
+              {content?.footer?.copyright || "Todos os direitos reservados"}.
             </p>
           </div>
         </div>
