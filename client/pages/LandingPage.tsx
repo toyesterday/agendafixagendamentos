@@ -221,7 +221,9 @@ const LandingPage = () => {
                     <h3 className="text-xl font-semibold text-gray-800">
                       {service.name}
                     </h3>
-                    <span className="text-2xl font-bold text-blue-800">
+                    <span
+                      className={`text-2xl font-bold ${currentTheme === "salon" ? "text-purple-600" : "text-blue-800"}`}
+                    >
                       {service.price}
                     </span>
                   </div>
