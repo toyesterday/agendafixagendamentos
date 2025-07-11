@@ -189,6 +189,7 @@ export interface BusinessConfig {
     sms: boolean;
   };
   footer?: FooterConfig;
+  content?: ContentConfig;
   createdAt: string;
   updatedAt: string;
 }
