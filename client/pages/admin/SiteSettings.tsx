@@ -112,10 +112,13 @@ const SiteSettings = () => {
   const [newAward, setNewAward] = useState("");
 
   useEffect(() => {
+    console.log("Carregando businessConfig:", businessConfig);
     if (businessConfig?.content) {
+      console.log("Carregando content:", businessConfig.content);
       setContentData(businessConfig.content);
     }
     if (businessConfig?.footer) {
+      console.log("Carregando footer:", businessConfig.footer);
       setFooterData(businessConfig.footer);
     }
   }, [businessConfig]);
