@@ -116,7 +116,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
                   to={item.path}
                   className={`flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors ${
                     isActive
-                      ? "bg-purple-100 text-purple-700 border border-purple-200"
+                      ? themeClasses.navActive
                       : "text-gray-600 hover:bg-gray-100 hover:text-gray-800"
                   }`}
                 >
