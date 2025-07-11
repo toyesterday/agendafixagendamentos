@@ -20,6 +20,7 @@ import ClientsManagement from "./pages/admin/ClientsManagement";
 import AppointmentsManagement from "./pages/admin/AppointmentsManagement";
 import Reports from "./pages/admin/Reports";
 import ThemeSettings from "./pages/admin/ThemeSettings";
+import FooterSettings from "./pages/admin/FooterSettings";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
