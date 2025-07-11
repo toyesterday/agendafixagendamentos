@@ -576,6 +576,8 @@ export const useAppStore = create<AppState>()(
         appointments: state.appointments,
         transactions: state.transactions,
         businessConfig: state.businessConfig,
+        currentTheme: state.currentTheme,
+        businessType: state.businessType,
       }),
     },
   ),
