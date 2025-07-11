@@ -118,8 +118,12 @@ const ServiceSelection = () => {
                     key={service.id}
                     className={`transition-all duration-300 hover:scale-105 hover:shadow-2xl border-2 cursor-pointer ${
                       isSelected
-                        ? "border-purple-400 bg-white shadow-2xl ring-4 ring-purple-200"
-                        : "border-transparent bg-white/95 backdrop-blur-sm hover:bg-white hover:border-purple-200"
+                        ? currentTheme === "salon"
+                          ? "border-purple-400 bg-white shadow-2xl ring-4 ring-purple-200"
+                          : "border-blue-400 bg-white shadow-2xl ring-4 ring-blue-200"
+                        : currentTheme === "salon"
+                          ? "border-transparent bg-white/95 backdrop-blur-sm hover:bg-white hover:border-purple-200"
+                          : "border-transparent bg-white/95 backdrop-blur-sm hover:bg-white hover:border-blue-200"
                     }`}
                     onClick={() => addServiceToBooking(service.id)}
                   >
