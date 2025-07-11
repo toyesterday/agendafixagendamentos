@@ -236,6 +236,12 @@ export interface AppState {
   // Business config actions
   updateBusinessConfig: (config: Partial<BusinessConfig>) => void;
 
+  // Theme actions
+  currentTheme: ThemeType;
+  businessType: "Salão" | "Barbearia";
+  setTheme: (theme: ThemeType) => void;
+  setBusinessType: (type: "Salão" | "Barbearia") => void;
+
   // Utility actions
 }
 
