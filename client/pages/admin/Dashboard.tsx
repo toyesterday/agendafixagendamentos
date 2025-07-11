@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -19,7 +19,6 @@ import AdminLayout from "@/components/AdminLayout";
 const Dashboard = () => {
   const { getDashboardMetrics, user, appointments, clients, services } =
     useAppStore();
-  const navigate = useNavigate();
 
   const [whatsappStatus, setWhatsappStatus] = useState({
     connected: false,
@@ -50,28 +49,11 @@ const Dashboard = () => {
       }
     } catch (error) {
       console.error("Failed to fetch WhatsApp status:", error);
-      // Set default state when WhatsApp service is unavailable
       setWhatsappStatus({
         connected: false,
         error: "WhatsApp service not available",
       });
     }
-  };
-
-  const handleNewAppointment = () => {
-    navigate("/booking");
-  };
-
-  const handleAddClient = () => {
-    navigate("/admin/clients");
-  };
-
-  const handleManageServices = () => {
-    navigate("/admin/services");
-  };
-
-  const handleReports = () => {
-    navigate("/admin/reports");
   };
 
   const handleViewAllAppointments = () => {
@@ -108,21 +90,21 @@ const Dashboard = () => {
     }
   };
 
-    return (
+  return (
     <AdminLayout>
       <div className="space-y-6">
         {/* Welcome Section */}
-        <div className="mb-8">
-          <h2 className="text-3xl font-bold text-gray-800 mb-2">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-800 mb-2">
             Bem-vindo de volta, {user?.name}!
-          </h2>
+          </h1>
           <p className="text-gray-600">
             Aqui está um resumo das atividades da sua barbearia hoje.
           </p>
         </div>
 
         {/* Metrics Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <Card className="border-0 shadow-lg bg-gradient-to-br from-blue-500 to-blue-600 text-white">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
@@ -271,91 +253,73 @@ const Dashboard = () => {
           </Card>
         </div>
 
-        {/* Quick Actions */}
-        <div className="mt-8">
-          <Card className="border-0 shadow-lg">
-            <CardHeader>
-              <CardTitle>Ações Rápidas</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-                <Button
-                  key="new-appointment"
-                  onClick={handleNewAppointment}
-                  className="h-16 bg-gradient-to-br from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700"
-                >
+        {/* Quick Actions Grid */}
+        <Card className="border-0 shadow-lg">
+          <CardHeader>
+            <CardTitle>Ações Rápidas</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              <Link to="/admin/appointments">
+                <Button className="h-20 w-full bg-gradient-to-br from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700">
                   <div className="text-center">
-                    <Calendar className="h-6 w-6 mx-auto mb-1" />
-                    <span className="text-sm">Novo Agendamento</span>
+                    <Calendar className="h-6 w-6 mx-auto mb-2" />
+                    <span className="text-sm">Agendamentos</span>
                   </div>
                 </Button>
+              </Link>
 
-                <Button
-                  key="add-client"
-                  onClick={handleAddClient}
-                  className="h-16 bg-gradient-to-br from-green-500 to-green-600 hover:from-green-600 hover:to-green-700"
-                >
+              <Link to="/admin/clients">
+                <Button className="h-20 w-full bg-gradient-to-br from-green-500 to-green-600 hover:from-green-600 hover:to-green-700">
                   <div className="text-center">
-                    <Users className="h-6 w-6 mx-auto mb-1" />
-                    <span className="text-sm">Adicionar Cliente</span>
+                    <Users className="h-6 w-6 mx-auto mb-2" />
+                    <span className="text-sm">Clientes</span>
                   </div>
                 </Button>
+              </Link>
 
-                <Button
-                  key="manage-services"
-                  onClick={handleManageServices}
-                  className="h-16 bg-gradient-to-br from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700"
-                >
+              <Link to="/admin/services">
+                <Button className="h-20 w-full bg-gradient-to-br from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700">
                   <div className="text-center">
-                    <Scissors className="h-6 w-6 mx-auto mb-1" />
-                    <span className="text-sm">Gerenciar Serviços</span>
+                    <Scissors className="h-6 w-6 mx-auto mb-2" />
+                    <span className="text-sm">Serviços</span>
                   </div>
                 </Button>
+              </Link>
 
-                <Link
-                  key="whatsapp-link"
-                  to="/admin/whatsapp"
-                  className="block"
-                >
-                  <Button
-                    className={`h-16 w-full ${whatsappStatus.connected ? "bg-gradient-to-br from-green-500 to-green-600 hover:from-green-600 hover:to-green-700" : "bg-gradient-to-br from-red-500 to-red-600 hover:from-red-600 hover:to-red-700"}`}
-                  >
-                    <div className="text-center">
-                      <MessageCircle className="h-6 w-6 mx-auto mb-1" />
-                      <span className="text-sm">WhatsApp</span>
-                    </div>
-                  </Button>
-                </Link>
-
-                <Link
-                  key="whatsapp-config-link"
-                  to="/admin/whatsapp-config"
-                  className="block"
-                >
-                  <Button className="h-16 w-full bg-gradient-to-br from-indigo-500 to-indigo-600 hover:from-indigo-600 hover:to-indigo-700">
-                    <div className="text-center">
-                      <Settings className="h-6 w-6 mx-auto mb-1" />
-                      <span className="text-sm">Config WhatsApp</span>
-                    </div>
-                  </Button>
-                </Link>
-
+              <Link to="/admin/whatsapp">
                 <Button
-                  key="reports"
-                  onClick={handleReports}
-                  className="h-16 bg-gradient-to-br from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700"
+                  className={`h-20 w-full ${whatsappStatus.connected ? "bg-gradient-to-br from-green-500 to-green-600 hover:from-green-600 hover:to-green-700" : "bg-gradient-to-br from-red-500 to-red-600 hover:from-red-600 hover:to-red-700"}`}
                 >
                   <div className="text-center">
-                    <TrendingUp className="h-6 w-6 mx-auto mb-1" />
+                    <MessageCircle className="h-6 w-6 mx-auto mb-2" />
+                    <span className="text-sm">WhatsApp</span>
+                  </div>
+                </Button>
+              </Link>
+
+              <Link to="/admin/whatsapp-config">
+                <Button className="h-20 w-full bg-gradient-to-br from-indigo-500 to-indigo-600 hover:from-indigo-600 hover:to-indigo-700">
+                  <div className="text-center">
+                    <Settings className="h-6 w-6 mx-auto mb-2" />
+                    <span className="text-sm">Config WhatsApp</span>
+                  </div>
+                </Button>
+              </Link>
+
+              <Link to="/admin/reports">
+                <Button className="h-20 w-full bg-gradient-to-br from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700">
+                  <div className="text-center">
+                    <TrendingUp className="h-6 w-6 mx-auto mb-2" />
                     <span className="text-sm">Relatórios</span>
                   </div>
                 </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+              </Link>
+            </div>
+          </CardContent>
+        </Card>
       </div>
-    </div>
+    </AdminLayout>
   );
 };
 
