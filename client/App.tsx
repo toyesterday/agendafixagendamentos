@@ -125,6 +125,15 @@ const App = () => (
             }
           />
 
+          <Route
+            path="/admin/theme-settings"
+            element={
+              <ProtectedRoute>
+                <ThemeSettings />
+              </ProtectedRoute>
+            }
+          />
+
           {/* Redirect /admin to /admin/dashboard */}
           <Route
             path="/admin"
