@@ -218,8 +218,12 @@ const DateTimeSelection = () => {
                             className={`
                               ${
                                 isSelected
-                                  ? "bg-purple-600 hover:bg-purple-700 text-white"
-                                  : "border-gray-300 hover:border-purple-400 hover:bg-purple-50"
+                                  ? currentTheme === "salon"
+                                    ? "bg-purple-600 hover:bg-purple-700 text-white"
+                                    : "bg-blue-800 hover:bg-blue-900 text-white"
+                                  : currentTheme === "salon"
+                                    ? "border-gray-300 hover:border-purple-400 hover:bg-purple-50"
+                                    : "border-gray-300 hover:border-blue-400 hover:bg-blue-50"
                               }
                               ${!isAvailable ? "opacity-50 cursor-not-allowed" : ""}
                             `}
