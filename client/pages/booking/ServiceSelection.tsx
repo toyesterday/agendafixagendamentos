@@ -9,8 +9,6 @@ import {
   Check,
   Star,
   Scissors,
-  Plus,
-  Minus,
   ShoppingCart,
 } from "lucide-react";
 import { useAppStore } from "@/stores/useAppStore";
@@ -20,17 +18,14 @@ const ServiceSelection = () => {
     getActiveServices,
     bookingData,
     addServiceToBooking,
-    removeServiceFromBooking,
     setBookingStep,
   } = useAppStore();
 
   const services = getActiveServices();
   const selectedServices = bookingData.services || [];
 
-  const getServiceQuantity = (serviceId: string) => {
-    return (
-      selectedServices.find((s) => s.serviceId === serviceId)?.quantity || 0
-    );
+  const isServiceSelected = (serviceId: string) => {
+    return selectedServices.some((s) => s.serviceId === serviceId);
   };
 
   const handleContinue = () => {
@@ -113,8 +108,7 @@ const ServiceSelection = () => {
           <div className="max-w-4xl mx-auto">
             <div className="grid md:grid-cols-2 gap-6">
               {services.map((service) => {
-                const quantity = getServiceQuantity(service.id);
-                const isSelected = quantity > 0;
+                const isSelected = isServiceSelected(service.id);
 
                 return (
                   <Card
@@ -133,8 +127,8 @@ const ServiceSelection = () => {
                               {service.name}
                             </h3>
                             {isSelected && (
-                              <div className="bg-purple-600 text-white rounded-full px-2 py-1 text-sm font-bold">
-                                {quantity}x
+                              <div className="bg-purple-600 text-white rounded-full p-2">
+                                <Check className="h-4 w-4" />
                               </div>
                             )}
                           </div>
@@ -149,11 +143,6 @@ const ServiceSelection = () => {
                           <div className="text-2xl font-bold text-purple-600">
                             R$ {service.price.toFixed(2)}
                           </div>
-                          {quantity > 0 && (
-                            <div className="text-sm text-gray-600">
-                              Total: R$ {(service.price * quantity).toFixed(2)}
-                            </div>
-                          )}
                         </div>
                       </div>
 
@@ -175,44 +164,25 @@ const ServiceSelection = () => {
                         </div>
                       </div>
 
-                      {/* Quantity Controls */}
-                      <div className="flex items-center justify-between gap-4">
-                        {quantity === 0 ? (
-                          <Button
-                            className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white"
-                            onClick={() => addServiceToBooking(service.id)}
-                          >
-                            <Plus className="h-4 w-4 mr-2" />
-                            Adicionar Serviço
-                          </Button>
-                        ) : (
-                          <>
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              onClick={() =>
-                                removeServiceFromBooking(service.id)
-                              }
-                              className="border-purple-300 text-purple-600 hover:bg-purple-50"
-                            >
-                              <Minus className="h-4 w-4" />
-                            </Button>
-
-                            <span className="flex-1 text-center font-semibold text-gray-800">
-                              {quantity}{" "}
-                              {quantity === 1 ? "serviço" : "serviços"}
-                            </span>
-
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              onClick={() => addServiceToBooking(service.id)}
-                              className="border-purple-300 text-purple-600 hover:bg-purple-50"
-                            >
-                              <Plus className="h-4 w-4" />
-                            </Button>
-                          </>
-                        )}
+                      {/* Selection Toggle */}
+                      <div className="flex items-center justify-center">
+                        <Button
+                          className={`w-full transition-all duration-200 ${
+                            isSelected
+                              ? "bg-red-500 hover:bg-red-600 text-white"
+                              : "bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white"
+                          }`}
+                          onClick={() => addServiceToBooking(service.id)}
+                        >
+                          {isSelected ? (
+                            <>
+                              <Check className="h-4 w-4 mr-2" />
+                              Remover Serviço
+                            </>
+                          ) : (
+                            <>Selecionar Serviço</>
+                          )}
+                        </Button>
                       </div>
                     </CardContent>
                   </Card>
@@ -225,7 +195,7 @@ const ServiceSelection = () => {
               <div className="mt-8 bg-white/95 backdrop-blur-sm rounded-lg p-6 border border-white/20">
                 <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
                   <ShoppingCart className="h-5 w-5 mr-2" />
-                  Resumo da Seleção ({selectedServices.length}{" "}
+                  Serviços Selecionados ({selectedServices.length}{" "}
                   {selectedServices.length === 1 ? "serviço" : "serviços"})
                 </h3>
 
@@ -246,20 +216,12 @@ const ServiceSelection = () => {
                             {service.name}
                           </p>
                           <p className="text-sm text-gray-600">
-                            {service.duration} min × {selectedService.quantity}{" "}
-                            = {service.duration * selectedService.quantity} min
+                            {service.duration} minutos
                           </p>
                         </div>
                         <div className="text-right">
                           <p className="font-bold text-purple-600">
-                            R${" "}
-                            {(service.price * selectedService.quantity).toFixed(
-                              2,
-                            )}
-                          </p>
-                          <p className="text-xs text-gray-500">
-                            R$ {service.price.toFixed(2)} ×{" "}
-                            {selectedService.quantity}
+                            R$ {service.price.toFixed(2)}
                           </p>
                         </div>
                       </div>
