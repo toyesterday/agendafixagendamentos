@@ -306,10 +306,6 @@ const Dashboard = () => {
             <CardHeader>
               <CardTitle className="flex items-center justify-between">
                 <span>Serviços Mais Populares</span>
-                <Button variant="outline" size="sm">
-                  <TrendingUp className="h-4 w-4 mr-2" />
-                  Relatório
-                </Button>
               </CardTitle>
             </CardHeader>
             <CardContent>
