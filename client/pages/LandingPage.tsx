@@ -156,7 +156,7 @@ const LandingPage = () => {
             </Link>
             <Button
               size="lg"
-              className="bg-transparent text-white border-2 border-white hover:bg-white hover:text-blue-800 text-lg px-8 py-4 rounded-full font-medium transition-all duration-200"
+              className={`bg-transparent text-white border-2 border-white hover:bg-white ${currentTheme === "salon" ? "hover:text-purple-600" : "hover:text-blue-800"} text-lg px-8 py-4 rounded-full font-medium transition-all duration-200`}
             >
               Ver Serviços
             </Button>
