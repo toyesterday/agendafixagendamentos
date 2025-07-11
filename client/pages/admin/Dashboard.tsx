@@ -161,10 +161,7 @@ const Dashboard = () => {
                   <span>WhatsApp</span>
                 </Button>
               </Link>
-              <Button variant="outline" size="sm">
-                <Bell className="h-4 w-4 mr-2" />
-                Notificações
-              </Button>
+
               <div className="flex items-center space-x-2">
                 <div className="text-right">
                   <p className="text-sm font-medium text-gray-800">
