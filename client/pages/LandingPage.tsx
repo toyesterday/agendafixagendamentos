@@ -23,29 +23,35 @@ const LandingPage = () => {
   const footerConfig = businessConfig?.footer;
   const content = businessConfig?.content;
 
-  const features = [
-    {
-      icon: Calendar,
-      title: "Agendamento Online",
-      description: "Agende seu horário 24/7 de forma rápida e prática",
-    },
-    {
-      icon: Clock,
-      title: "Sem Espera",
-      description:
-        "Chegue no horário certo, sem filas ou esperas desnecessárias",
-    },
-    {
-      icon: Users,
-      title: "Profissionais Qualificados",
-      description: "Equipe experiente e comprometida com a qualidade",
-    },
-    {
-      icon: Smartphone,
-      title: "Notificações",
-      description: "Receba lembretes por WhatsApp e email automaticamente",
-    },
-  ];
+  const features = content?.features?.items?.length
+    ? content.features.items.map((item, index) => ({
+        icon: [Calendar, Clock, Users, Smartphone][index] || Calendar,
+        title: item.title,
+        description: item.description,
+      }))
+    : [
+        {
+          icon: Calendar,
+          title: "Agendamento Online",
+          description: "Agende seu horário 24/7 de forma rápida e prática",
+        },
+        {
+          icon: Clock,
+          title: "Sem Espera",
+          description:
+            "Chegue no horário certo, sem filas ou esperas desnecessárias",
+        },
+        {
+          icon: Users,
+          title: "Profissionais Qualificados",
+          description: "Equipe experiente e comprometida com a qualidade",
+        },
+        {
+          icon: Smartphone,
+          title: "Notificações",
+          description: "Receba lembretes por WhatsApp e email automaticamente",
+        },
+      ];
 
   const services = [
     {
