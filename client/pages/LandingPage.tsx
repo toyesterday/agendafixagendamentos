@@ -18,8 +18,9 @@ import { useAppStore } from "@/stores/useAppStore";
 import { getThemeClasses } from "@/types/themes";
 
 const LandingPage = () => {
-  const { currentTheme } = useAppStore();
+  const { currentTheme, businessConfig } = useAppStore();
   const themeClasses = getThemeClasses(currentTheme);
+  const footerConfig = businessConfig?.footer;
 
   const features = [
     {
