@@ -23,6 +23,10 @@ const LandingPage = () => {
   const footerConfig = businessConfig?.footer;
   const content = businessConfig?.content;
 
+  console.log("LandingPage - businessConfig:", businessConfig);
+  console.log("LandingPage - content:", content);
+  console.log("LandingPage - CTA data:", content?.cta);
+
   const features = content?.features?.items?.length
     ? content.features.items.map((item, index) => ({
         icon: [Calendar, Clock, Users, Smartphone][index] || Calendar,
