@@ -146,7 +146,7 @@ const LandingPage = () => {
             <Link to="/booking">
               <Button
                 size="lg"
-                className="bg-white text-blue-800 hover:bg-gray-100 text-lg px-8 py-4 rounded-full"
+                className={`bg-white ${currentTheme === "salon" ? "text-purple-600" : "text-blue-800"} hover:bg-gray-100 text-lg px-8 py-4 rounded-full`}
               >
                 Agendar Agora
                 <ArrowRight className="ml-2 h-5 w-5" />
