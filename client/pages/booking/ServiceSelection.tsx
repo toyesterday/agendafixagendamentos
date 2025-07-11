@@ -113,11 +113,12 @@ const ServiceSelection = () => {
                 return (
                   <Card
                     key={service.id}
-                    className={`transition-all duration-300 hover:scale-105 hover:shadow-2xl border-2 ${
+                    className={`transition-all duration-300 hover:scale-105 hover:shadow-2xl border-2 cursor-pointer ${
                       isSelected
                         ? "border-purple-400 bg-white shadow-2xl ring-4 ring-purple-200"
-                        : "border-transparent bg-white/95 backdrop-blur-sm hover:bg-white"
+                        : "border-transparent bg-white/95 backdrop-blur-sm hover:bg-white hover:border-purple-200"
                     }`}
+                    onClick={() => addServiceToBooking(service.id)}
                   >
                     <CardContent className="p-6">
                       <div className="flex justify-between items-start mb-4">
@@ -150,7 +151,7 @@ const ServiceSelection = () => {
                         {service.description}
                       </p>
 
-                      <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center justify-between">
                         <div className="flex items-center text-gray-500">
                           <Clock className="h-4 w-4 mr-1" />
                           <span className="text-sm">
@@ -162,27 +163,6 @@ const ServiceSelection = () => {
                           <Star className="h-4 w-4 fill-current mr-1" />
                           <span className="text-sm text-gray-600">4.9</span>
                         </div>
-                      </div>
-
-                      {/* Selection Toggle */}
-                      <div className="flex items-center justify-center">
-                        <Button
-                          className={`w-full transition-all duration-200 ${
-                            isSelected
-                              ? "bg-red-500 hover:bg-red-600 text-white"
-                              : "bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white"
-                          }`}
-                          onClick={() => addServiceToBooking(service.id)}
-                        >
-                          {isSelected ? (
-                            <>
-                              <Check className="h-4 w-4 mr-2" />
-                              Remover Serviço
-                            </>
-                          ) : (
-                            <>Selecionar Serviço</>
-                          )}
-                        </Button>
                       </div>
                     </CardContent>
                   </Card>
