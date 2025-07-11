@@ -75,7 +75,7 @@ const FooterSettings = () => {
     setFormData((prev) => ({
       ...prev,
       [section]: {
-        ...prev[section as keyof FooterConfig],
+        ...(prev[section as keyof FooterConfig] as any),
         [field]: value,
       },
     }));
