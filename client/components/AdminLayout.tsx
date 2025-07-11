@@ -87,6 +87,12 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
       icon: Layout,
       path: "/admin/footer-settings",
     },
+    {
+      id: "content-settings",
+      label: "Gerenciar Conteúdo",
+      icon: FileText,
+      path: "/admin/content-settings",
+    },
   ];
 
   const isActivePath = (path: string) => {
