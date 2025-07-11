@@ -298,11 +298,11 @@ const LandingPage = () => {
       <section className={`py-20 ${themeClasses.primaryButton} text-white`}>
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-4xl font-bold mb-4">
-            Pronto para sua transformação?
+            {content?.cta?.title || "Pronto para sua transformação?"}
           </h2>
           <p className="text-xl mb-8 opacity-90 max-w-2xl mx-auto">
-            Agende agora seu horário e tenha a melhor experiência em cuidados
-            masculinos
+            {content?.cta?.subtitle ||
+              "Agende agora seu horário e tenha a melhor experiência em cuidados masculinos"}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to="/booking">
