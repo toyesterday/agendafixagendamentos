@@ -1295,6 +1295,116 @@ const SiteSettings = () => {
                 </div>
               </CardContent>
             </Card>
+
+            {/* Additional Info */}
+            <Card className="border-0 shadow-lg">
+              <CardHeader>
+                <CardTitle>Informações Adicionais</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                {/* Certifications */}
+                <div>
+                  <Label className="text-base font-medium">Certificações</Label>
+                  <div className="mt-2 space-y-2">
+                    <div className="flex gap-2">
+                      <Input
+                        value={newCertification}
+                        onChange={(e) => setNewCertification(e.target.value)}
+                        placeholder="Ex: Certificado de Qualidade"
+                        onKeyPress={(e) =>
+                          e.key === "Enter" &&
+                          handleFooterAddItem(
+                            "certifications",
+                            newCertification,
+                            setNewCertification,
+                          )
+                        }
+                      />
+                      <Button
+                        onClick={() =>
+                          handleFooterAddItem(
+                            "certifications",
+                            newCertification,
+                            setNewCertification,
+                          )
+                        }
+                        className="flex items-center gap-2"
+                      >
+                        <Plus className="h-4 w-4" />
+                        Adicionar
+                      </Button>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {(footerData.additionalInfo?.certifications || []).map(
+                        (cert, index) => (
+                          <Badge
+                            key={index}
+                            variant="outline"
+                            className="flex items-center gap-2"
+                          >
+                            {cert}
+                            <X
+                              className="h-3 w-3 cursor-pointer"
+                              onClick={() =>
+                                handleFooterRemoveItem("certifications", index)
+                              }
+                            />
+                          </Badge>
+                        ),
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Awards */}
+                <div>
+                  <Label className="text-base font-medium">
+                    Prêmios e Reconhecimentos
+                  </Label>
+                  <div className="mt-2 space-y-2">
+                    <div className="flex gap-2">
+                      <Input
+                        value={newAward}
+                        onChange={(e) => setNewAward(e.target.value)}
+                        placeholder="Ex: Melhor Barbearia 2023"
+                        onKeyPress={(e) =>
+                          e.key === "Enter" &&
+                          handleFooterAddItem("awards", newAward, setNewAward)
+                        }
+                      />
+                      <Button
+                        onClick={() =>
+                          handleFooterAddItem("awards", newAward, setNewAward)
+                        }
+                        className="flex items-center gap-2"
+                      >
+                        <Plus className="h-4 w-4" />
+                        Adicionar
+                      </Button>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {(footerData.additionalInfo?.awards || []).map(
+                        (award, index) => (
+                          <Badge
+                            key={index}
+                            variant="outline"
+                            className="flex items-center gap-2"
+                          >
+                            {award}
+                            <X
+                              className="h-3 w-3 cursor-pointer"
+                              onClick={() =>
+                                handleFooterRemoveItem("awards", index)
+                              }
+                            />
+                          </Badge>
+                        ),
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
           </TabsContent>
         </Tabs>
 
