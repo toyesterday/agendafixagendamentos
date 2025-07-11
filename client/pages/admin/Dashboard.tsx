@@ -12,8 +12,6 @@ import {
   LogOut,
   Scissors,
   MessageCircle,
-  Wifi,
-  WifiOff,
   Settings,
 } from "lucide-react";
 import { useAppStore } from "@/stores/useAppStore";
