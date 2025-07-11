@@ -135,6 +135,15 @@ const App = () => (
             }
           />
 
+          <Route
+            path="/admin/footer-settings"
+            element={
+              <ProtectedRoute>
+                <FooterSettings />
+              </ProtectedRoute>
+            }
+          />
+
           {/* Redirect /admin to /admin/dashboard */}
           <Route
             path="/admin"
