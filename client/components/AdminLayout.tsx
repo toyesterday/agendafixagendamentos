@@ -72,6 +72,12 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
       icon: Settings,
       path: "/admin/whatsapp-config",
     },
+    {
+      id: "theme-settings",
+      label: "Configurar Tema",
+      icon: Palette,
+      path: "/admin/theme-settings",
+    },
   ];
 
   const isActivePath = (path: string) => {
