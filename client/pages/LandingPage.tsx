@@ -216,10 +216,11 @@ const LandingPage = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-800 mb-4">
-              Nossos Serviços
+              {content?.services?.title || "Nossos Serviços"}
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Serviços especializados com produtos premium e técnicas modernas
+              {content?.services?.subtitle ||
+                "Serviços especializados com produtos premium e técnicas modernas"}
             </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
