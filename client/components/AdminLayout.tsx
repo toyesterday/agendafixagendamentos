@@ -172,7 +172,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
 
             <div className="flex items-center space-x-4">
               <Link to="/booking">
-                <Button className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700">
+                <Button className={themeClasses.primaryButton}>
                   <Calendar className="h-4 w-4 mr-2" />
                   Novo Agendamento
                 </Button>
