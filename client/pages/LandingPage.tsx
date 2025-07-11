@@ -147,8 +147,7 @@ const LandingPage = () => {
             </Link>
             <Button
               size="lg"
-              variant="outline"
-              className="text-white border-white hover:bg-white hover:text-purple-600 text-lg px-8 py-4 rounded-full font-medium"
+              className="bg-transparent text-white border-2 border-white hover:bg-white hover:text-purple-600 text-lg px-8 py-4 rounded-full font-medium transition-all duration-200"
             >
               Ver Serviços
             </Button>
@@ -275,7 +274,7 @@ const LandingPage = () => {
             Pronto para sua transformação?
           </h2>
           <p className="text-xl mb-8 opacity-90 max-w-2xl mx-auto">
-            Agende agora seu horário e tenha a melhor experiência em cuidados
+            Agende agora seu hor��rio e tenha a melhor experiência em cuidados
             masculinos
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
