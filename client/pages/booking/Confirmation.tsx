@@ -26,7 +26,10 @@ const Confirmation = () => {
     services,
     businessConfig,
     isLoading,
+    currentTheme,
   } = useAppStore();
+
+  const themeClasses = getThemeClasses(currentTheme);
 
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [appointmentId, setAppointmentId] = useState<string>("");
