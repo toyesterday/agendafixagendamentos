@@ -42,6 +42,10 @@ export const useAppStore = create<AppState>()(
       isLoading: false,
       error: null,
 
+      // Theme state
+      currentTheme: "barbershop" as ThemeType,
+      businessType: "Barbearia" as "Salão" | "Barbearia",
+
       // Authentication actions
       login: async (email: string, password: string) => {
         set({ isLoading: true, error: null });
