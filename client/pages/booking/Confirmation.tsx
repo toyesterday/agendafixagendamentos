@@ -164,7 +164,9 @@ const Confirmation = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-600 via-purple-700 to-blue-600 flex items-center justify-center">
+      <div
+        className={`min-h-screen ${themeClasses.backgroundGradient} flex items-center justify-center`}
+      >
         <Card className="bg-white/95 backdrop-blur-sm border-0 shadow-2xl max-w-md w-full mx-4">
           <CardContent className="p-8 text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
