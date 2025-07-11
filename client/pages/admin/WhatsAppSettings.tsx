@@ -5,6 +5,7 @@ import { ArrowLeft, MessageCircle, LogOut } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAppStore } from "@/stores/useAppStore";
 import WhatsAppManager from "@/components/admin/WhatsAppManager";
+import AdminLayout from "@/components/AdminLayout";
 
 const WhatsAppSettings = () => {
   const { logout, user } = useAppStore();
