@@ -21,9 +21,10 @@ interface AdminLayoutProps {
 }
 
 const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
-  const { user, logout } = useAppStore();
+  const { user, logout, currentTheme } = useAppStore();
   const location = useLocation();
   const navigate = useNavigate();
+  const themeClasses = getThemeClasses(currentTheme);
 
   const handleLogout = () => {
     logout();
