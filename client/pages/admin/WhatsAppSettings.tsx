@@ -1,16 +1,7 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  ArrowLeft,
-  MessageCircle,
-  Settings,
-  Smartphone,
-  Bell,
-  Users,
-  LogOut,
-  Scissors,
-} from "lucide-react";
+import { ArrowLeft, MessageCircle, LogOut } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAppStore } from "@/stores/useAppStore";
 import WhatsAppManager from "@/components/admin/WhatsAppManager";
