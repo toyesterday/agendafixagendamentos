@@ -145,6 +145,15 @@ const App = () => (
             }
           />
 
+          <Route
+            path="/admin/content-settings"
+            element={
+              <ProtectedRoute>
+                <ContentSettings />
+              </ProtectedRoute>
+            }
+          />
+
           {/* Redirect /admin to /admin/dashboard */}
           <Route
             path="/admin"
