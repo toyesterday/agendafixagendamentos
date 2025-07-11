@@ -15,6 +15,10 @@ import BookingRouter from "./components/BookingRouter";
 import Dashboard from "./pages/admin/Dashboard";
 import WhatsAppSettings from "./pages/admin/WhatsAppSettings";
 import WhatsAppConfig from "./pages/admin/WhatsAppConfig";
+import ServicesManagement from "./pages/admin/ServicesManagement";
+import ClientsManagement from "./pages/admin/ClientsManagement";
+import AppointmentsManagement from "./pages/admin/AppointmentsManagement";
+import Reports from "./pages/admin/Reports";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
