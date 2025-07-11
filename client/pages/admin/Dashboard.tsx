@@ -10,7 +10,6 @@ import {
   TrendingUp,
   Clock,
   LogOut,
-  Bell,
   Scissors,
   MessageCircle,
   Wifi,
