@@ -247,6 +247,9 @@ export interface AppState {
 
 export type BookingStep = 1 | 2 | 3 | 4;
 
+// Theme types
+export type ThemeType = "salon" | "barbershop";
+
 export interface NotificationTemplate {
   type: "confirmation" | "reminder" | "cancellation";
   channel: "email" | "whatsapp" | "sms";
