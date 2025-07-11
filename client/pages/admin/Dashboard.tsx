@@ -108,45 +108,9 @@ const Dashboard = () => {
     }
   };
 
-  return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white border-b border-gray-200">
-        <div className="px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-2">
-                <div className="bg-gradient-to-br from-purple-600 to-blue-600 p-2 rounded-lg">
-                  <Scissors className="h-6 w-6 text-white" />
-                </div>
-                <div>
-                  <h1 className="text-2xl font-bold text-gray-800">
-                    AgendaFixa
-                  </h1>
-                  <p className="text-sm text-gray-600">Painel Administrativo</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-2">
-                <div className="text-right">
-                  <p className="text-sm font-medium text-gray-800">
-                    {user?.name}
-                  </p>
-                  <p className="text-xs text-gray-500">{user?.role}</p>
-                </div>
-                <Button variant="outline" size="sm" onClick={handleLogout}>
-                  <LogOut className="h-4 w-4 mr-2" />
-                  Sair
-                </Button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </header>
-
-      <div className="p-6">
+    return (
+    <AdminLayout>
+      <div className="space-y-6">
         {/* Welcome Section */}
         <div className="mb-8">
           <h2 className="text-3xl font-bold text-gray-800 mb-2">
