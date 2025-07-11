@@ -62,6 +62,72 @@ export interface Transaction {
   appointment?: Appointment;
 }
 
+export interface ContentConfig {
+  // Header/Navigation
+  header: {
+    companyName: string;
+    navigation: {
+      services: string;
+      about: string;
+      contact: string;
+    };
+    adminButton: string;
+  };
+
+  // Hero Section
+  hero: {
+    title: {
+      main: string;
+      highlight: string;
+    };
+    subtitle: string;
+    buttons: {
+      primary: string;
+      secondary: string;
+    };
+  };
+
+  // Features Section
+  features: {
+    title: string;
+    subtitle: string;
+    items: {
+      title: string;
+      description: string;
+    }[];
+  };
+
+  // Services Section
+  services: {
+    title: string;
+    subtitle: string;
+    buttonText: string;
+  };
+
+  // Testimonials Section
+  testimonials: {
+    title: string;
+    subtitle: string;
+  };
+
+  // CTA Section
+  cta: {
+    title: string;
+    subtitle: string;
+    buttonText: string;
+    features: {
+      scheduling: string;
+      reminders: string;
+      qualified: string;
+    };
+  };
+
+  // Footer Copyright
+  footer: {
+    copyright: string;
+  };
+}
+
 export interface FooterConfig {
   companyName: string;
   slogan: string;
