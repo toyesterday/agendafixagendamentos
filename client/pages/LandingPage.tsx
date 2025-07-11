@@ -21,6 +21,7 @@ const LandingPage = () => {
   const { currentTheme, businessConfig } = useAppStore();
   const themeClasses = getThemeClasses(currentTheme);
   const footerConfig = businessConfig?.footer;
+  const content = businessConfig?.content;
 
   const features = [
     {
