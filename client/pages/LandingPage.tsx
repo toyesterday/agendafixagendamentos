@@ -290,7 +290,7 @@ const LandingPage = () => {
             Pronto para sua transformação?
           </h2>
           <p className="text-xl mb-8 opacity-90 max-w-2xl mx-auto">
-            Agende agora seu hor��rio e tenha a melhor experiência em cuidados
+            Agende agora seu horário e tenha a melhor experiência em cuidados
             masculinos
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
