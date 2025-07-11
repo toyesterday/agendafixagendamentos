@@ -275,13 +275,13 @@ const LandingPage = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-purple-600 to-blue-600 text-white">
+      <section className={`py-20 ${themeClasses.primaryButton} text-white`}>
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-4xl font-bold mb-4">
             Pronto para sua transformação?
           </h2>
           <p className="text-xl mb-8 opacity-90 max-w-2xl mx-auto">
-            Agende agora seu hor��rio e tenha a melhor experi��ncia em cuidados
+            Agende agora seu hor��rio e tenha a melhor experiência em cuidados
             masculinos
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
