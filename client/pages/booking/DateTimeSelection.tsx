@@ -21,7 +21,10 @@ const DateTimeSelection = () => {
     setBookingStep,
     getAvailableTimeSlots,
     services,
+    currentTheme,
   } = useAppStore();
+
+  const themeClasses = getThemeClasses(currentTheme);
 
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(
     bookingData.date ? new Date(bookingData.date) : undefined,
