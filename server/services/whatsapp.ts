@@ -289,7 +289,7 @@ class WhatsAppService {
     date: string,
     time: string,
   ): Promise<boolean> {
-    const message = `��� *AgendaFixa - Agendamento Confirmado!*
+    const message = `✅ *AgendaFixa - Agendamento Confirmado!*
 
 Olá, ${clientName}! 👋
 
