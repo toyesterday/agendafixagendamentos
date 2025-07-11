@@ -22,6 +22,7 @@ import Reports from "./pages/admin/Reports";
 import ThemeSettings from "./pages/admin/ThemeSettings";
 import FooterSettings from "./pages/admin/FooterSettings";
 import ContentSettings from "./pages/admin/ContentSettings";
+import SiteSettings from "./pages/admin/SiteSettings";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
