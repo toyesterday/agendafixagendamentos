@@ -51,34 +51,27 @@ class WhatsAppService {
     this.store = null;
   }
 
-    async initialize() {
-    return new Promise<void>((resolve, reject) => {
-      // Set a hard timeout to prevent hanging
-      const timeout = setTimeout(() => {
-        reject(new Error("WhatsApp initialization timeout"));
-      }, 8000);
+  async initialize() {
+    try {
+      console.log("🚀 Initializing WhatsApp service...");
+      console.log("📁 Auth directory:", this.authDir);
 
-      const doInitialize = async () => {
-        try {
-          console.log("🚀 Initializing WhatsApp service...");
-          console.log("📁 Auth directory:", this.authDir);
+      // Test imports first
+      console.log("🔍 Testing Baileys imports...");
+      const baileys = await import("@whiskeysockets/baileys");
+      console.log("📦 Baileys imported:", Object.keys(baileys));
 
-          // Test imports first
-          console.log("🔍 Testing Baileys imports...");
-          const baileys = await import("@whiskeysockets/baileys");
-          console.log("📦 Baileys imported:", Object.keys(baileys));
+      // Get auth state
+      console.log("🔐 Getting auth state...");
+      const { state, saveCreds } = await useMultiFileAuthState(this.authDir);
+      console.log("✅ Auth state obtained");
 
-          // Get auth state
-          console.log("🔐 Getting auth state...");
-          const { state, saveCreds } = await useMultiFileAuthState(this.authDir);
-          console.log("✅ Auth state obtained");
+      // Create socket with recommended configuration
+      console.log("🔌 Creating WhatsApp socket...");
 
-          // Create socket with recommended configuration
-          console.log("🔌 Creating WhatsApp socket...");
-
-          if (typeof makeWASocket !== "function") {
-            throw new Error("makeWASocket is not a function");
-          }
+      if (typeof makeWASocket !== "function") {
+        throw new Error("makeWASocket is not a function");
+      }
 
       this.sock = makeWASocket({
         auth: state,
