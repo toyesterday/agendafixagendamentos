@@ -711,7 +711,51 @@ const SiteSettings = () => {
               </CardContent>
             </Card>
 
-            {/* Additional sections... */}
+            {/* Testimonials Section */}
+            <Card className="border-0 shadow-lg">
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <MessageCircle className="h-5 w-5 mr-2 text-blue-600" />
+                  Seção de Depoimentos
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <Label htmlFor="testimonialsTitle">Título da Seção</Label>
+                  <Input
+                    id="testimonialsTitle"
+                    value={contentData.testimonials.title}
+                    onChange={(e) =>
+                      handleContentInputChange(
+                        "testimonials",
+                        "title",
+                        e.target.value,
+                      )
+                    }
+                    placeholder="Ex: O que nossos clientes dizem"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="testimonialsSubtitle">
+                    Subtítulo da Seção
+                  </Label>
+                  <Input
+                    id="testimonialsSubtitle"
+                    value={contentData.testimonials.subtitle}
+                    onChange={(e) =>
+                      handleContentInputChange(
+                        "testimonials",
+                        "subtitle",
+                        e.target.value,
+                      )
+                    }
+                    placeholder="Ex: Depoimentos reais de quem confia na AgendaFixa"
+                  />
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* CTA Section */}
             <Card className="border-0 shadow-lg">
               <CardHeader>
                 <CardTitle className="flex items-center">
