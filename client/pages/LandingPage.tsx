@@ -18,6 +18,9 @@ import { useAppStore } from "@/stores/useAppStore";
 import { getThemeClasses } from "@/types/themes";
 
 const LandingPage = () => {
+  const { currentTheme } = useAppStore();
+  const themeClasses = getThemeClasses(currentTheme);
+
   const features = [
     {
       icon: Calendar,
