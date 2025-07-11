@@ -14,6 +14,7 @@ import {
   Palette,
 } from "lucide-react";
 import { useAppStore } from "@/stores/useAppStore";
+import { getThemeClasses } from "@/types/themes";
 
 interface AdminLayoutProps {
   children: React.ReactNode;
