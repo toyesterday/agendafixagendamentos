@@ -9,12 +9,12 @@ import {
   DollarSign,
   TrendingUp,
   Clock,
-  LogOut,
   Scissors,
   MessageCircle,
   Settings,
 } from "lucide-react";
 import { useAppStore } from "@/stores/useAppStore";
+import AdminLayout from "@/components/AdminLayout";
 
 const Dashboard = () => {
   const { getDashboardMetrics, logout, user, appointments, clients, services } =
