@@ -1,4 +1,5 @@
 import "./global.css";
+import React from "react";
 
 import { Toaster } from "@/components/ui/toaster";
 import { createRoot } from "react-dom/client";
@@ -20,6 +21,9 @@ import ClientsManagement from "./pages/admin/ClientsManagement";
 import AppointmentsManagement from "./pages/admin/AppointmentsManagement";
 import Reports from "./pages/admin/Reports";
 import ThemeSettings from "./pages/admin/ThemeSettings";
+import FooterSettings from "./pages/admin/FooterSettings";
+import ContentSettings from "./pages/admin/ContentSettings";
+import SiteSettings from "./pages/admin/SiteSettings";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -39,113 +43,142 @@ const PublicRoute = ({ children }: { children: React.ReactNode }) => {
 };
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          {/* Landing Page */}
-          <Route path="/" element={<LandingPage />} />
+  <React.StrictMode>
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <BrowserRouter>
+          <Toaster />
+          <Sonner />
+          <Routes>
+            {/* Landing Page */}
+            <Route path="/" element={<LandingPage />} />
 
-          {/* Public Booking Flow */}
-          <Route path="/booking/*" element={<BookingRouter />} />
+            {/* Public Booking Flow */}
+            <Route path="/booking/*" element={<BookingRouter />} />
 
-          {/* Authentication */}
-          <Route
-            path="/login"
-            element={
-              <PublicRoute>
-                <Login />
-              </PublicRoute>
-            }
-          />
+            {/* Authentication */}
+            <Route
+              path="/login"
+              element={
+                <PublicRoute>
+                  <Login />
+                </PublicRoute>
+              }
+            />
 
-          {/* Protected Admin Routes */}
-          <Route
-            path="/admin/dashboard"
-            element={
-              <ProtectedRoute>
-                <Dashboard />
-              </ProtectedRoute>
-            }
-          />
+            {/* Protected Admin Routes */}
+            <Route
+              path="/admin/dashboard"
+              element={
+                <ProtectedRoute>
+                  <Dashboard />
+                </ProtectedRoute>
+              }
+            />
 
-          <Route
-            path="/admin/whatsapp"
-            element={
-              <ProtectedRoute>
-                <WhatsAppSettings />
-              </ProtectedRoute>
-            }
-          />
+            <Route
+              path="/admin/whatsapp"
+              element={
+                <ProtectedRoute>
+                  <WhatsAppSettings />
+                </ProtectedRoute>
+              }
+            />
 
-          <Route
-            path="/admin/whatsapp-config"
-            element={
-              <ProtectedRoute>
-                <WhatsAppConfig />
-              </ProtectedRoute>
-            }
-          />
+            <Route
+              path="/admin/whatsapp-config"
+              element={
+                <ProtectedRoute>
+                  <WhatsAppConfig />
+                </ProtectedRoute>
+              }
+            />
 
-          <Route
-            path="/admin/services"
-            element={
-              <ProtectedRoute>
-                <ServicesManagement />
-              </ProtectedRoute>
-            }
-          />
+            <Route
+              path="/admin/services"
+              element={
+                <ProtectedRoute>
+                  <ServicesManagement />
+                </ProtectedRoute>
+              }
+            />
 
-          <Route
-            path="/admin/clients"
-            element={
-              <ProtectedRoute>
-                <ClientsManagement />
-              </ProtectedRoute>
-            }
-          />
+            <Route
+              path="/admin/clients"
+              element={
+                <ProtectedRoute>
+                  <ClientsManagement />
+                </ProtectedRoute>
+              }
+            />
 
-          <Route
-            path="/admin/appointments"
-            element={
-              <ProtectedRoute>
-                <AppointmentsManagement />
-              </ProtectedRoute>
-            }
-          />
+            <Route
+              path="/admin/appointments"
+              element={
+                <ProtectedRoute>
+                  <AppointmentsManagement />
+                </ProtectedRoute>
+              }
+            />
 
-          <Route
-            path="/admin/reports"
-            element={
-              <ProtectedRoute>
-                <Reports />
-              </ProtectedRoute>
-            }
-          />
+            <Route
+              path="/admin/reports"
+              element={
+                <ProtectedRoute>
+                  <Reports />
+                </ProtectedRoute>
+              }
+            />
 
-          <Route
-            path="/admin/theme-settings"
-            element={
-              <ProtectedRoute>
-                <ThemeSettings />
-              </ProtectedRoute>
-            }
-          />
+            <Route
+              path="/admin/theme-settings"
+              element={
+                <ProtectedRoute>
+                  <ThemeSettings />
+                </ProtectedRoute>
+              }
+            />
 
-          {/* Redirect /admin to /admin/dashboard */}
-          <Route
-            path="/admin"
-            element={<Navigate to="/admin/dashboard" replace />}
-          />
+            <Route
+              path="/admin/footer-settings"
+              element={
+                <ProtectedRoute>
+                  <FooterSettings />
+                </ProtectedRoute>
+              }
+            />
 
-          {/* 404 */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
+            <Route
+              path="/admin/content-settings"
+              element={
+                <ProtectedRoute>
+                  <ContentSettings />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/admin/site-settings"
+              element={
+                <ProtectedRoute>
+                  <SiteSettings />
+                </ProtectedRoute>
+              }
+            />
+
+            {/* Redirect /admin to /admin/dashboard */}
+            <Route
+              path="/admin"
+              element={<Navigate to="/admin/dashboard" replace />}
+            />
+
+            {/* 404 */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </TooltipProvider>
+    </QueryClientProvider>
+  </React.StrictMode>
 );
 
 createRoot(document.getElementById("root")!).render(<App />);

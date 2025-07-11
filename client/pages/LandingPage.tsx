@@ -18,32 +18,40 @@ import { useAppStore } from "@/stores/useAppStore";
 import { getThemeClasses } from "@/types/themes";
 
 const LandingPage = () => {
-  const { currentTheme } = useAppStore();
+  const { currentTheme, businessConfig } = useAppStore();
   const themeClasses = getThemeClasses(currentTheme);
+  const footerConfig = businessConfig?.footer;
+  const content = businessConfig?.content;
 
-  const features = [
-    {
-      icon: Calendar,
-      title: "Agendamento Online",
-      description: "Agende seu horário 24/7 de forma rápida e prática",
-    },
-    {
-      icon: Clock,
-      title: "Sem Espera",
-      description:
-        "Chegue no horário certo, sem filas ou esperas desnecessárias",
-    },
-    {
-      icon: Users,
-      title: "Profissionais Qualificados",
-      description: "Equipe experiente e comprometida com a qualidade",
-    },
-    {
-      icon: Smartphone,
-      title: "Notificações",
-      description: "Receba lembretes por WhatsApp e email automaticamente",
-    },
-  ];
+  const features = content?.features?.items?.length
+    ? content.features.items.map((item, index) => ({
+        icon: [Calendar, Clock, Users, Smartphone][index] || Calendar,
+        title: item.title,
+        description: item.description,
+      }))
+    : [
+        {
+          icon: Calendar,
+          title: "Agendamento Online",
+          description: "Agende seu horário 24/7 de forma rápida e prática",
+        },
+        {
+          icon: Clock,
+          title: "Sem Espera",
+          description:
+            "Chegue no horário certo, sem filas ou esperas desnecessárias",
+        },
+        {
+          icon: Users,
+          title: "Profissionais Qualificados",
+          description: "Equipe experiente e comprometida com a qualidade",
+        },
+        {
+          icon: Smartphone,
+          title: "Notificações",
+          description: "Receba lembretes por WhatsApp e email automaticamente",
+        },
+      ];
 
   const services = [
     {
@@ -97,30 +105,34 @@ const LandingPage = () => {
         <nav className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <Scissors className="h-8 w-8" />
-            <span className="text-2xl font-bold">AgendaFixa</span>
+            <span className="text-2xl font-bold">
+              {content?.header?.companyName || "AgendaFixa"}
+            </span>
           </div>
           <div className="hidden md:flex items-center space-x-6">
             <a
               href="#servicos"
-              className="hover:text-purple-200 transition-colors"
+              className={`${currentTheme === "salon" ? "hover:text-pink-200" : "hover:text-orange-200"} transition-colors`}
             >
-              Serviços
+              {content?.header?.navigation?.services || "Serviços"}
             </a>
             <a
               href="#sobre"
-              className="hover:text-purple-200 transition-colors"
+              className={`${currentTheme === "salon" ? "hover:text-pink-200" : "hover:text-orange-200"} transition-colors`}
             >
-              Sobre
+              {content?.header?.navigation?.about || "Sobre"}
             </a>
             <a
               href="#contato"
-              className="hover:text-purple-200 transition-colors"
+              className={`${currentTheme === "salon" ? "hover:text-pink-200" : "hover:text-orange-200"} transition-colors`}
             >
-              Contato
+              {content?.header?.navigation?.contact || "Contato"}
             </a>
             <Link to="/login">
-              <Button className="bg-transparent text-white border-2 border-white hover:bg-white hover:text-purple-600 font-medium transition-all duration-200">
-                Área Admin
+              <Button
+                className={`bg-transparent text-white border-2 border-white hover:bg-white ${currentTheme === "salon" ? "hover:text-purple-600" : "hover:text-blue-800"} font-medium transition-all duration-200`}
+              >
+                {content?.header?.adminButton || "Área Admin"}
               </Button>
             </Link>
           </div>
@@ -133,30 +145,30 @@ const LandingPage = () => {
       >
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
-            Transforme seu visual com
+            {content?.hero?.title?.main || "Transforme seu visual com"}
             <span className="block bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">
-              estilo e praticidade
+              {content?.hero?.title?.highlight || "estilo e praticidade"}
             </span>
           </h1>
           <p className="text-xl md:text-2xl mb-8 opacity-90 max-w-3xl mx-auto">
-            Agende seu horário na melhor barbearia da região de forma rápida e
-            prática. Profissionais qualificados e ambiente moderno te esperam.
+            {content?.hero?.subtitle ||
+              "Agende seu horário na melhor barbearia da região de forma rápida e prática. Profissionais qualificados e ambiente moderno te esperam."}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link to="/booking">
               <Button
                 size="lg"
-                className="bg-white text-purple-600 hover:bg-gray-100 text-lg px-8 py-4 rounded-full"
+                className={`bg-white ${currentTheme === "salon" ? "text-purple-600" : "text-blue-800"} hover:bg-gray-100 text-lg px-8 py-4 rounded-full`}
               >
-                Agendar Agora
+                {content?.hero?.buttons?.primary || "Agendar Agora"}
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </Link>
             <Button
               size="lg"
-              className="bg-transparent text-white border-2 border-white hover:bg-white hover:text-purple-600 text-lg px-8 py-4 rounded-full font-medium transition-all duration-200"
+              className={`bg-transparent text-white border-2 border-white hover:bg-white ${currentTheme === "salon" ? "hover:text-purple-600" : "hover:text-blue-800"} text-lg px-8 py-4 rounded-full font-medium transition-all duration-200`}
             >
-              Ver Serviços
+              {content?.hero?.buttons?.secondary || "Ver Serviços"}
             </Button>
           </div>
         </div>
@@ -167,11 +179,11 @@ const LandingPage = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-800 mb-4">
-              Por que escolher a AgendaFixa?
+              {content?.features?.title || "Por que escolher a AgendaFixa?"}
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Oferecemos a melhor experiência em cuidados masculinos com
-              tecnologia e qualidade
+              {content?.features?.subtitle ||
+                "Oferecemos a melhor experiência em cuidados masculinos com tecnologia e qualidade"}
             </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -181,8 +193,12 @@ const LandingPage = () => {
                 className="text-center hover:shadow-lg transition-shadow border-0 bg-white"
               >
                 <CardContent className="p-8">
-                  <div className="bg-gradient-to-br from-purple-100 to-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <feature.icon className="h-8 w-8 text-purple-600" />
+                  <div
+                    className={`bg-gradient-to-br ${currentTheme === "salon" ? "from-purple-100 to-pink-100" : "from-blue-100 to-slate-100"} w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4`}
+                  >
+                    <feature.icon
+                      className={`h-8 w-8 ${currentTheme === "salon" ? "text-purple-600" : "text-blue-800"}`}
+                    />
                   </div>
                   <h3 className="text-xl font-semibold text-gray-800 mb-2">
                     {feature.title}
@@ -200,10 +216,11 @@ const LandingPage = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-800 mb-4">
-              Nossos Serviços
+              {content?.services?.title || "Nossos Serviços"}
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Serviços especializados com produtos premium e técnicas modernas
+              {content?.services?.subtitle ||
+                "Serviços especializados com produtos premium e técnicas modernas"}
             </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -217,7 +234,9 @@ const LandingPage = () => {
                     <h3 className="text-xl font-semibold text-gray-800">
                       {service.name}
                     </h3>
-                    <span className="text-2xl font-bold text-purple-600">
+                    <span
+                      className={`text-2xl font-bold ${currentTheme === "salon" ? "text-purple-600" : "text-blue-800"}`}
+                    >
                       {service.price}
                     </span>
                   </div>
@@ -228,7 +247,7 @@ const LandingPage = () => {
                   <p className="text-gray-600 mb-4">{service.description}</p>
                   <Link to="/booking">
                     <Button className={`w-full ${themeClasses.primaryButton}`}>
-                      Agendar Serviço
+                      {content?.services?.buttonText || "Agendar Serviço"}
                     </Button>
                   </Link>
                 </CardContent>
@@ -243,10 +262,11 @@ const LandingPage = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-800 mb-4">
-              O que nossos clientes dizem
+              {content?.testimonials?.title || "O que nossos clientes dizem"}
             </h2>
             <p className="text-xl text-gray-600">
-              Depoimentos reais de quem confia na AgendaFixa
+              {content?.testimonials?.subtitle ||
+                "Depoimentos reais de quem confia na AgendaFixa"}
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
@@ -278,19 +298,19 @@ const LandingPage = () => {
       <section className={`py-20 ${themeClasses.primaryButton} text-white`}>
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-4xl font-bold mb-4">
-            Pronto para sua transformação?
+            {content?.cta?.title || "Pronto para sua transformação?"}
           </h2>
           <p className="text-xl mb-8 opacity-90 max-w-2xl mx-auto">
-            Agende agora seu hor��rio e tenha a melhor experiência em cuidados
-            masculinos
+            {content?.cta?.subtitle ||
+              "Agende agora seu horário e tenha a melhor experiência em cuidados masculinos"}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to="/booking">
               <Button
                 size="lg"
-                className="bg-white text-purple-600 hover:bg-gray-100 text-lg px-8 py-4 rounded-full"
+                className={`bg-white ${currentTheme === "salon" ? "text-purple-600" : "text-blue-800"} hover:bg-gray-100 text-lg px-8 py-4 rounded-full`}
               >
-                Agendar Agora
+                {content?.cta?.buttonText || "Agendar Agora"}
                 <Calendar className="ml-2 h-5 w-5" />
               </Button>
             </Link>
@@ -298,15 +318,16 @@ const LandingPage = () => {
           <div className="mt-12 flex flex-wrap justify-center items-center gap-8 text-sm opacity-75">
             <div className="flex items-center">
               <CheckCircle className="h-4 w-4 mr-2" />
-              Agendamento Online 24/7
+              {content?.cta?.features?.scheduling || "Agendamento Online 24/7"}
             </div>
             <div className="flex items-center">
               <HeadphonesIcon className="h-4 w-4 mr-2" />
-              Lembretes Automáticos
+              {content?.cta?.features?.reminders || "Lembretes Automáticos"}
             </div>
             <div className="flex items-center">
               <ShieldCheck className="h-4 w-4 mr-2" />
-              Profissionais Qualificados
+              {content?.cta?.features?.qualified ||
+                "Profissionais Qualificados"}
             </div>
           </div>
         </div>
@@ -319,41 +340,167 @@ const LandingPage = () => {
             <div>
               <div className="flex items-center space-x-2 mb-4">
                 <Scissors className="h-6 w-6" />
-                <span className="text-xl font-bold">AgendaFixa</span>
+                <span className="text-xl font-bold">
+                  {footerConfig?.companyName || "AgendaFixa"}
+                </span>
               </div>
               <p className="text-gray-400">
-                Sistema completo de agendamento para barbearias modernas
+                {footerConfig?.slogan ||
+                  "Sistema completo de agendamento para barbearias modernas"}
               </p>
+              {footerConfig?.additionalInfo?.yearEstablished && (
+                <p className="text-gray-500 text-sm mt-2">
+                  Fundada em {footerConfig.additionalInfo.yearEstablished}
+                </p>
+              )}
             </div>
             <div>
               <h3 className="text-lg font-semibold mb-4">Serviços</h3>
               <ul className="space-y-2 text-gray-400">
-                <li>Corte Masculino</li>
-                <li>Barba</li>
-                <li>Combo Corte + Barba</li>
-                <li>Tratamento Capilar</li>
+                {footerConfig?.services?.length ? (
+                  footerConfig.services.map((service, index) => (
+                    <li key={index}>{service}</li>
+                  ))
+                ) : (
+                  <>
+                    <li>Corte Masculino</li>
+                    <li>Barba</li>
+                    <li>Combo Corte + Barba</li>
+                    <li>Tratamento Capilar</li>
+                  </>
+                )}
               </ul>
             </div>
             <div>
               <h3 className="text-lg font-semibold mb-4">Contato</h3>
               <ul className="space-y-2 text-gray-400">
-                <li>Rua Principal, 456</li>
-                <li>Centro, São Paulo/SP</li>
-                <li>(11) 3333-4444</li>
-                <li>contato@moderncut.com.br</li>
+                <li>{footerConfig?.address?.street || "Rua Principal, 456"}</li>
+                <li>
+                  {footerConfig?.address?.neighborhood &&
+                    `${footerConfig.address.neighborhood}, `}
+                  {footerConfig?.address?.city || "São Paulo"}
+                  {footerConfig?.address?.state &&
+                    `/${footerConfig.address.state}`}
+                </li>
+                <li>{footerConfig?.contact?.phone || "(11) 3333-4444"}</li>
+                <li>
+                  {footerConfig?.contact?.email || "contato@moderncut.com.br"}
+                </li>
+                {footerConfig?.contact?.website && (
+                  <li>
+                    <a
+                      href={`https://${footerConfig.contact.website.replace(/^https?:\/\//, "")}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:text-white transition-colors"
+                    >
+                      {footerConfig.contact.website}
+                    </a>
+                  </li>
+                )}
               </ul>
             </div>
             <div>
               <h3 className="text-lg font-semibold mb-4">Horários</h3>
               <ul className="space-y-2 text-gray-400">
-                <li>Segunda à Sexta: 9h às 18h</li>
-                <li>Sábado: 8h às 17h</li>
-                <li>Domingo: Fechado</li>
+                <li>
+                  {footerConfig?.operatingHours?.weekdays ||
+                    "Segunda à Sexta: 9h às 18h"}
+                </li>
+                <li>
+                  {footerConfig?.operatingHours?.saturday ||
+                    "Sábado: 8h às 17h"}
+                </li>
+                <li>
+                  {footerConfig?.operatingHours?.sunday || "Domingo: Fechado"}
+                </li>
               </ul>
+
+              {/* Redes Sociais */}
+              {(footerConfig?.socialMedia?.instagram ||
+                footerConfig?.socialMedia?.facebook) && (
+                <div className="mt-6">
+                  <h4 className="text-sm font-semibold mb-2">Redes Sociais</h4>
+                  <div className="flex space-x-3">
+                    {footerConfig?.socialMedia?.instagram && (
+                      <a
+                        href={footerConfig.socialMedia.instagram}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-gray-400 hover:text-white transition-colors"
+                      >
+                        Instagram
+                      </a>
+                    )}
+                    {footerConfig?.socialMedia?.facebook && (
+                      <a
+                        href={footerConfig.socialMedia.facebook}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-gray-400 hover:text-white transition-colors"
+                      >
+                        Facebook
+                      </a>
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
+
+          {/* Certificações e Prêmios */}
+          {(footerConfig?.additionalInfo?.certifications?.length ||
+            footerConfig?.additionalInfo?.awards?.length) && (
+            <div className="border-t border-gray-700 mt-8 pt-6">
+              <div className="grid md:grid-cols-2 gap-6">
+                {footerConfig?.additionalInfo?.certifications?.length && (
+                  <div>
+                    <h4 className="text-sm font-semibold mb-2 text-gray-300">
+                      Certificações
+                    </h4>
+                    <div className="flex flex-wrap gap-2">
+                      {footerConfig.additionalInfo.certifications.map(
+                        (cert, index) => (
+                          <span
+                            key={index}
+                            className="text-xs bg-gray-700 text-gray-300 px-2 py-1 rounded"
+                          >
+                            {cert}
+                          </span>
+                        ),
+                      )}
+                    </div>
+                  </div>
+                )}
+                {footerConfig?.additionalInfo?.awards?.length && (
+                  <div>
+                    <h4 className="text-sm font-semibold mb-2 text-gray-300">
+                      Prêmios
+                    </h4>
+                    <div className="flex flex-wrap gap-2">
+                      {footerConfig.additionalInfo.awards.map(
+                        (award, index) => (
+                          <span
+                            key={index}
+                            className="text-xs bg-gray-700 text-gray-300 px-2 py-1 rounded"
+                          >
+                            {award}
+                          </span>
+                        ),
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
           <div className="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; 2024 AgendaFixa. Todos os direitos reservados.</p>
+            <p>
+              &copy; {new Date().getFullYear()}{" "}
+              {footerConfig?.companyName || "AgendaFixa"}.{" "}
+              {content?.footer?.copyright || "Todos os direitos reservados"}.
+            </p>
           </div>
         </div>
       </footer>

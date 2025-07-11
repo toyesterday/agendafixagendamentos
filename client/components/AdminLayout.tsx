@@ -12,6 +12,7 @@ import {
   LogOut,
   FileText,
   Palette,
+  Layout,
 } from "lucide-react";
 import { useAppStore } from "@/stores/useAppStore";
 import { getThemeClasses } from "@/types/themes";
@@ -79,6 +80,12 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
       label: "Configurar Tema",
       icon: Palette,
       path: "/admin/theme-settings",
+    },
+    {
+      id: "site-settings",
+      label: "Configurar Site",
+      icon: Settings,
+      path: "/admin/site-settings",
     },
   ];
 
