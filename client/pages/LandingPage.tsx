@@ -160,7 +160,7 @@ const LandingPage = () => {
                 size="lg"
                 className={`bg-white ${currentTheme === "salon" ? "text-purple-600" : "text-blue-800"} hover:bg-gray-100 text-lg px-8 py-4 rounded-full`}
               >
-                Agendar Agora
+                {content?.hero?.buttons?.primary || "Agendar Agora"}
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </Link>
@@ -168,7 +168,7 @@ const LandingPage = () => {
               size="lg"
               className={`bg-transparent text-white border-2 border-white hover:bg-white ${currentTheme === "salon" ? "hover:text-purple-600" : "hover:text-blue-800"} text-lg px-8 py-4 rounded-full font-medium transition-all duration-200`}
             >
-              Ver Serviços
+              {content?.hero?.buttons?.secondary || "Ver Serviços"}
             </Button>
           </div>
         </div>
