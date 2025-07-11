@@ -12,6 +12,7 @@ import {
   ShoppingCart,
 } from "lucide-react";
 import { useAppStore } from "@/stores/useAppStore";
+import { getThemeClasses } from "@/types/themes";
 
 const ServiceSelection = () => {
   const {
