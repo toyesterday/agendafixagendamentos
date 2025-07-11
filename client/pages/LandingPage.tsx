@@ -116,7 +116,7 @@ const LandingPage = () => {
             <Link to="/login">
               <Button
                 variant="outline"
-                className="text-white border-white hover:bg-white hover:text-purple-600"
+                className="text-white border-white hover:bg-white hover:text-purple-600 font-medium"
               >
                 Área Admin
               </Button>
