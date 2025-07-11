@@ -233,6 +233,77 @@ export const sampleBusinessConfig: BusinessConfig = {
       awards: ["Melhor Barbearia 2023"],
     },
   },
+  content: {
+    header: {
+      companyName: "AgendaFixa",
+      navigation: {
+        services: "Serviços",
+        about: "Sobre",
+        contact: "Contato",
+      },
+      adminButton: "Área Admin",
+    },
+    hero: {
+      title: {
+        main: "Transforme seu visual com",
+        highlight: "estilo e praticidade",
+      },
+      subtitle:
+        "Agende seu horário na melhor barbearia da região de forma rápida e prática. Profissionais qualificados e ambiente moderno te esperam.",
+      buttons: {
+        primary: "Agendar Agora",
+        secondary: "Ver Serviços",
+      },
+    },
+    features: {
+      title: "Por que escolher a AgendaFixa?",
+      subtitle:
+        "Oferecemos a melhor experiência em cuidados masculinos com tecnologia e qualidade",
+      items: [
+        {
+          title: "Agendamento Online",
+          description: "Agende seu horário 24/7 de forma rápida e prática",
+        },
+        {
+          title: "Sem Espera",
+          description:
+            "Chegue no horário certo, sem filas ou esperas desnecessárias",
+        },
+        {
+          title: "Profissionais Qualificados",
+          description: "Equipe experiente e comprometida com a qualidade",
+        },
+        {
+          title: "Notificações",
+          description: "Receba lembretes por WhatsApp e email automaticamente",
+        },
+      ],
+    },
+    services: {
+      title: "Nossos Serviços",
+      subtitle:
+        "Serviços especializados com produtos premium e técnicas modernas",
+      buttonText: "Agendar Serviço",
+    },
+    testimonials: {
+      title: "O que nossos clientes dizem",
+      subtitle: "Depoimentos reais de quem confia na AgendaFixa",
+    },
+    cta: {
+      title: "Pronto para sua transformação?",
+      subtitle:
+        "Agende agora seu horário e tenha a melhor experiência em cuidados masculinos",
+      buttonText: "Agendar Agora",
+      features: {
+        scheduling: "Agendamento Online 24/7",
+        reminders: "Lembretes Automáticos",
+        qualified: "Profissionais Qualificados",
+      },
+    },
+    footer: {
+      copyright: "Todos os direitos reservados",
+    },
+  },
   createdAt: new Date().toISOString(),
   updatedAt: new Date().toISOString(),
 };
