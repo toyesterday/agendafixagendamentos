@@ -145,14 +145,14 @@ const LandingPage = () => {
       >
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
-            Transforme seu visual com
+            {content?.hero?.title?.main || "Transforme seu visual com"}
             <span className="block bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">
-              estilo e praticidade
+              {content?.hero?.title?.highlight || "estilo e praticidade"}
             </span>
           </h1>
           <p className="text-xl md:text-2xl mb-8 opacity-90 max-w-3xl mx-auto">
-            Agende seu horário na melhor barbearia da região de forma rápida e
-            prática. Profissionais qualificados e ambiente moderno te esperam.
+            {content?.hero?.subtitle ||
+              "Agende seu horário na melhor barbearia da região de forma rápida e prática. Profissionais qualificados e ambiente moderno te esperam."}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link to="/booking">
