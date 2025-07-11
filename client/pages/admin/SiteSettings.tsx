@@ -743,7 +743,7 @@ const SiteSettings = () => {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
-                  <Label htmlFor="testimonialsTitle">Título da Se��ão</Label>
+                  <Label htmlFor="testimonialsTitle">Título da Seção</Label>
                   <Input
                     id="testimonialsTitle"
                     value={contentData.testimonials.title}
