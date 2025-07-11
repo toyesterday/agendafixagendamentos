@@ -353,7 +353,7 @@ const CustomerForm = () => {
                 </div>
 
                 <Button
-                  className="w-full mt-6 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white h-12"
+                  className={`w-full mt-6 ${themeClasses.primaryButton} text-white h-12`}
                   onClick={handleContinue}
                 >
                   Finalizar Agendamento
