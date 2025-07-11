@@ -181,8 +181,12 @@ const LandingPage = () => {
                 className="text-center hover:shadow-lg transition-shadow border-0 bg-white"
               >
                 <CardContent className="p-8">
-                  <div className="bg-gradient-to-br from-blue-100 to-slate-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <feature.icon className="h-8 w-8 text-blue-800" />
+                  <div
+                    className={`bg-gradient-to-br ${currentTheme === "salon" ? "from-purple-100 to-pink-100" : "from-blue-100 to-slate-100"} w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4`}
+                  >
+                    <feature.icon
+                      className={`h-8 w-8 ${currentTheme === "salon" ? "text-purple-600" : "text-blue-800"}`}
+                    />
                   </div>
                   <h3 className="text-xl font-semibold text-gray-800 mb-2">
                     {feature.title}
