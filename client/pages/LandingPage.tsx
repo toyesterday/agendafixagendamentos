@@ -93,7 +93,7 @@ const LandingPage = () => {
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
-      <header className="bg-gradient-to-r from-purple-600 to-blue-600 text-white">
+      <header className={`${themeClasses.primaryButton} text-white`}>
         <nav className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <Scissors className="h-8 w-8" />
