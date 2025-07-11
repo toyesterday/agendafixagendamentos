@@ -133,22 +133,13 @@ const AppointmentsManagement = () => {
     <AdminLayout>
       <div className="space-y-6">
         {/* Header */}
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-800">
-              Gerenciar Agendamentos
-            </h1>
-            <p className="text-gray-600">
-              Visualize e gerencie todos os agendamentos da sua barbearia
-            </p>
-          </div>
-          <Button
-            onClick={() => window.open("/booking", "_blank")}
-            className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
-          >
-            <Calendar className="h-4 w-4 mr-2" />
-            Novo Agendamento
-          </Button>
+        <div>
+          <h1 className="text-3xl font-bold text-gray-800">
+            Gerenciar Agendamentos
+          </h1>
+          <p className="text-gray-600">
+            Visualize e gerencie todos os agendamentos da sua barbearia
+          </p>
         </div>
 
         {/* Filters */}
