@@ -6,7 +6,6 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Switch } from "@/components/ui/switch";
-import { Link } from "react-router-dom";
 import {
   MessageCircle,
   Settings,
@@ -17,411 +16,372 @@ import {
   CheckCircle,
   AlertCircle,
   RotateCcw,
-  ArrowLeft,
 } from "lucide-react";
-import { WhatsAppConfig } from "@/types";
+import AdminLayout from "@/components/AdminLayout";
 
-const WhatsAppConfigPage = () => {
-  const [config, setConfig] = useState<WhatsAppConfig>({
-    id: "1",
-    salonName: "Barbearia ModernCut",
-    salonAddress: "Rua Principal, 456 - Centro, São Paulo/SP",
-    salonPhone: "(11) 3333-4444",
-    adminPhone: "(11) 99999-8888",
-    clientMessageTemplate: `🔮 *{salonName} - Agendamento Confirmado!*
-
-Olá, {clientName}! 👋
-
-Seu agendamento foi confirmado com sucesso:
-
-📅 *Data:* {date}
-⏰ *Horário:* {time}
-✂️ *Serviços:* {services}
-
-📍 *Local:* {salonName}
-{salonAddress}
-
-📋 *Importante:*
-• Chegue com 5 minutos de antecedência
-• Traga um documento com foto
-• Em caso de imprevistos, entre em contato
-
-📞 Dúvidas? Ligue: {salonPhone}
-
-Obrigado por escolher a {salonName}! ✨`,
-    salonMessageTemplate: `🆕 *NOVO AGENDAMENTO - {salonName}*
-
-📋 *Cliente:* {clientName}
-📞 *Telefone:* {clientPhone}
-📅 *Data:* {date}
-⏰ *Horário:* {time}
-✂️ *Serviços:* {services}
-
-💰 *Total:* R$ {totalPrice}
-
-💼 *Sistema AgendaFixa*
-Agendamento feito através do site.`,
+const WhatsAppConfig = () => {
+  const [config, setConfig] = useState({
+    salonName: "",
+    salonAddress: "",
+    salonPhone: "",
+    adminPhone: "",
+    clientMessageTemplate: "",
+    salonMessageTemplate: "",
     autoSendToClient: true,
     autoSendToSalon: true,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
   });
 
-  const [saving, setSaving] = useState(false);
-  const [message, setMessage] = useState<{
-    type: "success" | "error";
-    text: string;
-  } | null>(null);
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveStatus, setSaveStatus] = useState<"idle" | "success" | "error">(
+    "idle",
+  );
 
-  // Simula carregar dados (futuramente seria da API)
   useEffect(() => {
-    const loadConfig = () => {
-      const savedConfig = localStorage.getItem("whatsapp-config");
-      if (savedConfig) {
-        setConfig(JSON.parse(savedConfig));
-      }
-    };
     loadConfig();
   }, []);
 
-  const handleSave = async () => {
-    setSaving(true);
+  const loadConfig = async () => {
     try {
-      // Simula salvamento (futuramente seria na API)
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      localStorage.setItem("whatsapp-config", JSON.stringify(config));
-
-      setMessage({
-        type: "success",
-        text: "Configurações do WhatsApp salvas com sucesso!",
-      });
-
-      setTimeout(() => setMessage(null), 3000);
+      const response = await fetch("/api/whatsapp/config");
+      if (response.ok) {
+        const data = await response.json();
+        if (data.success) {
+          setConfig(data.data);
+        }
+      }
     } catch (error) {
-      setMessage({
-        type: "error",
-        text: "Erro ao salvar configurações. Tente novamente.",
+      console.error("Failed to load config:", error);
+    }
+  };
+
+  const handleSave = async () => {
+    setIsSaving(true);
+    setSaveStatus("idle");
+
+    try {
+      const response = await fetch("/api/whatsapp/config", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(config),
       });
+
+      if (response.ok) {
+        setSaveStatus("success");
+        setTimeout(() => setSaveStatus("idle"), 3000);
+      } else {
+        setSaveStatus("error");
+      }
+    } catch (error) {
+      console.error("Failed to save config:", error);
+      setSaveStatus("error");
     } finally {
-      setSaving(false);
+      setIsSaving(false);
     }
   };
 
   const handleReset = () => {
-    const defaultTemplate = `🔮 *{salonName} - Agendamento Confirmado!*
-
-Olá, {clientName}! 👋
-
-Seu agendamento foi confirmado com sucesso:
-
-📅 *Data:* {date}
-⏰ *Horário:* {time}
-✂️ *Serviços:* {services}
-
-📍 *Local:* {salonName}
-{salonAddress}
-
-📋 *Importante:*
-• Chegue com 5 minutos de antecedência
-• Traga um documento com foto
-• Em caso de imprevistos, entre em contato
-
-📞 Dúvidas? Ligue: {salonPhone}
-
-Obrigado por escolher a {salonName}! ✨`;
-
-    const defaultSalonTemplate = `🆕 *NOVO AGENDAMENTO - {salonName}*
-
-📋 *Cliente:* {clientName}
-📞 *Telefone:* {clientPhone}
-📅 *Data:* {date}
-⏰ *Horário:* {time}
-✂️ *Serviços:* {services}
-
-💰 *Total:* R$ {totalPrice}
-
-💼 *Sistema AgendaFixa*
-Agendamento feito através do site.`;
-
     setConfig({
-      ...config,
-      clientMessageTemplate: defaultTemplate,
-      salonMessageTemplate: defaultSalonTemplate,
+      salonName: "Barbearia AgendaFixa",
+      salonAddress: "Rua das Flores, 123 - Centro",
+      salonPhone: "(11) 99999-9999",
+      adminPhone: "(11) 99999-9999",
+      clientMessageTemplate: `Olá {clientName}! 👋
+
+Seu agendamento foi confirmado! ✅
+
+📅 Data: {date}
+⏰ Horário: {time}
+✂️ Serviço: {services}
+💰 Valor: R$ {totalPrice}
+
+📍 Endereço: {salonAddress}
+📞 Contato: {salonPhone}
+
+Obrigado pela preferência! 😊`,
+      salonMessageTemplate: `🔔 NOVO AGENDAMENTO!
+
+👤 Cliente: {clientName}
+📞 Telefone: {clientPhone}
+📧 Email: {clientEmail}
+
+📅 Data: {date}
+⏰ Horário: {time}
+✂️ Serviço: {services}
+💰 Valor: R$ {totalPrice}
+
+Agendamento realizado em: {bookingTime}`,
+      autoSendToClient: true,
+      autoSendToSalon: true,
     });
   };
 
-  const updateConfig = (field: keyof WhatsAppConfig, value: any) => {
-    setConfig((prev) => ({
-      ...prev,
-      [field]: value,
-      updatedAt: new Date().toISOString(),
-    }));
+  const getPreviewMessage = (template: string, isClient: boolean) => {
+    const sampleData = {
+      clientName: "João Silva",
+      clientPhone: "(11) 98765-4321",
+      clientEmail: "joao@email.com",
+      date: "15/12/2023",
+      time: "14:30",
+      services: "Corte Masculino + Barba",
+      totalPrice: "45,00",
+      salonAddress: config.salonAddress || "Rua das Flores, 123 - Centro",
+      salonPhone: config.salonPhone || "(11) 99999-9999",
+      bookingTime: new Date().toLocaleString("pt-BR"),
+    };
+
+    return template.replace(/\{(\w+)\}/g, (match, key) => {
+      return sampleData[key as keyof typeof sampleData] || match;
+    });
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center space-x-4">
-          <Link to="/admin/dashboard">
-            <Button variant="outline" size="sm">
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Voltar
-            </Button>
-          </Link>
-          <div>
-            <h1 className="text-3xl font-bold">Configurações do WhatsApp</h1>
-            <p className="text-gray-600 mt-2">
-              Configure as notificações automáticas para diferentes salões
-            </p>
-          </div>
+    <AdminLayout>
+      <div className="space-y-6">
+        {/* Page Header */}
+        <div>
+          <h1 className="text-3xl font-bold text-gray-800 mb-2">
+            Configurações do WhatsApp
+          </h1>
+          <p className="text-gray-600">
+            Personalize as mensagens automáticas e informações da sua barbearia
+          </p>
         </div>
-        <Button
-          onClick={handleSave}
-          disabled={saving}
-          className="bg-green-600 hover:bg-green-700"
-        >
-          {saving ? (
-            <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
-          ) : (
-            <Save className="h-4 w-4 mr-2" />
-          )}
-          Salvar Configurações
-        </Button>
-      </div>
 
-      {message && (
-        <Alert
-          className={
-            message.type === "success"
-              ? "border-green-200 bg-green-50"
-              : "border-red-200 bg-red-50"
-          }
-        >
-          {message.type === "success" ? (
+        {saveStatus === "success" && (
+          <Alert className="border-green-200 bg-green-50">
             <CheckCircle className="h-4 w-4 text-green-600" />
-          ) : (
+            <AlertDescription className="text-green-800">
+              Configurações salvas com sucesso!
+            </AlertDescription>
+          </Alert>
+        )}
+
+        {saveStatus === "error" && (
+          <Alert className="border-red-200 bg-red-50">
             <AlertCircle className="h-4 w-4 text-red-600" />
-          )}
-          <AlertDescription
-            className={
-              message.type === "success" ? "text-green-700" : "text-red-700"
-            }
+            <AlertDescription className="text-red-800">
+              Erro ao salvar configurações. Tente novamente.
+            </AlertDescription>
+          </Alert>
+        )}
+
+        <div className="grid lg:grid-cols-2 gap-6">
+          {/* Salon Information */}
+          <Card className="border-0 shadow-lg">
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <Store className="h-5 w-5 mr-2 text-purple-600" />
+                Informações da Barbearia
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div>
+                <Label htmlFor="salonName">Nome da Barbearia</Label>
+                <Input
+                  id="salonName"
+                  value={config.salonName}
+                  onChange={(e) =>
+                    setConfig({ ...config, salonName: e.target.value })
+                  }
+                  placeholder="Nome da sua barbearia"
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="salonAddress">Endereço</Label>
+                <Input
+                  id="salonAddress"
+                  value={config.salonAddress}
+                  onChange={(e) =>
+                    setConfig({ ...config, salonAddress: e.target.value })
+                  }
+                  placeholder="Endereço completo"
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="salonPhone">Telefone da Barbearia</Label>
+                <Input
+                  id="salonPhone"
+                  value={config.salonPhone}
+                  onChange={(e) =>
+                    setConfig({ ...config, salonPhone: e.target.value })
+                  }
+                  placeholder="(11) 99999-9999"
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="adminPhone">
+                  Telefone do Administrador (para receber notificações)
+                </Label>
+                <Input
+                  id="adminPhone"
+                  value={config.adminPhone}
+                  onChange={(e) =>
+                    setConfig({ ...config, adminPhone: e.target.value })
+                  }
+                  placeholder="(11) 99999-9999"
+                />
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Auto-send Settings */}
+          <Card className="border-0 shadow-lg">
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <Settings className="h-5 w-5 mr-2 text-purple-600" />
+                Configurações de Envio
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <Label htmlFor="autoSendToClient">Enviar para Cliente</Label>
+                  <p className="text-sm text-gray-500">
+                    Enviar confirmação automática para o cliente
+                  </p>
+                </div>
+                <Switch
+                  id="autoSendToClient"
+                  checked={config.autoSendToClient}
+                  onCheckedChange={(checked) =>
+                    setConfig({ ...config, autoSendToClient: checked })
+                  }
+                />
+              </div>
+
+              <div className="flex items-center justify-between">
+                <div>
+                  <Label htmlFor="autoSendToSalon">Enviar para Barbearia</Label>
+                  <p className="text-sm text-gray-500">
+                    Enviar notificação para o administrador
+                  </p>
+                </div>
+                <Switch
+                  id="autoSendToSalon"
+                  checked={config.autoSendToSalon}
+                  onCheckedChange={(checked) =>
+                    setConfig({ ...config, autoSendToSalon: checked })
+                  }
+                />
+              </div>
+
+              <div className="pt-4 space-y-2">
+                <h4 className="font-medium text-gray-800">
+                  Variáveis Disponíveis:
+                </h4>
+                <div className="text-xs text-gray-600 grid grid-cols-2 gap-1">
+                  <span>• {"{clientName}"}</span>
+                  <span>• {"{clientPhone}"}</span>
+                  <span>• {"{clientEmail}"}</span>
+                  <span>• {"{date}"}</span>
+                  <span>• {"{time}"}</span>
+                  <span>• {"{services}"}</span>
+                  <span>• {"{totalPrice}"}</span>
+                  <span>• {"{salonAddress}"}</span>
+                  <span>• {"{salonPhone}"}</span>
+                  <span>• {"{bookingTime}"}</span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Client Message Template */}
+          <Card className="border-0 shadow-lg">
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <MessageCircle className="h-5 w-5 mr-2 text-green-600" />
+                Mensagem para o Cliente
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div>
+                <Label htmlFor="clientTemplate">Template da Mensagem</Label>
+                <Textarea
+                  id="clientTemplate"
+                  value={config.clientMessageTemplate}
+                  onChange={(e) =>
+                    setConfig({
+                      ...config,
+                      clientMessageTemplate: e.target.value,
+                    })
+                  }
+                  rows={8}
+                  placeholder="Digite o template da mensagem para o cliente..."
+                />
+              </div>
+
+              <div>
+                <Label>Preview da Mensagem:</Label>
+                <div className="p-3 bg-green-50 border border-green-200 rounded-lg text-sm">
+                  <pre className="whitespace-pre-wrap font-sans">
+                    {getPreviewMessage(config.clientMessageTemplate, true)}
+                  </pre>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Salon Message Template */}
+          <Card className="border-0 shadow-lg">
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <Phone className="h-5 w-5 mr-2 text-blue-600" />
+                Mensagem para a Barbearia
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div>
+                <Label htmlFor="salonTemplate">Template da Mensagem</Label>
+                <Textarea
+                  id="salonTemplate"
+                  value={config.salonMessageTemplate}
+                  onChange={(e) =>
+                    setConfig({
+                      ...config,
+                      salonMessageTemplate: e.target.value,
+                    })
+                  }
+                  rows={8}
+                  placeholder="Digite o template da mensagem para a barbearia..."
+                />
+              </div>
+
+              <div>
+                <Label>Preview da Mensagem:</Label>
+                <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg text-sm">
+                  <pre className="whitespace-pre-wrap font-sans">
+                    {getPreviewMessage(config.salonMessageTemplate, false)}
+                  </pre>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Action Buttons */}
+        <div className="flex items-center space-x-4">
+          <Button
+            onClick={handleSave}
+            disabled={isSaving}
+            className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
           >
-            {message.text}
-          </AlertDescription>
-        </Alert>
-      )}
+            <Save className="h-4 w-4 mr-2" />
+            {isSaving ? "Salvando..." : "Salvar Configurações"}
+          </Button>
 
-      {/* Informações do Salão */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center space-x-2">
-            <Store className="h-5 w-5" />
-            <span>Informações do Salão</span>
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <Label htmlFor="salonName">Nome do Salão</Label>
-              <Input
-                id="salonName"
-                value={config.salonName}
-                onChange={(e) => updateConfig("salonName", e.target.value)}
-                placeholder="Ex: Barbearia ModernCut"
-              />
-            </div>
-            <div>
-              <Label htmlFor="salonPhone">Telefone do Salão</Label>
-              <Input
-                id="salonPhone"
-                value={config.salonPhone}
-                onChange={(e) => updateConfig("salonPhone", e.target.value)}
-                placeholder="Ex: (11) 3333-4444"
-              />
-            </div>
-          </div>
-          <div>
-            <Label htmlFor="salonAddress">Endereço Completo</Label>
-            <Input
-              id="salonAddress"
-              value={config.salonAddress}
-              onChange={(e) => updateConfig("salonAddress", e.target.value)}
-              placeholder="Ex: Rua Principal, 456 - Centro, São Paulo/SP"
-            />
-          </div>
-          <div>
-            <Label htmlFor="adminPhone">
-              Telefone do Admin (Recebe Notificações)
-            </Label>
-            <Input
-              id="adminPhone"
-              value={config.adminPhone}
-              onChange={(e) => updateConfig("adminPhone", e.target.value)}
-              placeholder="Ex: (11) 99999-8888"
-            />
-            <p className="text-sm text-gray-500 mt-1">
-              Este número receberá as notificações quando houver novos
-              agendamentos
-            </p>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Configurações de Notificação */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center space-x-2">
-            <Settings className="h-5 w-5" />
-            <span>Configurações de Notificação</span>
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <Label htmlFor="autoClient">Enviar automático para cliente</Label>
-              <p className="text-sm text-gray-500">
-                Envia confirmação automaticamente para o cliente após
-                agendamento
-              </p>
-            </div>
-            <Switch
-              id="autoClient"
-              checked={config.autoSendToClient}
-              onCheckedChange={(checked) =>
-                updateConfig("autoSendToClient", checked)
-              }
-            />
-          </div>
-          <div className="flex items-center justify-between">
-            <div>
-              <Label htmlFor="autoSalon">Enviar automático para salão</Label>
-              <p className="text-sm text-gray-500">
-                Envia notificação automaticamente para o admin do salão
-              </p>
-            </div>
-            <Switch
-              id="autoSalon"
-              checked={config.autoSendToSalon}
-              onCheckedChange={(checked) =>
-                updateConfig("autoSendToSalon", checked)
-              }
-            />
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Templates de Mensagem */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center space-x-2">
-            <MessageCircle className="h-5 w-5" />
-            <span>Templates de Mensagem</span>
-          </CardTitle>
-          <div className="flex space-x-2">
-            <Button variant="outline" size="sm" onClick={handleReset}>
-              <RotateCcw className="h-4 w-4 mr-2" />
-              Restaurar Padrão
-            </Button>
-          </div>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          <div>
-            <Label htmlFor="clientTemplate">Mensagem para Cliente</Label>
-            <Textarea
-              id="clientTemplate"
-              value={config.clientMessageTemplate}
-              onChange={(e) =>
-                updateConfig("clientMessageTemplate", e.target.value)
-              }
-              rows={15}
-              className="font-mono text-sm"
-            />
-            <div className="mt-2 p-3 bg-blue-50 border border-blue-200 rounded">
-              <p className="font-medium text-blue-800 mb-2">
-                Variáveis disponíveis:
-              </p>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-sm text-blue-700">
-                <code>{"{clientName}"}</code>
-                <code>{"{date}"}</code>
-                <code>{"{time}"}</code>
-                <code>{"{services}"}</code>
-                <code>{"{salonName}"}</code>
-                <code>{"{salonAddress}"}</code>
-                <code>{"{salonPhone}"}</code>
-                <code>{"{totalPrice}"}</code>
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <Label htmlFor="salonTemplate">Mensagem para Salão</Label>
-            <Textarea
-              id="salonTemplate"
-              value={config.salonMessageTemplate}
-              onChange={(e) =>
-                updateConfig("salonMessageTemplate", e.target.value)
-              }
-              rows={12}
-              className="font-mono text-sm"
-            />
-            <div className="mt-2 p-3 bg-green-50 border border-green-200 rounded">
-              <p className="font-medium text-green-800 mb-2">
-                Variáveis disponíveis:
-              </p>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-sm text-green-700">
-                <code>{"{clientName}"}</code>
-                <code>{"{clientPhone}"}</code>
-                <code>{"{date}"}</code>
-                <code>{"{time}"}</code>
-                <code>{"{services}"}</code>
-                <code>{"{salonName}"}</code>
-                <code>{"{totalPrice}"}</code>
-              </div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Preview das Mensagens */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Preview das Mensagens</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div>
-            <h4 className="font-medium mb-2">Mensagem para Cliente:</h4>
-            <div className="bg-green-50 border border-green-200 rounded p-3 whitespace-pre-wrap text-sm">
-              {config.clientMessageTemplate
-                .replace(/{salonName}/g, config.salonName)
-                .replace(/{salonAddress}/g, config.salonAddress)
-                .replace(/{salonPhone}/g, config.salonPhone)
-                .replace(/{clientName}/g, "João Silva")
-                .replace(/{date}/g, "Segunda-feira, 15 de Janeiro de 2024")
-                .replace(/{time}/g, "14:00")
-                .replace(/{services}/g, "Corte Masculino, Barba")
-                .replace(/{totalPrice}/g, "45,00")}
-            </div>
-          </div>
-
-          <div>
-            <h4 className="font-medium mb-2">Mensagem para Salão:</h4>
-            <div className="bg-blue-50 border border-blue-200 rounded p-3 whitespace-pre-wrap text-sm">
-              {config.salonMessageTemplate
-                .replace(/{salonName}/g, config.salonName)
-                .replace(/{clientName}/g, "João Silva")
-                .replace(/{clientPhone}/g, "(11) 98765-4321")
-                .replace(/{date}/g, "Segunda-feira, 15 de Janeiro de 2024")
-                .replace(/{time}/g, "14:00")
-                .replace(/{services}/g, "Corte Masculino, Barba")
-                .replace(/{totalPrice}/g, "45,00")}
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-    </div>
+          <Button variant="outline" onClick={handleReset}>
+            <RotateCcw className="h-4 w-4 mr-2" />
+            Restaurar Padrão
+          </Button>
+        </div>
+      </div>
+    </AdminLayout>
   );
 };
 
-export default WhatsAppConfigPage;
+export default WhatsAppConfig;
