@@ -211,7 +211,9 @@ const ServiceSelection = () => {
                           </p>
                         </div>
                         <div className="text-right">
-                          <p className="font-bold text-purple-600">
+                          <p
+                            className={`font-bold ${currentTheme === "salon" ? "text-purple-600" : "text-blue-800"}`}
+                          >
                             R$ {service.price.toFixed(2)}
                           </p>
                         </div>
