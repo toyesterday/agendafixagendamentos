@@ -123,7 +123,7 @@ class WhatsAppService {
 
         // Message updates (read receipts, etc.)
         if (events["messages.update"]) {
-          console.log("��� Message updates:", events["messages.update"]);
+          console.log("📨 Message updates:", events["messages.update"]);
         }
 
         // Presence updates
@@ -419,7 +419,7 @@ Esperamos vê-lo em breve! 😊`;
 
   async logout() {
     try {
-      console.log("🚪 Logging out of WhatsApp...");
+      console.log("���� Logging out of WhatsApp...");
 
       if (this.sock) {
         await this.sock.logout();
