@@ -310,7 +310,7 @@ const LandingPage = () => {
                 size="lg"
                 className={`bg-white ${currentTheme === "salon" ? "text-purple-600" : "text-blue-800"} hover:bg-gray-100 text-lg px-8 py-4 rounded-full`}
               >
-                Agendar Agora
+                {content?.cta?.buttonText || "Agendar Agora"}
                 <Calendar className="ml-2 h-5 w-5" />
               </Button>
             </Link>
@@ -318,15 +318,16 @@ const LandingPage = () => {
           <div className="mt-12 flex flex-wrap justify-center items-center gap-8 text-sm opacity-75">
             <div className="flex items-center">
               <CheckCircle className="h-4 w-4 mr-2" />
-              Agendamento Online 24/7
+              {content?.cta?.features?.scheduling || "Agendamento Online 24/7"}
             </div>
             <div className="flex items-center">
               <HeadphonesIcon className="h-4 w-4 mr-2" />
-              Lembretes Automáticos
+              {content?.cta?.features?.reminders || "Lembretes Automáticos"}
             </div>
             <div className="flex items-center">
               <ShieldCheck className="h-4 w-4 mr-2" />
-              Profissionais Qualificados
+              {content?.cta?.features?.qualified ||
+                "Profissionais Qualificados"}
             </div>
           </div>
         </div>
