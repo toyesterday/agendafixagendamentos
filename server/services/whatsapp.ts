@@ -511,7 +511,7 @@ const initializeWhatsApp = async () => {
 };
 
 // Optional initialization - only run if environment variable is set
-if (process.env.ENABLE_WHATSAPP === "true") {
+if (false && process.env.ENABLE_WHATSAPP === "true") {
   setTimeout(() => {
     // Wrap in timeout to prevent hanging the server
     const initTimeout = setTimeout(() => {
