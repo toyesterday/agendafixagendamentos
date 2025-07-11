@@ -227,7 +227,7 @@ const LandingPage = () => {
                   </div>
                   <p className="text-gray-600 mb-4">{service.description}</p>
                   <Link to="/booking">
-                    <Button className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700">
+                    <Button className={`w-full ${themeClasses.primaryButton}`}>
                       Agendar Serviço
                     </Button>
                   </Link>
@@ -281,7 +281,7 @@ const LandingPage = () => {
             Pronto para sua transformação?
           </h2>
           <p className="text-xl mb-8 opacity-90 max-w-2xl mx-auto">
-            Agende agora seu hor��rio e tenha a melhor experiência em cuidados
+            Agende agora seu hor��rio e tenha a melhor experi��ncia em cuidados
             masculinos
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
