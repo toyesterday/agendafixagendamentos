@@ -51,27 +51,34 @@ class WhatsAppService {
     this.store = null;
   }
 
-  async initialize() {
-    try {
-      console.log("🚀 Initializing WhatsApp service...");
-      console.log("📁 Auth directory:", this.authDir);
+    async initialize() {
+    return new Promise<void>((resolve, reject) => {
+      // Set a hard timeout to prevent hanging
+      const timeout = setTimeout(() => {
+        reject(new Error("WhatsApp initialization timeout"));
+      }, 8000);
 
-      // Test imports first
-      console.log("🔍 Testing Baileys imports...");
-      const baileys = await import("@whiskeysockets/baileys");
-      console.log("📦 Baileys imported:", Object.keys(baileys));
+      const doInitialize = async () => {
+        try {
+          console.log("🚀 Initializing WhatsApp service...");
+          console.log("📁 Auth directory:", this.authDir);
 
-      // Get auth state
-      console.log("🔐 Getting auth state...");
-      const { state, saveCreds } = await useMultiFileAuthState(this.authDir);
-      console.log("✅ Auth state obtained");
+          // Test imports first
+          console.log("🔍 Testing Baileys imports...");
+          const baileys = await import("@whiskeysockets/baileys");
+          console.log("📦 Baileys imported:", Object.keys(baileys));
 
-      // Create socket with recommended configuration
-      console.log("🔌 Creating WhatsApp socket...");
+          // Get auth state
+          console.log("🔐 Getting auth state...");
+          const { state, saveCreds } = await useMultiFileAuthState(this.authDir);
+          console.log("✅ Auth state obtained");
 
-      if (typeof makeWASocket !== "function") {
-        throw new Error("makeWASocket is not a function");
-      }
+          // Create socket with recommended configuration
+          console.log("🔌 Creating WhatsApp socket...");
+
+          if (typeof makeWASocket !== "function") {
+            throw new Error("makeWASocket is not a function");
+          }
 
       this.sock = makeWASocket({
         auth: state,
@@ -419,7 +426,7 @@ Esperamos vê-lo em breve! 😊`;
 
   async logout() {
     try {
-      console.log("���� Logging out of WhatsApp...");
+      console.log("����� Logging out of WhatsApp...");
 
       if (this.sock) {
         await this.sock.logout();
