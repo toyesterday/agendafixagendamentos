@@ -151,7 +151,7 @@ const LandingPage = () => {
             <Button
               size="lg"
               variant="outline"
-              className="text-white border-white hover:bg-white hover:text-purple-600 text-lg px-8 py-4 rounded-full"
+              className="text-white border-white hover:bg-white hover:text-purple-600 text-lg px-8 py-4 rounded-full font-medium"
             >
               Ver Serviços
             </Button>
