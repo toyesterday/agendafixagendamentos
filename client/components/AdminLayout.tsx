@@ -81,6 +81,12 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
       icon: Palette,
       path: "/admin/theme-settings",
     },
+    {
+      id: "footer-settings",
+      label: "Configurar Rodapé",
+      icon: Layout,
+      path: "/admin/footer-settings",
+    },
   ];
 
   const isActivePath = (path: string) => {
