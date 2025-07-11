@@ -135,7 +135,9 @@ const ServiceSelection = () => {
                               {service.name}
                             </h3>
                             {isSelected && (
-                              <div className="bg-purple-600 text-white rounded-full p-2">
+                              <div
+                                className={`${currentTheme === "salon" ? "bg-purple-600" : "bg-blue-800"} text-white rounded-full p-2`}
+                              >
                                 <Check className="h-4 w-4" />
                               </div>
                             )}
