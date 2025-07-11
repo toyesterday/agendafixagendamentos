@@ -145,22 +145,6 @@ const Dashboard = () => {
             </div>
 
             <div className="flex items-center space-x-4">
-              <Link to="/admin/whatsapp">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="flex items-center space-x-2"
-                >
-                  {whatsappStatus.connected ? (
-                    <Wifi className="h-4 w-4 text-green-500" />
-                  ) : (
-                    <WifiOff className="h-4 w-4 text-red-500" />
-                  )}
-                  <MessageCircle className="h-4 w-4" />
-                  <span>WhatsApp</span>
-                </Button>
-              </Link>
-
               <div className="flex items-center space-x-2">
                 <div className="text-right">
                   <p className="text-sm font-medium text-gray-800">
