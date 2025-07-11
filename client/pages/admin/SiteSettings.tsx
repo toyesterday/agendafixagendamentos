@@ -806,6 +806,80 @@ const SiteSettings = () => {
                     placeholder="Ex: Agendar Agora"
                   />
                 </div>
+                <div className="grid md:grid-cols-3 gap-4">
+                  <div>
+                    <Label htmlFor="ctaFeature1">Característica 1</Label>
+                    <Input
+                      id="ctaFeature1"
+                      value={contentData.cta.features.scheduling}
+                      onChange={(e) =>
+                        handleContentNestedInputChange(
+                          "cta",
+                          "features",
+                          "scheduling",
+                          e.target.value,
+                        )
+                      }
+                      placeholder="Ex: Agendamento Online 24/7"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="ctaFeature2">Característica 2</Label>
+                    <Input
+                      id="ctaFeature2"
+                      value={contentData.cta.features.reminders}
+                      onChange={(e) =>
+                        handleContentNestedInputChange(
+                          "cta",
+                          "features",
+                          "reminders",
+                          e.target.value,
+                        )
+                      }
+                      placeholder="Ex: Lembretes Automáticos"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="ctaFeature3">Característica 3</Label>
+                    <Input
+                      id="ctaFeature3"
+                      value={contentData.cta.features.qualified}
+                      onChange={(e) =>
+                        handleContentNestedInputChange(
+                          "cta",
+                          "features",
+                          "qualified",
+                          e.target.value,
+                        )
+                      }
+                      placeholder="Ex: Profissionais Qualificados"
+                    />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Footer Copyright Section */}
+            <Card className="border-0 shadow-lg">
+              <CardHeader>
+                <CardTitle>Copyright do Rodapé</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div>
+                  <Label htmlFor="footerCopyright">Texto de Copyright</Label>
+                  <Input
+                    id="footerCopyright"
+                    value={contentData.footer.copyright}
+                    onChange={(e) =>
+                      handleContentInputChange(
+                        "footer",
+                        "copyright",
+                        e.target.value,
+                      )
+                    }
+                    placeholder="Ex: Todos os direitos reservados"
+                  />
+                </div>
               </CardContent>
             </Card>
           </TabsContent>
