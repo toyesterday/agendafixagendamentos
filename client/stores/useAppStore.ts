@@ -295,7 +295,7 @@ export const useAppStore = create<AppState>()(
         set({ bookingData: { services: [] }, currentBookingStep: 1 });
       },
 
-      // New action to add/remove services from booking
+      // Toggle service selection (add if not present, remove if present)
       addServiceToBooking: (serviceId: string) => {
         set((state) => {
           const currentServices = state.bookingData.services || [];
@@ -305,14 +305,12 @@ export const useAppStore = create<AppState>()(
 
           let newServices;
           if (existingService) {
-            // Increase quantity
-            newServices = currentServices.map((s) =>
-              s.serviceId === serviceId
-                ? { ...s, quantity: s.quantity + 1 }
-                : s,
+            // Remove service (toggle off)
+            newServices = currentServices.filter(
+              (s) => s.serviceId !== serviceId,
             );
           } else {
-            // Add new service
+            // Add new service with quantity 1
             newServices = [...currentServices, { serviceId, quantity: 1 }];
           }
 
@@ -346,26 +344,9 @@ export const useAppStore = create<AppState>()(
       removeServiceFromBooking: (serviceId: string) => {
         set((state) => {
           const currentServices = state.bookingData.services || [];
-          const existingService = currentServices.find(
-            (s) => s.serviceId === serviceId,
+          const newServices = currentServices.filter(
+            (s) => s.serviceId !== serviceId,
           );
-
-          if (!existingService) return state;
-
-          let newServices;
-          if (existingService.quantity > 1) {
-            // Decrease quantity
-            newServices = currentServices.map((s) =>
-              s.serviceId === serviceId
-                ? { ...s, quantity: s.quantity - 1 }
-                : s,
-            );
-          } else {
-            // Remove service
-            newServices = currentServices.filter(
-              (s) => s.serviceId !== serviceId,
-            );
-          }
 
           // Calculate totals
           const { services: allServices } = state;
