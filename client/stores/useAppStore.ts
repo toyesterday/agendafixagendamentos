@@ -552,6 +552,18 @@ export const useAppStore = create<AppState>()(
         }));
       },
 
+      // Theme actions
+      setTheme: (theme: ThemeType) => {
+        set({ currentTheme: theme });
+      },
+
+      setBusinessType: (type: "Salão" | "Barbearia") => {
+        set({
+          businessType: type,
+          currentTheme: type === "Salão" ? "salon" : "barbershop",
+        });
+      },
+
       // Utility actions
     }),
     {
