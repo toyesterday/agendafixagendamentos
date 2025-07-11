@@ -144,7 +144,7 @@ const ServiceSelection = () => {
                           </div>
                           <Badge
                             variant="secondary"
-                            className="bg-purple-100 text-purple-700 hover:bg-purple-100"
+                            className={themeClasses.primaryBadge}
                           >
                             {service.category}
                           </Badge>
