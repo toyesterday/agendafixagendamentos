@@ -93,7 +93,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
         {/* Logo */}
         <div className="p-6 border-b border-gray-200">
           <div className="flex items-center space-x-3">
-            <div className="bg-gradient-to-br from-purple-600 to-blue-600 p-2 rounded-lg">
+            <div className={`${themeClasses.primaryButton} p-2 rounded-lg`}>
               <Scissors className="h-6 w-6 text-white" />
             </div>
             <div>
