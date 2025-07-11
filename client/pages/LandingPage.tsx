@@ -328,41 +328,167 @@ const LandingPage = () => {
             <div>
               <div className="flex items-center space-x-2 mb-4">
                 <Scissors className="h-6 w-6" />
-                <span className="text-xl font-bold">AgendaFixa</span>
+                <span className="text-xl font-bold">
+                  {footerConfig?.companyName || "AgendaFixa"}
+                </span>
               </div>
               <p className="text-gray-400">
-                Sistema completo de agendamento para barbearias modernas
+                {footerConfig?.slogan ||
+                  "Sistema completo de agendamento para barbearias modernas"}
               </p>
+              {footerConfig?.additionalInfo?.yearEstablished && (
+                <p className="text-gray-500 text-sm mt-2">
+                  Fundada em {footerConfig.additionalInfo.yearEstablished}
+                </p>
+              )}
             </div>
             <div>
               <h3 className="text-lg font-semibold mb-4">Serviços</h3>
               <ul className="space-y-2 text-gray-400">
-                <li>Corte Masculino</li>
-                <li>Barba</li>
-                <li>Combo Corte + Barba</li>
-                <li>Tratamento Capilar</li>
+                {footerConfig?.services?.length ? (
+                  footerConfig.services.map((service, index) => (
+                    <li key={index}>{service}</li>
+                  ))
+                ) : (
+                  <>
+                    <li>Corte Masculino</li>
+                    <li>Barba</li>
+                    <li>Combo Corte + Barba</li>
+                    <li>Tratamento Capilar</li>
+                  </>
+                )}
               </ul>
             </div>
             <div>
               <h3 className="text-lg font-semibold mb-4">Contato</h3>
               <ul className="space-y-2 text-gray-400">
-                <li>Rua Principal, 456</li>
-                <li>Centro, São Paulo/SP</li>
-                <li>(11) 3333-4444</li>
-                <li>contato@moderncut.com.br</li>
+                <li>{footerConfig?.address?.street || "Rua Principal, 456"}</li>
+                <li>
+                  {footerConfig?.address?.neighborhood &&
+                    `${footerConfig.address.neighborhood}, `}
+                  {footerConfig?.address?.city || "São Paulo"}
+                  {footerConfig?.address?.state &&
+                    `/${footerConfig.address.state}`}
+                </li>
+                <li>{footerConfig?.contact?.phone || "(11) 3333-4444"}</li>
+                <li>
+                  {footerConfig?.contact?.email || "contato@moderncut.com.br"}
+                </li>
+                {footerConfig?.contact?.website && (
+                  <li>
+                    <a
+                      href={`https://${footerConfig.contact.website.replace(/^https?:\/\//, "")}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:text-white transition-colors"
+                    >
+                      {footerConfig.contact.website}
+                    </a>
+                  </li>
+                )}
               </ul>
             </div>
             <div>
               <h3 className="text-lg font-semibold mb-4">Horários</h3>
               <ul className="space-y-2 text-gray-400">
-                <li>Segunda à Sexta: 9h às 18h</li>
-                <li>Sábado: 8h às 17h</li>
-                <li>Domingo: Fechado</li>
+                <li>
+                  {footerConfig?.operatingHours?.weekdays ||
+                    "Segunda à Sexta: 9h às 18h"}
+                </li>
+                <li>
+                  {footerConfig?.operatingHours?.saturday ||
+                    "Sábado: 8h às 17h"}
+                </li>
+                <li>
+                  {footerConfig?.operatingHours?.sunday || "Domingo: Fechado"}
+                </li>
               </ul>
+
+              {/* Redes Sociais */}
+              {(footerConfig?.socialMedia?.instagram ||
+                footerConfig?.socialMedia?.facebook) && (
+                <div className="mt-6">
+                  <h4 className="text-sm font-semibold mb-2">Redes Sociais</h4>
+                  <div className="flex space-x-3">
+                    {footerConfig?.socialMedia?.instagram && (
+                      <a
+                        href={footerConfig.socialMedia.instagram}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-gray-400 hover:text-white transition-colors"
+                      >
+                        Instagram
+                      </a>
+                    )}
+                    {footerConfig?.socialMedia?.facebook && (
+                      <a
+                        href={footerConfig.socialMedia.facebook}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-gray-400 hover:text-white transition-colors"
+                      >
+                        Facebook
+                      </a>
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
+
+          {/* Certificações e Prêmios */}
+          {(footerConfig?.additionalInfo?.certifications?.length ||
+            footerConfig?.additionalInfo?.awards?.length) && (
+            <div className="border-t border-gray-700 mt-8 pt-6">
+              <div className="grid md:grid-cols-2 gap-6">
+                {footerConfig?.additionalInfo?.certifications?.length && (
+                  <div>
+                    <h4 className="text-sm font-semibold mb-2 text-gray-300">
+                      Certificações
+                    </h4>
+                    <div className="flex flex-wrap gap-2">
+                      {footerConfig.additionalInfo.certifications.map(
+                        (cert, index) => (
+                          <span
+                            key={index}
+                            className="text-xs bg-gray-700 text-gray-300 px-2 py-1 rounded"
+                          >
+                            {cert}
+                          </span>
+                        ),
+                      )}
+                    </div>
+                  </div>
+                )}
+                {footerConfig?.additionalInfo?.awards?.length && (
+                  <div>
+                    <h4 className="text-sm font-semibold mb-2 text-gray-300">
+                      Prêmios
+                    </h4>
+                    <div className="flex flex-wrap gap-2">
+                      {footerConfig.additionalInfo.awards.map(
+                        (award, index) => (
+                          <span
+                            key={index}
+                            className="text-xs bg-gray-700 text-gray-300 px-2 py-1 rounded"
+                          >
+                            {award}
+                          </span>
+                        ),
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
           <div className="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; 2024 AgendaFixa. Todos os direitos reservados.</p>
+            <p>
+              &copy; {new Date().getFullYear()}{" "}
+              {footerConfig?.companyName || "AgendaFixa"}. Todos os direitos
+              reservados.
+            </p>
           </div>
         </div>
       </footer>
