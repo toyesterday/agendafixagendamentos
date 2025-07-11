@@ -82,16 +82,10 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
       path: "/admin/theme-settings",
     },
     {
-      id: "footer-settings",
-      label: "Configurar Rodapé",
-      icon: Layout,
-      path: "/admin/footer-settings",
-    },
-    {
-      id: "content-settings",
-      label: "Gerenciar Conteúdo",
-      icon: FileText,
-      path: "/admin/content-settings",
+      id: "site-settings",
+      label: "Configurar Site",
+      icon: Settings,
+      path: "/admin/site-settings",
     },
   ];
 
