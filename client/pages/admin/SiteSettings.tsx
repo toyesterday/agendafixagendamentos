@@ -311,8 +311,23 @@ const SiteSettings = () => {
                       {contentData.hero.title.main || "Título Principal"}
                     </p>
                     <p>
+                      <span className="font-medium">Título CTA:</span>{" "}
+                      {contentData.cta.title ||
+                        "Pronto para sua transformação?"}
+                    </p>
+                    <p>
+                      <span className="font-medium">Subtítulo CTA:</span>{" "}
+                      {contentData.cta.subtitle || "Subtítulo da CTA"}
+                    </p>
+                    <p>
                       <span className="font-medium">Botão CTA:</span>{" "}
                       {contentData.cta.buttonText || "Botão Principal"}
+                    </p>
+                    <p>
+                      <span className="font-medium">Características:</span>{" "}
+                      {contentData.cta.features.scheduling || "Agendamento"} |{" "}
+                      {contentData.cta.features.reminders || "Lembretes"} |{" "}
+                      {contentData.cta.features.qualified || "Qualificados"}
                     </p>
                   </div>
                 </div>
