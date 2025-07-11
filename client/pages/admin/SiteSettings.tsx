@@ -721,7 +721,7 @@ const SiteSettings = () => {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
-                  <Label htmlFor="testimonialsTitle">Título da Seção</Label>
+                  <Label htmlFor="testimonialsTitle">Título da Se��ão</Label>
                   <Input
                     id="testimonialsTitle"
                     value={contentData.testimonials.title}
@@ -1020,6 +1020,82 @@ const SiteSettings = () => {
                         )
                       }
                       placeholder="Ex: www.moderncut.com.br"
+                    />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Social Media */}
+            <Card className="border-0 shadow-lg">
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <Globe className="h-5 w-5 mr-2 text-blue-600" />
+                  Redes Sociais
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="instagram">Instagram</Label>
+                    <Input
+                      id="instagram"
+                      value={footerData.socialMedia.instagram || ""}
+                      onChange={(e) =>
+                        handleFooterInputChange(
+                          "socialMedia",
+                          "instagram",
+                          e.target.value,
+                        )
+                      }
+                      placeholder="Ex: https://instagram.com/moderncut"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="facebook">Facebook</Label>
+                    <Input
+                      id="facebook"
+                      value={footerData.socialMedia.facebook || ""}
+                      onChange={(e) =>
+                        handleFooterInputChange(
+                          "socialMedia",
+                          "facebook",
+                          e.target.value,
+                        )
+                      }
+                      placeholder="Ex: https://facebook.com/moderncut"
+                    />
+                  </div>
+                </div>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="twitter">Twitter</Label>
+                    <Input
+                      id="twitter"
+                      value={footerData.socialMedia.twitter || ""}
+                      onChange={(e) =>
+                        handleFooterInputChange(
+                          "socialMedia",
+                          "twitter",
+                          e.target.value,
+                        )
+                      }
+                      placeholder="Ex: https://twitter.com/moderncut"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="linkedin">LinkedIn</Label>
+                    <Input
+                      id="linkedin"
+                      value={footerData.socialMedia.linkedin || ""}
+                      onChange={(e) =>
+                        handleFooterInputChange(
+                          "socialMedia",
+                          "linkedin",
+                          e.target.value,
+                        )
+                      }
+                      placeholder="Ex: https://linkedin.com/company/moderncut"
                     />
                   </div>
                 </div>
