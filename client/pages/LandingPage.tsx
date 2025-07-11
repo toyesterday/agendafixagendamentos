@@ -102,19 +102,19 @@ const LandingPage = () => {
           <div className="hidden md:flex items-center space-x-6">
             <a
               href="#servicos"
-              className="hover:text-purple-200 transition-colors"
+              className="hover:text-orange-200 transition-colors"
             >
               Serviços
             </a>
             <a
               href="#sobre"
-              className="hover:text-purple-200 transition-colors"
+              className="hover:text-orange-200 transition-colors"
             >
               Sobre
             </a>
             <a
               href="#contato"
-              className="hover:text-purple-200 transition-colors"
+              className="hover:text-orange-200 transition-colors"
             >
               Contato
             </a>
