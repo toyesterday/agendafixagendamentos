@@ -11,6 +11,7 @@ import {
   LayoutDashboard,
   LogOut,
   FileText,
+  Palette,
 } from "lucide-react";
 import { useAppStore } from "@/stores/useAppStore";
 
