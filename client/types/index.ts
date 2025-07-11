@@ -62,6 +62,41 @@ export interface Transaction {
   appointment?: Appointment;
 }
 
+export interface FooterConfig {
+  companyName: string;
+  slogan: string;
+  address: {
+    street: string;
+    neighborhood: string;
+    city: string;
+    state: string;
+    zipCode?: string;
+  };
+  contact: {
+    phone: string;
+    whatsapp?: string;
+    email: string;
+    website?: string;
+  };
+  socialMedia: {
+    facebook?: string;
+    instagram?: string;
+    twitter?: string;
+    linkedin?: string;
+  };
+  services: string[];
+  operatingHours: {
+    weekdays: string;
+    saturday: string;
+    sunday: string;
+  };
+  additionalInfo?: {
+    certifications?: string[];
+    awards?: string[];
+    yearEstablished?: number;
+  };
+}
+
 export interface BusinessConfig {
   id: string;
   name: string;
@@ -87,6 +122,7 @@ export interface BusinessConfig {
     whatsapp: boolean;
     sms: boolean;
   };
+  footer?: FooterConfig;
   createdAt: string;
   updatedAt: string;
 }
