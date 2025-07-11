@@ -13,6 +13,7 @@ import {
   Scissors,
 } from "lucide-react";
 import { useAppStore } from "@/stores/useAppStore";
+import { getThemeClasses } from "@/types/themes";
 
 const CustomerForm = () => {
   const { bookingData, updateBookingData, setBookingStep, services } =
