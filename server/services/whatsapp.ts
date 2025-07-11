@@ -510,23 +510,30 @@ const initializeWhatsApp = async () => {
   }
 };
 
-// Delay initialization and wrap in timeout protection
-setTimeout(() => {
-  // Wrap in timeout to prevent hanging the server
-  const initTimeout = setTimeout(() => {
-    console.log("⚠️  WhatsApp initialization timed out, skipping...");
-    whatsappService["status"].error =
-      "Initialization timed out - WhatsApp disabled";
-  }, 10000); // 10 second timeout
-
-  initializeWhatsApp()
-    .then(() => {
-      clearTimeout(initTimeout);
-    })
-    .catch((error) => {
-      clearTimeout(initTimeout);
-      console.error("❌ WhatsApp initialization failed:", error);
+// Optional initialization - only run if environment variable is set
+if (process.env.ENABLE_WHATSAPP === "true") {
+  setTimeout(() => {
+    // Wrap in timeout to prevent hanging the server
+    const initTimeout = setTimeout(() => {
+      console.log("⚠️  WhatsApp initialization timed out, skipping...");
       whatsappService["status"].error =
-        "Initialization failed - WhatsApp disabled";
-    });
-}, 2000);
+        "Initialization timed out - WhatsApp disabled";
+    }, 5000); // 5 second timeout
+
+    initializeWhatsApp()
+      .then(() => {
+        clearTimeout(initTimeout);
+      })
+      .catch((error) => {
+        clearTimeout(initTimeout);
+        console.error("❌ WhatsApp initialization failed:", error);
+        whatsappService["status"].error =
+          "Initialization failed - WhatsApp disabled";
+      });
+  }, 1000);
+} else {
+  console.log(
+    "ℹ��  WhatsApp service disabled (set ENABLE_WHATSAPP=true to enable)",
+  );
+  whatsappService["status"].error = "WhatsApp service disabled";
+}
