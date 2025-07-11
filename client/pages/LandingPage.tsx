@@ -128,7 +128,9 @@ const LandingPage = () => {
       </header>
 
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-purple-600 via-purple-700 to-blue-600 text-white py-20">
+      <section
+        className={`${themeClasses.backgroundGradient} text-white py-20`}
+      >
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
             Transforme seu visual com
