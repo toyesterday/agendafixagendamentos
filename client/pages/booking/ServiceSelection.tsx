@@ -20,10 +20,12 @@ const ServiceSelection = () => {
     bookingData,
     addServiceToBooking,
     setBookingStep,
+    currentTheme,
   } = useAppStore();
 
   const services = getActiveServices();
   const selectedServices = bookingData.services || [];
+  const themeClasses = getThemeClasses(currentTheme);
 
   const isServiceSelected = (serviceId: string) => {
     return selectedServices.some((s) => s.serviceId === serviceId);
