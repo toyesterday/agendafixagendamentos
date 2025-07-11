@@ -9,6 +9,7 @@ import {
   BookingData,
   DashboardMetrics,
   BusinessConfig,
+  ThemeType,
 } from "../types";
 import {
   sampleUser,
