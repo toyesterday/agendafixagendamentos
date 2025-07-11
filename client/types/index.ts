@@ -237,8 +237,6 @@ export interface AppState {
   updateBusinessConfig: (config: Partial<BusinessConfig>) => void;
 
   // Utility actions
-  setLoading: (loading: boolean) => void;
-  setError: (error: string | null) => void;
 }
 
 export type BookingStep = 1 | 2 | 3 | 4;
