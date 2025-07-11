@@ -196,6 +196,43 @@ export const sampleBusinessConfig: BusinessConfig = {
     whatsapp: true,
     sms: false,
   },
+  footer: {
+    companyName: "AgendaFixa",
+    slogan: "Sistema completo de agendamento para barbearias modernas",
+    address: {
+      street: "Rua Principal, 456",
+      neighborhood: "Centro",
+      city: "São Paulo",
+      state: "SP",
+      zipCode: "01234-567",
+    },
+    contact: {
+      phone: "(11) 3333-4444",
+      whatsapp: "(11) 99999-5555",
+      email: "contato@moderncut.com.br",
+      website: "www.moderncut.com.br",
+    },
+    socialMedia: {
+      instagram: "https://instagram.com/moderncut",
+      facebook: "https://facebook.com/moderncut",
+    },
+    services: [
+      "Corte Masculino",
+      "Barba",
+      "Combo Corte + Barba",
+      "Tratamento Capilar",
+    ],
+    operatingHours: {
+      weekdays: "Segunda à Sexta: 9h às 18h",
+      saturday: "Sábado: 8h às 17h",
+      sunday: "Domingo: Fechado",
+    },
+    additionalInfo: {
+      yearEstablished: 2020,
+      certifications: ["Certificado de Qualidade"],
+      awards: ["Melhor Barbearia 2023"],
+    },
+  },
   createdAt: new Date().toISOString(),
   updatedAt: new Date().toISOString(),
 };
