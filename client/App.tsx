@@ -88,6 +88,42 @@ const App = () => (
             }
           />
 
+          <Route
+            path="/admin/services"
+            element={
+              <ProtectedRoute>
+                <ServicesManagement />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin/clients"
+            element={
+              <ProtectedRoute>
+                <ClientsManagement />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin/appointments"
+            element={
+              <ProtectedRoute>
+                <AppointmentsManagement />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin/reports"
+            element={
+              <ProtectedRoute>
+                <Reports />
+              </ProtectedRoute>
+            }
+          />
+
           {/* Redirect /admin to /admin/dashboard */}
           <Route
             path="/admin"
