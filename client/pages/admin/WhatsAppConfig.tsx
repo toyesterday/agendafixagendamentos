@@ -21,12 +21,35 @@ import AdminLayout from "@/components/AdminLayout";
 
 const WhatsAppConfig = () => {
   const [config, setConfig] = useState({
-    salonName: "",
-    salonAddress: "",
-    salonPhone: "",
-    adminPhone: "",
-    clientMessageTemplate: "",
-    salonMessageTemplate: "",
+    salonName: "Barbearia AgendaFixa",
+    salonAddress: "Rua das Flores, 123 - Centro",
+    salonPhone: "(11) 99999-9999",
+    adminPhone: "(11) 99999-9999",
+    clientMessageTemplate: `Olá {clientName}! 👋
+
+Seu agendamento foi confirmado! ✅
+
+📅 Data: {date}
+⏰ Horário: {time}
+✂️ Serviço: {services}
+💰 Valor: R$ {totalPrice}
+
+📍 Endereço: {salonAddress}
+📞 Contato: {salonPhone}
+
+Obrigado pela preferência! 😊`,
+    salonMessageTemplate: `🔔 NOVO AGENDAMENTO!
+
+👤 Cliente: {clientName}
+📞 Telefone: {clientPhone}
+📧 Email: {clientEmail}
+
+📅 Data: {date}
+⏰ Horário: {time}
+✂️ Serviço: {services}
+💰 Valor: R$ {totalPrice}
+
+Agendamento realizado em: {bookingTime}`,
     autoSendToClient: true,
     autoSendToSalon: true,
   });
@@ -43,14 +66,18 @@ const WhatsAppConfig = () => {
   const loadConfig = async () => {
     try {
       const response = await fetch("/api/whatsapp/config");
-      if (response.ok) {
+      if (
+        response.ok &&
+        response.headers.get("content-type")?.includes("application/json")
+      ) {
         const data = await response.json();
         if (data.success) {
           setConfig(data.data);
         }
       }
     } catch (error) {
-      console.error("Failed to load config:", error);
+      // Silently handle error - use default config values
+      console.log("API endpoint not available, using default config");
     }
   };
 
