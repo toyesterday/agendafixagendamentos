@@ -17,7 +17,7 @@ import { useAppStore } from "@/stores/useAppStore";
 import AdminLayout from "@/components/AdminLayout";
 
 const Dashboard = () => {
-  const { getDashboardMetrics, logout, user, appointments, clients, services } =
+  const { getDashboardMetrics, user, appointments, clients, services } =
     useAppStore();
   const navigate = useNavigate();
 
@@ -58,34 +58,20 @@ const Dashboard = () => {
     }
   };
 
-  const handleLogout = () => {
-    logout();
-  };
-
   const handleNewAppointment = () => {
-    // Navigate to booking flow
     navigate("/booking");
   };
 
   const handleAddClient = () => {
-    // For now, show an alert. In a real app, this would open a modal or navigate to a form
-    alert(
-      "✨ Funcionalidade em desenvolvimento!\n\n📝 Clientes são criados automaticamente quando fazem agendamentos pelo site.\n\n💡 Em breve: Interface para adicionar clientes manualmente.",
-    );
+    navigate("/admin/clients");
   };
 
   const handleManageServices = () => {
-    // For now, show an alert. In a real app, this would navigate to a services management page
-    alert(
-      "✨ Funcionalidade em desenvolvimento!\n\n⚙️ Por enquanto, os serviços estão pré-configurados.\n\n💡 Em breve: Interface completa para gerenciar serviços (criar, editar, preços, etc.)",
-    );
+    navigate("/admin/services");
   };
 
   const handleReports = () => {
-    // For now, show an alert. In a real app, this would navigate to a reports page
-    alert(
-      "📊 Funcionalidade em desenvolvimento!\n\n📈 Por enquanto, você pode ver as métricas principais aqui no dashboard.\n\n💡 Em breve: Relatórios detalhados com gráficos e exportação.",
-    );
+    navigate("/admin/reports");
   };
 
   const handleViewAllAppointments = () => {
