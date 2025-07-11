@@ -567,13 +567,6 @@ export const useAppStore = create<AppState>()(
       },
 
       // Utility actions
-      setLoading: (loading) => {
-        set({ isLoading: loading });
-      },
-
-      setError: (error) => {
-        set({ error });
-      },
     }),
     {
       name: "agenda-fixa-store",
