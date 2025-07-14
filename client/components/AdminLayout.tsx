@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,6 +12,8 @@ import {
   LogOut,
   FileText,
   Palette,
+  Menu,
+  X,
 } from "lucide-react";
 import { useAppStore } from "@/stores/useAppStore";
 import { getThemeClasses } from "@/types/themes";
@@ -25,10 +27,15 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const themeClasses = getThemeClasses(currentTheme);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const handleLogout = () => {
     logout();
     navigate("/login");
+  };
+
+  const closeSidebar = () => {
+    setIsSidebarOpen(false);
   };
 
   const navigationItems = [
@@ -86,26 +93,55 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
     return location.pathname === path;
   };
 
+  const currentPageTitle =
+    navigationItems.find((item) => isActivePath(item.path))?.label ||
+    "Dashboard";
+
   return (
     <div className="min-h-screen bg-gray-50 flex">
+      {/* Mobile Overlay */}
+      {isSidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+          onClick={closeSidebar}
+        />
+      )}
+
       {/* Sidebar */}
-      <div className="w-64 bg-white border-r border-gray-200 flex flex-col">
+      <div
+        className={`fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-gray-200 flex flex-col transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0 ${
+          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
         {/* Logo */}
-        <div className="p-6 border-b border-gray-200">
-          <div className="flex items-center space-x-3">
-            <div className={`${themeClasses.primaryButton} p-2 rounded-lg`}>
-              <Scissors className="h-6 w-6 text-white" />
+        <div className="p-4 sm:p-6 border-b border-gray-200">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <div className={`${themeClasses.primaryButton} p-2 rounded-lg`}>
+                <Scissors className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
+              </div>
+              <div>
+                <h1 className="text-lg sm:text-xl font-bold text-gray-800">
+                  AgendaFixa
+                </h1>
+                <p className="text-xs text-gray-600">Admin Panel</p>
+              </div>
             </div>
-            <div>
-              <h1 className="text-xl font-bold text-gray-800">AgendaFixa</h1>
-              <p className="text-xs text-gray-600">Admin Panel</p>
-            </div>
+            {/* Close button for mobile */}
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={closeSidebar}
+              className="lg:hidden"
+            >
+              <X className="h-5 w-5" />
+            </Button>
           </div>
         </div>
 
         {/* Navigation */}
-        <nav className="flex-1 px-4 py-6">
-          <div className="space-y-2">
+        <nav className="flex-1 px-3 sm:px-4 py-4 sm:py-6 overflow-y-auto">
+          <div className="space-y-1 sm:space-y-2">
             {navigationItems.map((item) => {
               const Icon = item.icon;
               const isActive = isActivePath(item.path);
@@ -114,14 +150,15 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
                 <Link
                   key={item.id}
                   to={item.path}
-                  className={`flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors ${
+                  onClick={closeSidebar}
+                  className={`flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors text-sm sm:text-base ${
                     isActive
                       ? themeClasses.navActive
                       : "text-gray-600 hover:bg-gray-100 hover:text-gray-800"
                   }`}
                 >
-                  <Icon className="h-5 w-5" />
-                  <span className="font-medium">{item.label}</span>
+                  <Icon className="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0" />
+                  <span className="font-medium truncate">{item.label}</span>
                 </Link>
               );
             })}
@@ -129,25 +166,27 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
         </nav>
 
         {/* User Section */}
-        <div className="p-4 border-t border-gray-200">
+        <div className="p-3 sm:p-4 border-t border-gray-200">
           <div className="flex items-center space-x-3 mb-3">
             <div
-              className={`w-8 h-8 ${themeClasses.primaryButton} rounded-full flex items-center justify-center`}
+              className={`w-8 h-8 ${themeClasses.primaryButton} rounded-full flex items-center justify-center flex-shrink-0`}
             >
               <span className="text-white text-sm font-bold">
                 {user?.name?.charAt(0) || "A"}
               </span>
             </div>
-            <div className="flex-1">
-              <p className="text-sm font-medium text-gray-800">{user?.name}</p>
-              <p className="text-xs text-gray-500">{user?.role}</p>
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-medium text-gray-800 truncate">
+                {user?.name}
+              </p>
+              <p className="text-xs text-gray-500 truncate">{user?.role}</p>
             </div>
           </div>
           <Button
             variant="outline"
             size="sm"
             onClick={handleLogout}
-            className="w-full"
+            className="w-full text-sm"
           >
             <LogOut className="h-4 w-4 mr-2" />
             Sair
@@ -156,25 +195,40 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col min-w-0 lg:ml-0">
         {/* Header */}
-        <header className="bg-white border-b border-gray-200 px-6 py-4">
+        <header className="bg-white border-b border-gray-200 px-3 sm:px-4 lg:px-6 py-3 sm:py-4">
           <div className="flex items-center justify-between">
-            <div>
-              <h2 className="text-2xl font-bold text-gray-800">
-                {navigationItems.find((item) => isActivePath(item.path))
-                  ?.label || "Dashboard"}
-              </h2>
-              <p className="text-sm text-gray-600">
-                Gerencie sua barbearia de forma completa
-              </p>
+            <div className="flex items-center space-x-3 min-w-0">
+              {/* Mobile menu button */}
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setIsSidebarOpen(true)}
+                className="lg:hidden"
+              >
+                <Menu className="h-5 w-5" />
+              </Button>
+
+              <div className="min-w-0">
+                <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-800 truncate">
+                  {currentPageTitle}
+                </h2>
+                <p className="text-xs sm:text-sm text-gray-600 hidden sm:block">
+                  Gerencie sua barbearia de forma completa
+                </p>
+              </div>
             </div>
 
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2 sm:space-x-4">
               <Link to="/booking">
-                <Button className={themeClasses.primaryButton}>
-                  <Calendar className="h-4 w-4 mr-2" />
-                  Novo Agendamento
+                <Button
+                  className={`${themeClasses.primaryButton} text-xs sm:text-sm`}
+                  size="sm"
+                >
+                  <Calendar className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+                  <span className="hidden xs:inline">Novo</span>
+                  <span className="hidden sm:inline"> Agendamento</span>
                 </Button>
               </Link>
             </div>
@@ -182,7 +236,9 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
         </header>
 
         {/* Page Content */}
-        <main className="flex-1 p-6">{children}</main>
+        <main className="flex-1 p-3 sm:p-4 lg:p-6 overflow-auto">
+          {children}
+        </main>
       </div>
     </div>
   );
