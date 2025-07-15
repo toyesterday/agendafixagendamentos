@@ -21,6 +21,7 @@ export interface WhatsAppStatus {
   qrCode: string | null;
   lastConnection: Date | null;
   error: string | null;
+  initializing: boolean;
 }
 
 class WhatsAppService {
@@ -31,9 +32,12 @@ class WhatsAppService {
     qrCode: null,
     lastConnection: null,
     error: null,
+    initializing: false,
   };
   private authDir = path.join(process.cwd(), "auth_info_baileys");
-  private logger = pino({ level: "warn" });
+  private logger = pino({ level: "silent" }); // Silent by default to prevent spam
+  private initPromise: Promise<void> | null = null;
+  private reconnectTimeout: NodeJS.Timeout | null = null;
 
   constructor() {
     this.ensureAuthDir();
@@ -51,92 +55,109 @@ class WhatsAppService {
     this.store = null;
   }
 
-  async initialize() {
+  async initialize(): Promise<void> {
+    // Prevent multiple simultaneous initializations
+    if (this.initPromise) {
+      return this.initPromise;
+    }
+
+    this.initPromise = this._doInitialize();
+    return this.initPromise;
+  }
+
+  private async _doInitialize(): Promise<void> {
     try {
       console.log("🚀 Initializing WhatsApp service...");
-      console.log("📁 Auth directory:", this.authDir);
+      this.status.initializing = true;
+      this.status.error = null;
 
-      // Test imports first
-      console.log("🔍 Testing Baileys imports...");
-      const baileys = await import("@whiskeysockets/baileys");
-      console.log("📦 Baileys imported:", Object.keys(baileys));
-
-      // Get auth state
-      console.log("🔐 Getting auth state...");
-      const { state, saveCreds } = await useMultiFileAuthState(this.authDir);
-      console.log("✅ Auth state obtained");
-
-      // Create socket with recommended configuration
-      console.log("🔌 Creating WhatsApp socket...");
-
-      if (typeof makeWASocket !== "function") {
-        throw new Error("makeWASocket is not a function");
+      // Clear any existing reconnect timeout
+      if (this.reconnectTimeout) {
+        clearTimeout(this.reconnectTimeout);
+        this.reconnectTimeout = null;
       }
 
+      // Get auth state with timeout
+      const { state, saveCreds } = await Promise.race([
+        useMultiFileAuthState(this.authDir),
+        this.createTimeoutPromise(10000, "Auth state timeout"),
+      ]);
+
+      // Create socket with reduced timeouts and error handling
       this.sock = makeWASocket({
         auth: state,
         logger: this.logger,
         printQRInTerminal: false,
         browser: ["AgendaFixa", "Desktop", "1.0.0"],
-        generateHighQualityLinkPreview: false, // Disable to reduce load
-        // Reduced timeouts to prevent hanging
-        defaultQueryTimeoutMs: 15_000,
-        keepAliveIntervalMs: 30_000,
+        generateHighQualityLinkPreview: false,
+        // Aggressive timeouts to prevent hanging
+        defaultQueryTimeoutMs: 5000,
+        connectTimeoutMs: 10000,
+        keepAliveIntervalMs: 30000,
         emitOwnEvents: true,
-        markOnlineOnConnect: false, // Disable to prevent connection issues
-        // Connection retry settings
-        retryRequestDelayMs: 250,
-        maxMsgRetryCount: 2,
-        connectTimeoutMs: 20_000,
+        markOnlineOnConnect: false,
+        retryRequestDelayMs: 1000,
+        maxMsgRetryCount: 1,
+        // Add connection options to prevent hanging
+        options: {
+          streamTimeoutMs: 5000,
+        },
       });
 
-      // Store binding removed for now
-
-      // Event listeners
+      // Set up event listeners with error handling
       this.sock.ev.process(async (events: any) => {
-        // Connection updates
-        if (events["connection.update"]) {
-          this.handleConnectionUpdate(events["connection.update"]);
-        }
+        try {
+          // Connection updates
+          if (events["connection.update"]) {
+            this.handleConnectionUpdate(events["connection.update"]);
+          }
 
-        // Credentials update
-        if (events["creds.update"]) {
-          await saveCreds();
-        }
-
-        // Messages upsert
-        if (events["messages.upsert"]) {
-          const upsert = events["messages.upsert"];
-          console.log("📨 Received messages:", upsert.messages.length);
-
-          for (const msg of upsert.messages) {
-            if (!msg.key.fromMe && msg.message) {
-              console.log(
-                "Message from:",
-                msg.key.remoteJid,
-                "Message:",
-                msg.message,
-              );
+          // Credentials update
+          if (events["creds.update"]) {
+            try {
+              await Promise.race([
+                saveCreds(),
+                this.createTimeoutPromise(5000, "Save credentials timeout"),
+              ]);
+            } catch (error) {
+              console.warn("⚠️ Failed to save credentials:", error);
             }
           }
-        }
 
-        // Message updates (read receipts, etc.)
-        if (events["messages.update"]) {
-          console.log("��� Message updates:", events["messages.update"]);
+          // Messages upsert
+          if (events["messages.upsert"]) {
+            const upsert = events["messages.upsert"];
+            console.log("📨 Received messages:", upsert.messages.length);
+          }
+        } catch (error) {
+          console.warn("⚠️ Error processing events:", error);
         }
+      });
 
-        // Presence updates
-        if (events["presence.update"]) {
-          console.log("👤 Presence update:", events["presence.update"]);
-        }
+      // Add error handler to prevent crashes
+      this.sock.ev.on("connection.update", (update: any) => {
+        // This is already handled in the process event
       });
 
       console.log("✅ WhatsApp service initialized successfully");
+      this.status.initializing = false;
     } catch (error) {
       console.error("❌ Failed to initialize WhatsApp service:", error);
       this.status.error = `Failed to initialize: ${error instanceof Error ? error.message : String(error)}`;
+      this.status.initializing = false;
+      this.status.connected = false;
+      this.sock = null;
+
+      // Don't throw the error - let the service continue without WhatsApp
+    } finally {
+      this.initPromise = null;
     }
+  }
+
+  private createTimeoutPromise<T>(ms: number, message: string): Promise<T> {
+    return new Promise((_, reject) => {
+      setTimeout(() => reject(new Error(message)), ms);
+    });
   }
 
   private handleConnectionUpdate(update: any) {
@@ -156,7 +177,11 @@ class WhatsAppService {
       this.status.connected = false;
 
       // Show QR in terminal for development
-      qrcode.generate(qr, { small: true });
+      try {
+        qrcode.generate(qr, { small: true });
+      } catch (error) {
+        console.warn("⚠️ Failed to generate QR in terminal:", error);
+      }
     }
 
     // Handle connection states
@@ -173,16 +198,24 @@ class WhatsAppService {
         shouldReconnect,
       });
 
-      if (shouldReconnect) {
-        console.log("🔄 Attempting to reconnect in 5 seconds...");
+      if (
+        shouldReconnect &&
+        statusCode !== DisconnectReason.connectionReplaced
+      ) {
+        console.log("🔄 Attempting to reconnect in 10 seconds...");
         this.status.error = "Reconnecting...";
 
-        setTimeout(() => {
-          this.initialize().catch((error) => {
+        // Clear any existing timeout
+        if (this.reconnectTimeout) {
+          clearTimeout(this.reconnectTimeout);
+        }
+
+        this.reconnectTimeout = setTimeout(() => {
+          this.reconnect().catch((error) => {
             console.error("❌ Reconnection failed:", error);
             this.status.error = "Reconnection failed - please try manually";
           });
-        }, 5000);
+        }, 10000);
       } else {
         this.status.error = "Session logged out. Please reconnect.";
         console.log("🔐 Session logged out - manual reconnection required");
@@ -193,6 +226,7 @@ class WhatsAppService {
       this.status.qrCode = null;
       this.status.lastConnection = new Date();
       this.status.error = null;
+      this.status.initializing = false;
     } else if (connection === "connecting") {
       console.log("🔄 Connecting to WhatsApp...");
       this.status.error = "Connecting...";
@@ -238,13 +272,16 @@ class WhatsAppService {
 
       console.log(`📤 Sending message to ${phoneNumber} (${jid})...`);
 
-      // Use proper Baileys message structure
+      // Use proper Baileys message structure with timeout
       const messageContent = {
         text: message.message,
       };
 
-      // Send message with proper error handling
-      const result = await this.sock.sendMessage(jid, messageContent);
+      // Send message with timeout
+      const result = await Promise.race([
+        this.sock.sendMessage(jid, messageContent),
+        this.createTimeoutPromise(10000, "Send message timeout"),
+      ]);
 
       console.log(`✅ Message sent successfully to ${phoneNumber}:`, {
         messageId: result?.key?.id,
@@ -289,7 +326,7 @@ class WhatsAppService {
     date: string,
     time: string,
   ): Promise<boolean> {
-    const message = `��� *AgendaFixa - Agendamento Confirmado!*
+    const message = `🔮 *AgendaFixa - Agendamento Confirmado!*
 
 Olá, ${clientName}! 👋
 
@@ -393,6 +430,7 @@ Esperamos vê-lo em breve! 😊`;
         qrCode: null,
         lastConnection: null,
         error: "Status check failed",
+        initializing: false,
       };
     }
   }
@@ -401,15 +439,26 @@ Esperamos vê-lo em breve! 😊`;
     try {
       console.log("🔌 Disconnecting WhatsApp...");
 
+      // Clear reconnect timeout
+      if (this.reconnectTimeout) {
+        clearTimeout(this.reconnectTimeout);
+        this.reconnectTimeout = null;
+      }
+
       if (this.sock) {
         // Properly close the socket
-        this.sock.end();
+        try {
+          this.sock.end();
+        } catch (error) {
+          console.warn("⚠️ Error ending socket:", error);
+        }
         this.sock = null;
       }
 
       this.status.connected = false;
       this.status.qrCode = null;
       this.status.error = "Disconnected manually";
+      this.status.initializing = false;
 
       console.log("✅ WhatsApp disconnected");
     } catch (error) {
@@ -421,20 +470,38 @@ Esperamos vê-lo em breve! 😊`;
     try {
       console.log("🚪 Logging out of WhatsApp...");
 
+      // Clear reconnect timeout
+      if (this.reconnectTimeout) {
+        clearTimeout(this.reconnectTimeout);
+        this.reconnectTimeout = null;
+      }
+
       if (this.sock) {
-        await this.sock.logout();
+        try {
+          await Promise.race([
+            this.sock.logout(),
+            this.createTimeoutPromise(5000, "Logout timeout"),
+          ]);
+        } catch (error) {
+          console.warn("⚠️ Error during logout:", error);
+        }
         this.sock = null;
       }
 
       // Clear auth files
       if (fs.existsSync(this.authDir)) {
-        fs.rmSync(this.authDir, { recursive: true, force: true });
-        this.ensureAuthDir();
+        try {
+          fs.rmSync(this.authDir, { recursive: true, force: true });
+          this.ensureAuthDir();
+        } catch (error) {
+          console.warn("⚠️ Error clearing auth files:", error);
+        }
       }
 
       this.status.connected = false;
       this.status.qrCode = null;
       this.status.error = "Logged out";
+      this.status.initializing = false;
 
       console.log("✅ WhatsApp logged out and auth cleared");
     } catch (error) {
@@ -461,72 +528,15 @@ Esperamos vê-lo em breve! 😊`;
 // Singleton instance
 export const whatsappService = new WhatsAppService();
 
-// Initialize on module load with better error handling
-const initializeWhatsApp = async () => {
-  try {
-    console.log("🚀 Starting WhatsApp service...");
-    console.log("📦 Checking Baileys import...");
-
-    // Test if the import works
-    const { makeWASocket: testMakeWASocket } = await import(
-      "@whiskeysockets/baileys"
-    );
-    if (typeof testMakeWASocket !== "function") {
-      throw new Error("makeWASocket is not a function - import failed");
-    }
-
-    console.log("✅ Baileys import successful");
-
-    // Initialize with timeout protection
-    await Promise.race([
-      whatsappService.initialize(),
-      new Promise((_, reject) =>
-        setTimeout(() => reject(new Error("Initialization timeout")), 30000),
-      ),
-    ]);
-
-    console.log("✅ WhatsApp service started successfully");
-  } catch (error) {
-    console.error("❌ Failed to start WhatsApp service:", error);
-
-    // Don't log the full stack trace to reduce noise for timeout errors
-    if (
-      error instanceof Error &&
-      (error.message.includes("Timed Out") || error.message.includes("timeout"))
-    ) {
-      console.log(
-        "ℹ️  WhatsApp timeout is normal - service will continue in background",
-      );
-    } else {
-      console.error(
-        "Stack trace:",
-        error instanceof Error ? error.stack : "No stack trace",
-      );
-    }
-
-    // Set error state but don't crash the server
-    whatsappService["status"].error =
-      `Initialization failed: ${error instanceof Error ? error.message : String(error)}`;
-  }
+// SAFE initialization - don't block server startup
+const initializeWhatsAppSafely = () => {
+  // Don't await this - let it run in background
+  whatsappService.initialize().catch((error) => {
+    console.warn("⚠️ WhatsApp initialization failed (non-blocking):", error);
+  });
 };
 
-// Delay initialization and wrap in timeout protection
-setTimeout(() => {
-  // Wrap in timeout to prevent hanging the server
-  const initTimeout = setTimeout(() => {
-    console.log("⚠️  WhatsApp initialization timed out, skipping...");
-    whatsappService["status"].error =
-      "Initialization timed out - WhatsApp disabled";
-  }, 10000); // 10 second timeout
-
-  initializeWhatsApp()
-    .then(() => {
-      clearTimeout(initTimeout);
-    })
-    .catch((error) => {
-      clearTimeout(initTimeout);
-      console.error("❌ WhatsApp initialization failed:", error);
-      whatsappService["status"].error =
-        "Initialization failed - WhatsApp disabled";
-    });
-}, 2000);
+// Start initialization after a delay to ensure server is ready
+if (process.env.NODE_ENV !== "test") {
+  setTimeout(initializeWhatsAppSafely, 3000);
+}
