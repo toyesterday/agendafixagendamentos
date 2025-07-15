@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: agendafixa-app
+    runtime: node
+    plan: starter
+    buildCommand: npm run build
+    startCommand: npm start
+    healthCheckPath: /api/ping
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+    disk:
+      name: agendafixa-disk
+      mountPath: /opt/render/project/src/auth_info_baileys
+      sizeGB: 1
